@@ -5,13 +5,13 @@ import { CtaBand } from "@/components/Chrome";
 import { Arrow } from "@/components/Icon";
 import { Reveal } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
-import { getProject, getProjects, serviceBySlug } from "@/lib/content";
+import { getAllProjects, getProject, getProjects, serviceBySlug } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 import { opt } from "@/lib/img";
 
 export async function generateStaticParams() {
-  const projects = await getProjects();
+  const projects = await getAllProjects();
   return REGION_CODES.flatMap((region) => projects.map((p) => ({ region, slug: p.slug })));
 }
 export async function generateMetadata({ params }: { params: { region: string; slug: string } }) {
@@ -33,7 +33,8 @@ export default async function CaseStudy({ params }: { params: { region: RegionCo
   const gallery = Array.from(new Set([p.featuredImage, ...p.images].filter((x): x is string => !!x))).slice(0, 24);
   const schema = {
     "@context": "https://schema.org", "@type": "CreativeWork", name: p.title, about: p.summary,
-    creator: { "@type": "Organization", name: "Amphin" }, dateCreated: String(p.year), image: p.featuredImage || undefined,
+    creator: { "@type": "Organization", name: "Amphin" }, ...(p.year ? { dateCreated: String(p.year) } : {}), image: p.featuredImage || undefined,
+    ...(p.liveUrl ? { url: p.liveUrl } : {}),
   };
 
   return (
@@ -42,7 +43,8 @@ export default async function CaseStudy({ params }: { params: { region: RegionCo
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="table-rows" style={{ marginBottom: 50 }}>
-            <div><span className="mono muted">client</span><span>{p.client}</span><span className="mono muted">year</span><span>{p.year}</span></div>
+            <div><span className="mono muted">client</span><span>{p.client}</span><span className="mono muted">{p.liveUrl ? "live site" : p.year ? "year" : ""}</span>
+              <span>{p.liveUrl ? <a className="link-arrow" href={p.liveUrl} target="_blank" rel="noopener">Visit {p.liveUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")} <Arrow /></a> : p.year}</span></div>
             <div>
               <span className="mono muted">services</span>
               <span className="chips">
@@ -54,7 +56,9 @@ export default async function CaseStudy({ params }: { params: { region: RegionCo
           <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 60 }}>
             <Reveal className="prose">
               {p.body.map((l, i) =>
-                /^(Project Overview|Our Contribution|The Result|Results?|Outcome|Challenge|Solution)/i.test(l) && l.length < 60
+                /^#{2,4}\s/.test(l) ? <h2 key={i}>{l.replace(/^#+\s/, "")}</h2>
+                  : /^- /.test(l) ? <p key={i}>• {l.slice(2)}</p>
+                  : /^(Project Overview|Our Contribution|The Result|Results?|Outcome|Challenge|Solution)/i.test(l) && l.length < 60
                   ? <h2 key={i}>{l}</h2>
                   : <p key={i}>{l}</p>,
               )}

@@ -44,7 +44,7 @@ export default async function Contact({ params }: { params: { region: RegionCode
               <div>
                 <h4 style={{ fontSize: 15, fontWeight: 600, letterSpacing: 0 }}>Phone</h4>
                 <p style={{ fontSize: 14, margin: "8px 0" }}>
-                  Sales India: {PHONES.salesIndia}<br />HR (India and UK): {PHONES.hr}
+                  Sales UK: {PHONES.salesUk}<br />Sales India: {PHONES.salesIndia}<br />HR (India and UK): {PHONES.hr}
                 </p>
                 <div className="socials">{c.socials.map((s) => <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>{s.short}</a>)}</div>
               </div>

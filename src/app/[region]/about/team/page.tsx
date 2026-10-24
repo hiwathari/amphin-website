@@ -38,7 +38,7 @@ export default async function Team({ params }: { params: { region: RegionCode } 
           <div style={{ marginTop: 44 }}><TeamGrid team={team} /></div>
         </div>
       </section>
-      <CtaBand region={params.region} title="Join the team" />
+      <CtaBand region={params.region} title="Join the team" href={`/${params.region}/careers`} cta="See careers" />
     </>
   );
 }

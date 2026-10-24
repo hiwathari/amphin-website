@@ -20,6 +20,7 @@ export async function GET() {
     `- [Home](${u("")})`,
     `- [About Amphin](${u("/about")})`,
     `- [Make Me a Celebrity, signature personal branding and PR programme](${u("/make-me-a-celebrity")})`,
+    `- [AmOS, Amphin's agency operating system (CRM, projects, HR, payroll, website CMS)](${u("/amos")})`,
     `- [Services](${u("/services")})`,
     `- [Pricing](${u("/pricing")})`,
     `- [Portfolio](${u("/work")})`,

@@ -18,7 +18,7 @@ export default async function Careers({ params }: { params: { region: RegionCode
   return (
     <>
       <PageHero title={["Build your career", "at Amphin"]} lead="We hire designers, editors, videographers, marketers and developers who care about craft. Remote and studio roles across the UK and India." />
-      <section className="section">
+      <section className="section" id="openings">
         <div className="wrap">
           <div className="rule"><Eyebrow>current openings</Eyebrow></div>
           <div className="table-rows">
@@ -37,7 +37,7 @@ export default async function Careers({ params }: { params: { region: RegionCode
           </p>
         </div>
       </section>
-      <CtaBand region={region} title="Join the team" />
+      <CtaBand region={region} title="Join the team" href={`/${region}/careers#openings`} cta="See open roles" />
     </>
   );
 }

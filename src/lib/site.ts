@@ -26,12 +26,11 @@ export const PHONES = {
   canada: "+1 (647) 834-6623",
   hr: "+91 79075 07711", // HR, India and UK
   salesIndia: "+91 79073 07711",
+  salesUk: "+44 7771 705048",
 };
 
-export const WHATSAPP = {
-  default: "447404770011",
-  in: "917907307711",
-};
+/** One WhatsApp line for every region (the floating chat button). */
+export const WHATSAPP = "447404770011";
 
 export interface Office {
   slug: string;
@@ -72,8 +71,14 @@ export function officeFor(region: RegionCode, offices: Office[] = OFFICES): Offi
   return offices.find((o) => o.regions.includes(region)) ?? offices[0];
 }
 
+/** Main number shown in the header and top bar: India for /in, London everywhere else. */
+export function mainPhone(region: RegionCode): string {
+  return region === "in" ? PHONES.india : PHONES.london;
+}
+
+/** Sales line for the region (footer, contact page and quote follow-ups). */
 export function salesPhone(region: RegionCode): string {
-  return region === "in" ? PHONES.salesIndia : PHONES.london;
+  return region === "in" ? PHONES.salesIndia : PHONES.salesUk;
 }
 
 export const SOCIALS = [

@@ -1,3 +1,4 @@
+import { AMOS_SHOTS } from "@/lib/amosShots";
 import Link from "next/link";
 import { Eyebrow, LogoMarquee, PriceRows, ProjectCard, ServiceIndex, TeamGrid } from "@/components/Blocks";
 import { CtaBand } from "@/components/Chrome";
@@ -92,6 +93,16 @@ export default async function Home({ params }: { params: { region: RegionCode } 
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/media/social/trend-boss.webp" alt="Make Me a Celebrity, Amphin's personal branding programme" loading="lazy" />
+          </Link>
+          <Link href={`${base}/amos`} className="celeb-spot amos-spot">
+            <div className="celeb-copy">
+              <span className="celeb-badge">Our product</span>
+              <h2>AmOS, the agency <span className="grad-text">operating system</span></h2>
+              <p>The system we run Amphin on: CRM, projects, tasks, HR, attendance, payroll, invoicing, chat and the website, in one login. Now being tested by three agencies.</p>
+              <span className="link-arrow">See AmOS <Arrow /></span>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={AMOS_SHOTS[0].src} alt={AMOS_SHOTS[0].alt} loading="lazy" />
           </Link>
         </div>
       </section>

@@ -29,7 +29,7 @@ export default function PricingPage({
       <PageHero title={[title]} lead={`Starting prices in ${r.currency} for ${r.label}. Every quote is tailored, and an empty price means we quote it for you.`} crumbs={crumbs} />
       <section className="section">
         <div className="wrap">
-          <div className="rule" style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div className="rule" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
             <Eyebrow>pricing plans</Eyebrow>
             <div className="chips">
               {REGION_CODES.map((c) => (

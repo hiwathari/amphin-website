@@ -176,7 +176,8 @@ p { margin: 0 0 1em; }
   font-size: 12.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 8px 12px; border-radius: 8px; background: none; border: 0; cursor: pointer; color: var(--text);
 }
-.nav a:hover, .nav a[aria-current="page"] { background: #262626; }
+.nav a:hover { background: #262626; }
+.nav a[aria-current="page"] { background: linear-gradient(135deg, #f7943d 0%, #f67c37 45%, #fd644e 100%); color: #fff; box-shadow: 0 8px 20px -10px rgba(246,124,55,.8); }
 .nav .has-menu { position: relative; display: flex; align-items: center; }
 .nav .chev { width: 9px; height: 9px; transition: transform .3s var(--ease); }
 .nav .has-menu:hover .chev { transform: rotate(180deg); }
@@ -299,6 +300,8 @@ p { margin: 0 0 1em; }
 
 .stat-num { display: inline-block; font-family: var(--mono); font-size: clamp(64px, 8vw, 120px); line-height: .9; letter-spacing: -0.06em; background: var(--grad-text); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: grade-shift 6s ease-in-out infinite alternate; }
 .stat-label { font-size: 13px; color: var(--text); margin-top: 8px; }
+.stat-row { display: flex; flex-wrap: wrap; gap: 36px; margin-top: 30px; }
+.stat-row > div { display: flex; flex-direction: column; }
 
 /* testimonials over hot art */
 .quote-band { position: relative; border-radius: var(--radius); overflow: hidden; min-height: 520px; display: grid; align-items: end; padding: clamp(16px, 3vw, 28px); }
@@ -386,7 +389,8 @@ p { margin: 0 0 1em; }
 .prose ul { padding-left: 1.2em; }
 .prose a { color: var(--accent); text-decoration: underline; }
 
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; align-self: center; }
+.chip { line-height: 1.3; }
 .chip { font-size: 12px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); color: #ddd; }
 .chip[aria-current="true"], .chip:hover { background: #fff; color: #111; border-color: #fff; }
 
@@ -654,3 +658,13 @@ p { margin: 0 0 1em; }
 .post-gallery { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); max-width: 1100px; margin: 50px auto 0; }
 .post-gallery.big { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 .post-gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; }
+
+.wa-float { position: fixed; left: 18px; bottom: 18px; z-index: 60; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  background: #25d366; box-shadow: 0 10px 24px -8px rgba(37,211,102,.7); transition: transform .3s var(--ease); }
+.wa-float:hover { transform: scale(1.08); }
+
+/* AmOS spotlight on the home page and the Luvder sister-concern block */
+.amos-spot { margin-top: 22px; }
+.amos-spot img { object-fit: cover; object-position: top left; }
+.luvder-logo { display: grid; place-items: center; padding: 48px 32px; border: 1px solid var(--line); border-radius: 20px; background: #f4f1ec; }
+.luvder-logo img { width: min(100%, 360px); height: auto; }

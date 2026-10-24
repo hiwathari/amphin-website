@@ -9,6 +9,7 @@ import { getContent, getProjects } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
 import { COMPANY } from "@/lib/site";
+import { LUVDER_LOGO } from "@/lib/amosShots";
 
 export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/about", { title: "About", description: "Amphin is a creative digital marketing agency based in London, with studios in Kochi and Abu Dhabi." });
@@ -79,6 +80,24 @@ export default async function About({ params }: { params: { region: RegionCode }
               <p className="muted">Our vision is to become a leading provider of digital marketing and IT services for new and growing businesses in the UK, with expansion across Europe and the Middle East.</p>
               <p className="muted">We focus on restaurants, cafés, gyms, retailers and service businesses that need fresh, high-impact marketing without enterprise budgets.</p>
               <Link href={`/${region}/about/team`} className="link-arrow">Meet the team <Arrow /></Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <div className="rule"><Eyebrow>sister concern</Eyebrow></div>
+          <div className="grid cols-2 luvder" style={{ gap: 40, alignItems: "center" }}>
+            <a href="https://luvder.com" target="_blank" rel="noopener" className="luvder-logo" aria-label="Luvder website">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={LUVDER_LOGO} alt="Luvder logo" width={400} height={132} loading="lazy" />
+            </a>
+            <div>
+              <h2 style={{ marginBottom: 16 }}>Luvder: say it loud</h2>
+              <p className="muted">Luvder is Amphin&apos;s sister company: an advertising platform for bold ideas across online, offline and print, content, SEO, AEO and GEO. It is also home to DisplayPilot.</p>
+              <p className="muted">Amphin builds the brands and systems; Luvder puts them in front of people.</p>
+              <a href="https://luvder.com" target="_blank" rel="noopener" className="link-arrow">Visit luvder.com <Arrow /></a>
             </div>
           </div>
         </div>

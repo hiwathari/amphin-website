@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const c = await getContent();
   const paths = [
-    "", "/about", "/about/team", "/services", "/pricing", "/work", "/blog", "/careers", "/connect", "/contact", "/quote", "/legal", "/gallery", "/faq", "/make-me-a-celebrity", "/locations",
+    "", "/about", "/about/team", "/services", "/pricing", "/work", "/blog", "/careers", "/connect", "/contact", "/quote", "/legal", "/gallery", "/faq", "/make-me-a-celebrity", "/amos", "/locations",
     ...c.pillars.flatMap((p) => [`/services/${p.slug}`, `/services/${p.slug}/pricing`]),
     ...c.services.filter((s) => s.slug !== "make-me-a-celebrity").flatMap((s) => [`/services/${s.pillar}/${s.slug}`, `/services/${s.pillar}/${s.slug}/pricing`]),
     ...c.projects.map((p) => `/work/${p.slug}`),

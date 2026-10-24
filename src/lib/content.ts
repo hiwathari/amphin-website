@@ -17,8 +17,10 @@ export interface Seo { title?: string; description?: string; focus_keyword?: str
 export interface Pillar { slug: string; title: string; icon: string; pitch: string; order: number; favorite?: boolean; cover?: string | null }
 export interface Service { slug: string; pillar: string; order: number; title: string; intro: string; body: string[]; seo?: Seo; favorite?: boolean; cover?: string | null }
 export interface Project {
-  slug: string; title: string; client: string; year: number; categories: string[]; summary: string; body: string[];
+  slug: string; title: string; client: string; year: number | null; categories: string[]; summary: string; body: string[];
   featuredImage: string | null; images: string[]; services: string[]; seo?: Seo; favorite?: boolean; videos?: Video[];
+  /** false = has its own page and is searchable, but stays out of portfolio lists. */
+  listed?: boolean; liveUrl?: string | null;
 }
 export interface Job { slug: string; title: string; type: string; location: string; salary: string; description: string[]; responsibilities: string[]; qualifications: string[]; deadline: string | null }
 export type BlogLayout = "standard" | "feature" | "gallery" | "video" | "minimal";
@@ -115,7 +117,7 @@ function fromFeed(f: Raw): Content {
     services: pick((f.services ?? []).map((x: Raw, i: number) => ({ slug: x.slug, pillar: x.pillar, order: i, title: x.title, intro: x.intro, body: arr(x.body), seo: x.seo, favorite: x.favorite, cover: x.cover ?? null })), s.services),
     projects: pick((f.projects ?? []).map((p: Raw) => ({
       slug: p.slug, title: p.title, client: p.client, year: p.year, categories: arr(p.categories), summary: p.summary, body: arr(p.body),
-      featuredImage: p.cover ?? null, images: (p.images ?? []).map((m: Raw) => m.url), services: arr(p.services), seo: p.seo, favorite: p.favorite, videos: (p.videos ?? []) as Video[],
+      featuredImage: p.cover ?? null, images: (p.images ?? []).map((m: Raw) => m.url), services: arr(p.services), seo: p.seo, favorite: p.favorite, videos: (p.videos ?? []) as Video[], listed: p.listed !== false, liveUrl: p.live_url ?? null,
     })), s.projects),
     jobs: pick((f.jobs ?? []).map((j: Raw) => ({ slug: j.slug, title: j.title, type: j.type, location: j.location, salary: j.salary,
       description: arr(j.description), responsibilities: arr(j.responsibilities), qualifications: arr(j.qualifications), deadline: j.deadline })), s.jobs),
@@ -159,10 +161,14 @@ export async function getServices(pillar?: string) {
 export async function getService(pillar: string, slug: string) { return (await getContent()).services.find((s) => s.pillar === pillar && s.slug === slug); }
 export async function serviceBySlug(slug: string) { return (await getContent()).services.find((s) => s.slug === slug); }
 
+/** Works shown in lists (home, portfolio, gallery, service pages). Unlisted works are left out. */
 export async function getProjects(category?: string) {
-  return (await getContent()).projects
-    .filter((p) => !category || p.categories.includes(category))
-    .sort((a, b) => favFirst(a, b) || b.year - a.year || a.title.localeCompare(b.title));
+  return (await getAllProjects()).filter((p) => p.listed !== false && (!category || p.categories.includes(category)));
+}
+/** Every published work, listed or not: for their own pages and the sitemap. */
+export async function getAllProjects() {
+  return (await getContent()).projects.slice()
+    .sort((a, b) => favFirst(a, b) || (b.year ?? 0) - (a.year ?? 0) || a.title.localeCompare(b.title));
 }
 export async function getProject(slug: string) { return (await getContent()).projects.find((p) => p.slug === slug); }
 /** Case studies that used any of these services (the service ↔ project link, both ways). */

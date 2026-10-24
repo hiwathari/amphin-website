@@ -139,14 +139,19 @@ function fromFeed(f: Raw): Content {
 }
 
 /** All site content for this request (one fetch, shared by every component in the render). */
+// AMOS can be slow on a cold start or while a build renders hundreds of pages at once, so give it
+// time and one more try before falling back to the seed (a fallback page stays cached until it revalidates).
 export const getContent = cache(async (): Promise<Content> => {
-  try {
-    const r = await fetch(AMOS_FEED, { next: { revalidate: 300, tags: ["amos"] }, signal: AbortSignal.timeout(8000) });
-    if (!r.ok) throw new Error(`feed ${r.status}`);
-    return fromFeed(await r.json());
-  } catch {
-    return seed();
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const r = await fetch(AMOS_FEED, { next: { revalidate: 300, tags: ["amos"] }, signal: AbortSignal.timeout(15000) });
+      if (!r.ok) throw new Error(`feed ${r.status}`);
+      return fromFeed(await r.json());
+    } catch (e) {
+      console.warn(`AMOS feed attempt ${attempt} failed:`, e instanceof Error ? e.message : e);
+    }
   }
+  return seed();
 });
 
 // ---------- helpers used by the pages ----------

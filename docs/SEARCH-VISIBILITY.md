@@ -23,7 +23,7 @@ service's own help pages when you sign up, because they change.
 - Studio → Settings → Analytics & search: paste the Google Search Console and Bing verification codes
   and the Google Analytics ID there; the site adds them automatically.
 
-## Search engines: register and submit the sitemap (`https://www.amphin.agency/sitemap.xml`)
+## Search engines: register and submit the sitemap (`https://amphin.agency/sitemap.xml`)
 
 | Engine | Where | Notes |
 |---|---|---|

@@ -14,16 +14,21 @@ import { LEGAL, type LegalPage } from "./legal";
 import { OFFICES, SOCIALS, type Office } from "./site";
 
 export interface Seo { title?: string; description?: string; focus_keyword?: string }
-export interface Pillar { slug: string; title: string; icon: string; pitch: string; order: number; favorite?: boolean }
-export interface Service { slug: string; pillar: string; order: number; title: string; intro: string; body: string[]; seo?: Seo; favorite?: boolean }
+export interface Pillar { slug: string; title: string; icon: string; pitch: string; order: number; favorite?: boolean; cover?: string | null }
+export interface Service { slug: string; pillar: string; order: number; title: string; intro: string; body: string[]; seo?: Seo; favorite?: boolean; cover?: string | null }
 export interface Project {
   slug: string; title: string; client: string; year: number; categories: string[]; summary: string; body: string[];
-  featuredImage: string | null; images: string[]; services: string[]; seo?: Seo; favorite?: boolean;
+  featuredImage: string | null; images: string[]; services: string[]; seo?: Seo; favorite?: boolean; videos?: Video[];
 }
 export interface Job { slug: string; title: string; type: string; location: string; salary: string; description: string[]; responsibilities: string[]; qualifications: string[]; deadline: string | null }
-export interface Post { slug: string; title: string; date: string; categories: string[]; tags: string[]; excerpt: string; body: string[]; featuredImage: string | null; seo?: Seo; favorite?: boolean }
+export type BlogLayout = "standard" | "feature" | "gallery" | "video" | "minimal";
+export interface Video { url: string; platform: "youtube" | "instagram" | "other" }
+export interface Post {
+  slug: string; title: string; date: string; categories: string[]; tags: string[]; excerpt: string; body: string[]; featuredImage: string | null;
+  seo?: Seo; favorite?: boolean; layout?: BlogLayout; gallery?: { url: string; alt: string }[]; videos?: Video[]; author?: string | null; authorTitle?: string | null;
+}
 export interface PriceRow { item: string; label: string; pillar: string; service: string; period: string; prefix: string; features: string[]; highlight?: boolean; prices: Partial<Record<RegionCode, number>> }
-export interface TeamMember { name: string; title: string; word: string | null; founder: boolean; photo: string | null }
+export interface TeamMember { name: string; title: string; word: string | null; founder: boolean; photo: string | null; silhouette?: boolean; socials?: Partial<Record<"linkedin" | "instagram" | "facebook" | "x", string>> }
 export interface ClientLogo { name: string; logo: string; website: string | null }
 export interface Testimonial { quote: string; name: string; role: string; project?: string | null }
 export interface Social { platform: string; url: string; short: string }
@@ -32,7 +37,22 @@ export interface Content {
   source: "amos" | "seed";
   pillars: Pillar[]; services: Service[]; projects: Project[]; jobs: Job[]; posts: Post[]; prices: PriceRow[];
   team: TeamMember[]; clients: ClientLogo[]; testimonials: Testimonial[]; offices: Office[]; socials: Social[]; legal: LegalPage[];
+  settings: SiteSettings;
 }
+
+/** Look and behaviour set in AMOS Studio → Settings. */
+export interface SiteSettings {
+  theme: { fontSans: string; fontMono: string; accent: string; orange: string; background: string; gradient: string[] };
+  motion: { animations: boolean; preloader: boolean; cursorGlow: boolean; smoothScroll: boolean; textWave: boolean };
+  mobile: { reduceMotion: boolean; hideCursorGlow: boolean; compactHeader: boolean };
+  analytics: { gaId: string; clarityId: string; searchConsole: string; bingVerify: string };
+}
+export const DEFAULT_SETTINGS: SiteSettings = {
+  theme: { fontSans: "DM Sans", fontMono: "DM Mono", accent: "#f76b3f", orange: "#f67c37", background: "#0e0e0e", gradient: ["#5b74e6", "#8a5bd0", "#d2457a", "#f2553f", "#f67c37"] },
+  motion: { animations: true, preloader: true, cursorGlow: true, smoothScroll: true, textWave: true },
+  mobile: { reduceMotion: true, hideCursorGlow: true, compactHeader: true },
+  analytics: { gaId: "", clarityId: "", searchConsole: "", bingVerify: "" },
+};
 
 const AMOS_FEED = process.env.AMOS_FEED_URL || "https://os.amphin.agency/api/public/website/content";
 
@@ -51,13 +71,16 @@ const SEED_TESTIMONIALS: Testimonial[] = [
     quote: "Amphin's branding and graphic design expertise helped position IG3 Fish Hub as a standout name in the UK. Their branding strategy and website design captured our vision perfectly, and their company formation services ensured a smooth setup." },
 ];
 
-// Team members from the old /team page, used only until AMOS → Website → Team has people switched on.
+// Team shown until AMOS answers (photos come from AMOS once it does). Mirrors Studio → Users → Team page.
 const SEED_TEAM: TeamMember[] = [
-  ["Abhishek", "Advisor & Operations", "strategy"], ["Amal CB", "Creative Head", "design"], ["Ananthu", "Marketing Head", "growth"],
-  ["Rachana Jayachandran", "Senior Growth Manager", "growth"], ["Fayas Ahammed", "Senior Content Creator", "content"],
-  ["Akshay Raveendran", "Business Development Manager", "sales"], ["Anjali Mohan", "Account Manager", "clients"],
-  ["Amal", "Customer Relations", "clients"], ["Athira", "HR Executive", "people"], ["Lavrin Fernandez", "Video Editor", "video"],
-].map(([name, title, word]) => ({ name, title, word, founder: false, photo: null }));
+  { name: "Person X", title: "Founder", word: "vision", founder: true, photo: null, silhouette: true },
+  ...[
+    ["Rachana Jayachandran", "Sr. Account Manager", "growth"], ["Fathimath Zeba T Z", "Account Manager", "clients"],
+    ["Sreenanda C T", "Jr. Digital Marketing Executive", "social"], ["Akhil K", "Jr. Video Editor", "video"],
+    ["Muhammed Niyas", "Jr. Graphic Designer & Video Editor", "design"], ["Jameela K Ayoob", "Graphic Designer Intern", "design"],
+    ["Rasha Fathima", "Junior Graphic Designer", "design"], ["Ridhuna K", "BDE Intern", "growth"],
+  ].map(([name, title, word]) => ({ name, title, word, founder: false, photo: null })),
+];
 
 function seed(): Content {
   return {
@@ -69,7 +92,7 @@ function seed(): Content {
     posts: (postsSeed as Omit<Post, "tags">[]).map((p) => ({ ...p, tags: [] })),
     prices: pricesSeed as PriceRow[],
     team: SEED_TEAM, clients: SEED_CLIENTS, testimonials: SEED_TESTIMONIALS,
-    offices: OFFICES, socials: SOCIALS, legal: LEGAL,
+    offices: OFFICES, socials: SOCIALS, legal: LEGAL, settings: DEFAULT_SETTINGS,
   };
 }
 
@@ -77,31 +100,39 @@ type Raw = Record<string, any>; // eslint-disable-line @typescript-eslint/no-exp
 const arr = (v: unknown): string[] => (Array.isArray(v) ? v.map(String) : []);
 const SHORT: Record<string, string> = { instagram: "ig", facebook: "fb", linkedin: "in", x: "x", twitter: "x", youtube: "yt", tiktok: "tt", behance: "be" };
 
+function mergeSettings(x: Raw | undefined): SiteSettings {
+  const d = DEFAULT_SETTINGS;
+  if (!x) return d;
+  return { theme: { ...d.theme, ...x.theme }, motion: { ...d.motion, ...x.motion }, mobile: { ...d.mobile, ...x.mobile }, analytics: { ...d.analytics, ...x.analytics } };
+}
+
 function fromFeed(f: Raw): Content {
   const s = seed();
   const pick = <T,>(mapped: T[], fallback: T[]) => (mapped.length ? mapped : fallback);
   return {
     source: "amos",
-    pillars: pick((f.pillars ?? []).map((p: Raw, i: number) => ({ slug: p.slug, title: p.title, icon: p.icon, pitch: p.pitch, order: i, favorite: p.favorite })), s.pillars),
-    services: pick((f.services ?? []).map((x: Raw, i: number) => ({ slug: x.slug, pillar: x.pillar, order: i, title: x.title, intro: x.intro, body: arr(x.body), seo: x.seo, favorite: x.favorite })), s.services),
+    pillars: pick((f.pillars ?? []).map((p: Raw, i: number) => ({ slug: p.slug, title: p.title, icon: p.icon, pitch: p.pitch, order: i, favorite: p.favorite, cover: p.cover ?? null })), s.pillars),
+    services: pick((f.services ?? []).map((x: Raw, i: number) => ({ slug: x.slug, pillar: x.pillar, order: i, title: x.title, intro: x.intro, body: arr(x.body), seo: x.seo, favorite: x.favorite, cover: x.cover ?? null })), s.services),
     projects: pick((f.projects ?? []).map((p: Raw) => ({
       slug: p.slug, title: p.title, client: p.client, year: p.year, categories: arr(p.categories), summary: p.summary, body: arr(p.body),
-      featuredImage: p.cover ?? null, images: (p.images ?? []).map((m: Raw) => m.url), services: arr(p.services), seo: p.seo, favorite: p.favorite,
+      featuredImage: p.cover ?? null, images: (p.images ?? []).map((m: Raw) => m.url), services: arr(p.services), seo: p.seo, favorite: p.favorite, videos: (p.videos ?? []) as Video[],
     })), s.projects),
     jobs: pick((f.jobs ?? []).map((j: Raw) => ({ slug: j.slug, title: j.title, type: j.type, location: j.location, salary: j.salary,
       description: arr(j.description), responsibilities: arr(j.responsibilities), qualifications: arr(j.qualifications), deadline: j.deadline })), s.jobs),
     posts: pick((f.posts ?? []).map((p: Raw) => ({ slug: p.slug, title: p.title, date: String(p.published_at ?? "").slice(0, 19).replace("T", " "),
-      categories: arr(p.categories), tags: arr(p.tags), excerpt: p.excerpt, body: arr(p.body), featuredImage: p.cover ?? null, seo: p.seo, favorite: p.favorite })), s.posts),
+      categories: arr(p.categories), tags: arr(p.tags), excerpt: p.excerpt, body: arr(p.body), featuredImage: p.cover ?? null, seo: p.seo, favorite: p.favorite,
+      layout: (p.layout ?? "standard") as BlogLayout, gallery: (p.gallery ?? []).filter((g: Raw) => g.url), videos: (p.videos ?? []) as Video[], author: p.author ?? null, authorTitle: p.author_title ?? null })), s.posts),
     prices: pick((f.prices ?? []).map((p: Raw) => ({ item: p.item, label: p.label, pillar: p.pillar, service: p.service, period: p.period, prefix: p.prefix,
       features: arr(p.features), highlight: p.highlight,
       prices: Object.fromEntries((["uk", "eu", "us", "in", "ae"] as const).filter((r) => p[`price_${r}`] != null).map((r) => [r, Number(p[`price_${r}`])])) })), s.prices),
-    team: pick((f.team ?? []).map((t: Raw) => ({ name: t.name, title: t.title, word: t.word, founder: !!t.founder, photo: t.photo })), s.team),
+    team: pick((f.team ?? []).map((t: Raw) => ({ name: t.name, title: t.title, word: t.word, founder: !!t.founder, photo: t.photo, silhouette: !!t.silhouette, socials: t.socials ?? {} })), s.team),
     clients: pick((f.clients ?? []).filter((c: Raw) => c.logo).map((c: Raw) => ({ name: c.name, logo: c.logo, website: c.website })), s.clients),
     testimonials: pick((f.testimonials ?? []).map((t: Raw) => ({ quote: t.quote, name: t.person, role: t.role, project: t.project })), s.testimonials),
     offices: pick((f.offices ?? []).map((o: Raw) => ({ slug: o.slug, name: o.name, city: o.city, country: o.country, address: arr(o.address),
       phone: o.phone ?? undefined, email: o.email ?? "hello@amphin.com", mapQuery: o.map_query ?? o.name, regions: arr(o.regions) as RegionCode[] })), s.offices),
     socials: pick((f.socials ?? []).filter((x: Raw) => !x.office).map((x: Raw) => ({ platform: x.platform, url: x.url, short: SHORT[String(x.platform).toLowerCase()] ?? String(x.platform).slice(0, 2).toLowerCase() })), s.socials),
     legal: pick((f.legal ?? []).map((l: Raw) => ({ slug: l.slug, title: l.title, summary: l.summary, version: l.version, updated: String(l.effective_date ?? "").slice(0, 10) || "2026-10-24", sections: l.sections })), s.legal),
+    settings: mergeSettings(f.settings),
   };
 }
 
@@ -142,6 +173,7 @@ export async function projectsForService(serviceSlugs: string[]) {
 export async function getJobs() { return (await getContent()).jobs; }
 export async function getJob(slug: string) { return (await getContent()).jobs.find((j) => j.slug === slug); }
 export async function getPosts() { return (await getContent()).posts.slice().sort((a, b) => favFirst(a, b) || b.date.localeCompare(a.date)); }
+export async function getSettings() { return (await getContent()).settings; }
 export async function getPost(slug: string) { return (await getContent()).posts.find((p) => p.slug === slug); }
 
 export async function getPrices(filter?: { pillar?: string; service?: string }) {

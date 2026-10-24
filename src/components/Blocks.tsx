@@ -129,6 +129,24 @@ export function LogoMarquee({ clients }: { clients: ClientLogo[] }) {
 }
 
 /** Team from AMOS: black and white photos that turn colour on hover; the founder leads. */
+/** Anonymous founder card: a soft silhouette instead of a photo. */
+function Silhouette() {
+  return (
+    <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMax slice" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", background: "linear-gradient(180deg,#2a2a2a,#151515)" }} aria-hidden="true">
+      <circle cx="150" cy="150" r="62" fill="#3a3a3a" />
+      <path d="M40 400c0-80 50-140 110-140s110 60 110 140z" fill="#3a3a3a" />
+    </svg>
+  );
+}
+
+/** Until someone uploads a photo: their initials on a quiet gradient. */
+function Placeholder({ name }: { name: string }) {
+  const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  return (
+    <span aria-hidden="true" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", background: "linear-gradient(160deg,#262626,#161616)", fontSize: "clamp(38px,5vw,64px)", fontWeight: 500, color: "#3d3d3d", letterSpacing: "-0.04em" }}>{initials}</span>
+  );
+}
+
 export function TeamGrid({ team }: { team: TeamMember[] }) {
   return (
     <div className="grid cols-4" style={{ rowGap: 36 }}>
@@ -138,8 +156,17 @@ export function TeamGrid({ team }: { team: TeamMember[] }) {
             {m.photo
               // eslint-disable-next-line @next/next/no-img-element
               ? <img src={m.photo} alt={m.name} loading="lazy" />
-              : <LiquidArt seed={m.name} style={{ position: "absolute", inset: 0, filter: "grayscale(1)" }} />}
+              : m.silhouette ? <Silhouette /> : <Placeholder name={m.name} />}
             {m.word && <span className="word" aria-hidden>{m.word}</span>}
+            {m.socials && Object.values(m.socials).some(Boolean) && (
+              <span className="team-social">
+                {(["linkedin", "instagram", "facebook", "x"] as const).filter((k) => m.socials?.[k]).map((k) => (
+                  <a key={k} href={m.socials![k]} target="_blank" rel="noopener noreferrer me" aria-label={`${m.name} on ${k === "x" ? "X" : k}`}>
+                    {{ linkedin: "in", instagram: "ig", facebook: "fb", x: "x" }[k]}
+                  </a>
+                ))}
+              </span>
+            )}
           </RevealMedia>
           <div className="role">/ {m.founder ? "Founder" : m.title} /</div>
           <div style={{ fontWeight: 500 }}>{m.name}</div>

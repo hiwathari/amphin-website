@@ -45,7 +45,6 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
             </div>
           </div>
           <Link href={`${base}/work`} aria-current={is("/work")}>Work</Link>
-          <Link href={`${base}/pricing`} aria-current={is("/pricing")}>Pricing</Link>
           <Link href={`${base}/blog`} aria-current={is("/blog")}>Blog</Link>
           <Link href={`${base}/careers`} aria-current={is("/careers")}>Careers</Link>
           <Link href={`${base}/contact`} aria-current={is("/contact")}>Contact</Link>
@@ -75,7 +74,7 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
             <button className="burger" aria-label="Close menu" onClick={() => setOpen(false)}><Icon name="close" size={18} /></button>
           </div>
           {[
-            ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/work", "Work"], ["/pricing", "Pricing"],
+            ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/work", "Work"],
             ["/blog", "Blog"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/contact", "Contact"],
           ].map(([href, label]) => (
             <Link key={href} href={`${base}${href}`}>{label}</Link>

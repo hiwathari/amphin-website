@@ -44,9 +44,9 @@
   },
   {
     "slug": "web-development",
-    "title": "Web Design & Development",
+    "title": "Web Design, Development & E-commerce",
     "icon": "grid",
-    "pitch": "Fast, search-friendly websites designed around your brand and built to convert visitors into leads.",
+    "pitch": "Fast, search-friendly websites and online stores (Shopify, WooCommerce and custom builds) designed to turn visitors into enquiries and sales.",
     "order": 3,
     "serviceSlugs": [
       "web-development",
@@ -56,24 +56,11 @@
     ]
   },
   {
-    "slug": "ecommerce",
-    "title": "E-commerce",
-    "icon": "bag",
-    "pitch": "Online stores on Shopify, WooCommerce or custom stacks, set up to sell from day one.",
-    "order": 4,
-    "serviceSlugs": [
-      "shopify-stores",
-      "woo-commerce-websites",
-      "custom-e-commerce-website",
-      "e-commerce-web-designing"
-    ]
-  },
-  {
     "slug": "app-development",
     "title": "App Development",
     "icon": "phone",
     "pitch": "iOS and Android apps with clean, intuitive interfaces and reliable back ends.",
-    "order": 5,
+    "order": 4,
     "serviceSlugs": [
       "app-development",
       "android-app",
@@ -85,7 +72,7 @@
     "title": "SEO & Performance Marketing",
     "icon": "chart",
     "pitch": "Search, paid media and email campaigns measured against leads and revenue, not vanity metrics.",
-    "order": 6,
+    "order": 5,
     "serviceSlugs": [
       "seo",
       "sem",
@@ -103,7 +90,7 @@
     "title": "PR, Influencer & Reputation",
     "icon": "mic",
     "pitch": "Press, influencer partnerships and reputation management that put your brand in the right conversations.",
-    "order": 7,
+    "order": 6,
     "serviceSlugs": [
       "brand-pr",
       "press-media",
@@ -119,7 +106,7 @@
     "title": "IT & Business Systems",
     "icon": "chip",
     "pitch": "Email, workspace, security, POS and accounting systems set up and supported for growing teams.",
-    "order": 8,
+    "order": 7,
     "serviceSlugs": [
       "technical-support",
       "cyber-security",
@@ -137,7 +124,7 @@
     "title": "Strategy & Consulting",
     "icon": "compass",
     "pitch": "Market analysis, growth strategy and performance reviews that give every campaign a clear direction.",
-    "order": 9,
+    "order": 8,
     "serviceSlugs": [
       "marketing-strategy",
       "strategy-development",

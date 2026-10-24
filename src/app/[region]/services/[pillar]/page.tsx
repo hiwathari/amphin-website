@@ -67,6 +67,13 @@ export default async function PillarPage({ params }: { params: { region: RegionC
         </div>
       </section>
 
+      <section className="wrap" style={{ marginBottom: 30 }}>
+        <div className="price-buttons">
+          <Link href={`${base}/pricing`} className="btn-pill">{pillar.title} pricing</Link>
+          {services.map((s) => <Link key={s.slug} href={`${base}/${s.slug}/pricing`} className="chip">{s.title} · prices</Link>)}
+        </div>
+      </section>
+
       {city && (
         <section className="wrap">
           <Link href={`/${region}/${phrase.slug}-${city.slug}`} className="local-strip">

@@ -14,6 +14,10 @@ const nextConfig = {
     return [
       // The signature programme has its own page; the generic service URL points there so the two don't compete in search.
       { source: "/:region(uk|eu|us|in|ae)/services/pr-influencer/make-me-a-celebrity", destination: "/:region/make-me-a-celebrity", permanent: true },
+      // E-commerce became part of Web Design & Development (nine service groups).
+      { source: "/:region(uk|eu|us|in|ae)/services/ecommerce", destination: "/:region/services/web-development", permanent: true },
+      { source: "/:region(uk|eu|us|in|ae)/services/ecommerce/:path*", destination: "/:region/services/web-development/:path*", permanent: true },
+      { source: "/:region(uk|eu|us|in|ae)/ecommerce-website-development-:city", destination: "/:region/web-design-company-:city", permanent: true },
       { source: "/admin", destination: "https://os.amphin.agency/website", permanent: false },
       { source: "/admin/:path*", destination: "https://os.amphin.agency/website", permanent: false },
     ];

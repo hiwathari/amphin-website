@@ -1,23 +1,148 @@
 [
-  { "item": "seo-local-starter", "label": "SEO · Local Starter", "pillar": "seo-performance", "service": "seo", "period": "per month", "prefix": "From",
-    "features": ["One town", "10 keywords", "Google Business Profile optimisation", "Local citations", "Monthly report", "Free setup"],
-    "prices": { "uk": 399 } },
-  { "item": "seo-local-growth", "label": "SEO · Local Growth", "pillar": "seo-performance", "service": "seo", "period": "per month", "prefix": "From", "highlight": true,
-    "features": ["Up to two towns", "15 keywords", "On-page optimisation and schema", "Local citations", "Monthly report", "Free setup"],
-    "prices": { "uk": 474 } },
-  { "item": "seo-regional-starter", "label": "SEO · Regional Starter", "pillar": "seo-performance", "service": "seo", "period": "per month", "prefix": "From",
-    "features": ["20 regional keywords", "Competitor analysis", "Technical SEO", "1,000 words of content", "DA 30+ backlinks", "Free setup"],
-    "prices": { "uk": 599 } },
-  { "item": "social-basic", "label": "Social · Basic digital package", "pillar": "social-media", "service": "smm", "period": "per month", "prefix": "From",
-    "features": ["10 posts, 4 reels, 10 stories a month", "Special-day posters", "Two platforms", "Community management", "3-hour photo and video shoot", "Monthly report"],
-    "prices": {} },
-  { "item": "social-premium", "label": "Social · Premium digital package", "pillar": "social-media", "service": "smm", "period": "per month", "prefix": "From", "highlight": true,
-    "features": ["16 posts, 8 reels, 15 stories, 4 motion posters", "Weekly content calendar", "Up to four platforms", "Influencer collaborations", "Competitor and market research", "Local SEO and geo-tagging"],
-    "prices": {} },
-  { "item": "social-delux", "label": "Social · Delux digital package", "pillar": "social-media", "service": "smm", "period": "per month", "prefix": "From",
-    "features": ["30 posts, 15 reels, 30 stories, 8 motion posters", "Up to six platforms", "Influencer partnerships and paid media", "Two 3-hour shoots", "Online reputation management", "24/7 client support"],
-    "prices": {} },
-  { "item": "addon-poster", "label": "Extra poster", "pillar": "social-media", "service": "smm", "period": "each", "prefix": "", "features": [], "prices": { "uk": 15 } },
-  { "item": "addon-motion-poster", "label": "Extra motion poster", "pillar": "social-media", "service": "smm", "period": "each", "prefix": "", "features": [], "prices": { "uk": 20 } },
-  { "item": "addon-reel", "label": "Extra reel", "pillar": "social-media", "service": "smm", "period": "each", "prefix": "", "features": [], "prices": { "uk": 40 } }
+  {
+    "item": "seo-local-starter",
+    "label": "SEO · Local Starter",
+    "pillar": "seo-performance",
+    "service": "seo",
+    "period": "per month",
+    "prefix": "From",
+    "features": [
+      "One town",
+      "10 keywords",
+      "Google Business Profile optimisation",
+      "Local citations",
+      "Monthly report",
+      "Free setup"
+    ],
+    "prices": {
+      "uk": 399
+    }
+  },
+  {
+    "item": "seo-local-growth",
+    "label": "SEO · Local Growth",
+    "pillar": "seo-performance",
+    "service": "seo",
+    "period": "per month",
+    "prefix": "From",
+    "highlight": true,
+    "features": [
+      "Up to two towns",
+      "15 keywords",
+      "On-page optimisation and schema",
+      "Local citations",
+      "Monthly report",
+      "Free setup"
+    ],
+    "prices": {
+      "uk": 474
+    }
+  },
+  {
+    "item": "seo-regional-starter",
+    "label": "SEO · Regional Starter",
+    "pillar": "seo-performance",
+    "service": "seo",
+    "period": "per month",
+    "prefix": "From",
+    "features": [
+      "20 regional keywords",
+      "Competitor analysis",
+      "Technical SEO",
+      "1,000 words of content",
+      "DA 30+ backlinks",
+      "Free setup"
+    ],
+    "prices": {
+      "uk": 599
+    }
+  },
+  {
+    "item": "social-basic",
+    "label": "Social · Basic digital package",
+    "pillar": "social-media",
+    "service": "smm",
+    "period": "per month",
+    "prefix": "From",
+    "features": [
+      "10 posts, 4 reels, 10 stories a month",
+      "Special-day posters",
+      "Two platforms",
+      "Community management",
+      "3-hour photo and video shoot",
+      "Monthly report"
+    ],
+    "prices": {}
+  },
+  {
+    "item": "social-premium",
+    "label": "Social · Premium digital package",
+    "pillar": "social-media",
+    "service": "smm",
+    "period": "per month",
+    "prefix": "From",
+    "highlight": true,
+    "features": [
+      "16 posts, 8 reels, 15 stories, 4 motion posters",
+      "Weekly content calendar",
+      "Up to four platforms",
+      "Influencer collaborations",
+      "Competitor and market research",
+      "Local SEO and geo-tagging"
+    ],
+    "prices": {}
+  },
+  {
+    "item": "social-delux",
+    "label": "Social · Delux digital package",
+    "pillar": "social-media",
+    "service": "smm",
+    "period": "per month",
+    "prefix": "From",
+    "features": [
+      "30 posts, 15 reels, 30 stories, 8 motion posters",
+      "Up to six platforms",
+      "Influencer partnerships and paid media",
+      "Two 3-hour shoots",
+      "Online reputation management",
+      "24/7 client support"
+    ],
+    "prices": {}
+  },
+  {
+    "item": "addon-poster",
+    "label": "Extra poster",
+    "pillar": "social-media",
+    "service": "smm",
+    "period": "each",
+    "prefix": "",
+    "features": [],
+    "prices": {
+      "uk": 15
+    }
+  },
+  {
+    "item": "addon-motion-poster",
+    "label": "Extra motion poster",
+    "pillar": "social-media",
+    "service": "smm",
+    "period": "each",
+    "prefix": "",
+    "features": [],
+    "prices": {
+      "uk": 20
+    }
+  },
+  {
+    "item": "addon-reel",
+    "label": "Extra reel",
+    "pillar": "social-media",
+    "service": "smm",
+    "period": "each",
+    "prefix": "",
+    "features": [],
+    "prices": {
+      "uk": 40
+    }
+  }
 ]

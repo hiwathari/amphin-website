@@ -1672,8 +1672,8 @@
   },
   {
     "slug": "shopify-stores",
-    "pillar": "ecommerce",
-    "order": 0,
+    "pillar": "web-development",
+    "order": 4,
     "title": "Shopify Stores",
     "intro": "At Amphin, our Shopify Store services are designed to create visually appealing, highly functional, and user-friendly e-commerce stores. We provide comprehensive solutions to help you build, customize, and manage your Shopify store effectively.",
     "body": [
@@ -1741,8 +1741,8 @@
   },
   {
     "slug": "woo-commerce-websites",
-    "pillar": "ecommerce",
-    "order": 1,
+    "pillar": "web-development",
+    "order": 5,
     "title": "Woo-Commerce Websites",
     "intro": "At Amphin, our WooCommerce Website services are designed to create robust, flexible, and fully customizable e-commerce stores on the WordPress platform. We provide comprehensive solutions to help you build, manage, and grow your online store efficiently.",
     "body": [
@@ -1810,8 +1810,8 @@
   },
   {
     "slug": "custom-e-commerce-website",
-    "pillar": "ecommerce",
-    "order": 2,
+    "pillar": "web-development",
+    "order": 6,
     "title": "Custom E- Commerce Website",
     "intro": "At Amphin, our Custom E-Commerce Website services are tailored to create unique, feature-rich online stores that reflect your brand and meet your specific business requirements. We provide comprehensive solutions to help you build, manage, and grow your custom e-commerce platform.",
     "body": [
@@ -1888,8 +1888,8 @@
   },
   {
     "slug": "e-commerce-web-designing",
-    "pillar": "ecommerce",
-    "order": 3,
+    "pillar": "web-development",
+    "order": 7,
     "title": "E- Commerce Web Designing",
     "intro": "At Amphin, our E-Commerce Web Designing services are crafted to create engaging, user-friendly, and high-performing online stores. We specialize in designing and developing customized e-commerce solutions that drive sales and enhance customer satisfaction.",
     "body": [

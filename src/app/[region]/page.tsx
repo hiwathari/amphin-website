@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Eyebrow, LogoMarquee, PriceRows, ProjectCard, ServiceCard, TeamGrid } from "@/components/Blocks";
+import { Eyebrow, LogoMarquee, PriceRows, ProjectCard, ServiceIndex, TeamGrid } from "@/components/Blocks";
 import { CtaBand } from "@/components/Chrome";
 import { HeroLight, Parallax } from "@/components/Effects";
 import Icon, { Arrow } from "@/components/Icon";
@@ -31,7 +31,7 @@ export default async function Home({ params }: { params: { region: RegionCode } 
         <HeroLight />
         <Parallax className="hero-orb" speed={-0.18}><span /></Parallax>
         <div className="wrap hero-inner">
-          <RevealLines as="h1" lines={["Turning ideas", "into results"]} />
+          <RevealLines as="h1" lines={["Turning ideas", "into results"]} grad={1} />
           <Reveal className="hero-side" delay={0.35}>
             <p>Amphin is a creative growth agency in London, Kochi and Abu Dhabi. We build brands, websites and campaigns that people remember and that bring in customers.</p>
             <div style={{ display: "flex", gap: 22, alignItems: "center", flexWrap: "wrap" }}>
@@ -53,7 +53,7 @@ export default async function Home({ params }: { params: { region: RegionCode } 
             <div className="mono" style={{ fontSize: "clamp(40px,5vw,64px)", marginTop: 18, letterSpacing: "-0.04em" }}>est.2023</div>
           </Reveal>
           <div>
-            <RevealLines lines={["London's growth marketing", "and creative agency"]} />
+            <RevealLines lines={["London's growth marketing", "and creative agency"]} grad={1} />
             <Reveal delay={0.15}>
               <div style={{ display: "flex", gap: 40, marginTop: 30, flexWrap: "wrap" }}>
                 <div><Counter to={projects.length} suffix="+" className="stat-num" /><div className="stat-label">Case studies</div></div>
@@ -72,9 +72,7 @@ export default async function Home({ params }: { params: { region: RegionCode } 
             <RevealLines lines={["Experienced, trusted services", "built around your growth"]} />
             <Link href={`${base}/services`} className="link-arrow">All services <Arrow /></Link>
           </div>
-          <div className="grid cols-3">
-            {pillars.slice(0, 6).map((p, i) => <Reveal key={p.slug} delay={(i % 3) * 0.08}><ServiceCard pillar={p} index={i} region={region} /></Reveal>)}
-          </div>
+          <Reveal><ServiceIndex pillars={pillars} region={region} /></Reveal>
         </div>
       </section>
 

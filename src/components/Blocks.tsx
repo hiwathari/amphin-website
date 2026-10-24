@@ -14,6 +14,21 @@ export function Eyebrow({ children }: { children: string }) {
   return <div className="eyebrow">{children}</div>;
 }
 
+/** Numbered list of pillars in large muted type; hovering rolls each line over into the colour grade. */
+export function ServiceIndex({ pillars, region }: { pillars: Pillar[]; region: RegionCode }) {
+  return (
+    <nav className="svc-index" aria-label="Services">
+      {pillars.map((p, i) => (
+        <Link key={p.slug} href={`/${region}/services/${p.slug}`}>
+          <span className="num">{String(i + 1).padStart(2, "0")}</span>
+          <span className="roll"><span>/{p.title}/</span><span aria-hidden="true">/{p.title}/</span></span>
+          <span className="go"><Arrow /></span>
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
 export function ServiceCard({ pillar, index, region }: { pillar: Pillar; index: number; region: RegionCode }) {
   return (
     <Tilt className="svc-tilt">

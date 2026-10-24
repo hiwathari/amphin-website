@@ -15,7 +15,7 @@ export default function PageHero({ title, lead, crumbs, seed }: { title: string[
             {crumbs.map((c, i) => <span key={c.href}>{i > 0 && " / "}<Link href={c.href}>{c.label}</Link></span>)}
           </nav>
         )}
-        <RevealLines as="h1" lines={title} />
+        <RevealLines as="h1" lines={title} grad={title.length > 1 ? title.length - 1 : -1} />
         {lead && <p className="lead">{lead}</p>}
       </div>
     </section>

@@ -1,8 +1,8 @@
 "use client";
-// Scroll motion: headings and blocks rise into place as they enter the viewport, and numbers
+// Scroll motion: heading letters ride in on a wave, blocks rise into place as they enter the viewport, and numbers
 // count up. Everything is static when the visitor has reduced motion switched on.
 import { motion, useInView, useReducedMotion, animate } from "framer-motion";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 export function Reveal({ children, delay = 0, y = 34, className }: { children: ReactNode; delay?: number; y?: number; className?: string }) {
   const reduce = useReducedMotion();
@@ -21,26 +21,47 @@ export function Reveal({ children, delay = 0, y = 34, className }: { children: R
 }
 
 const lineVariants = {
-  hidden: { y: "110%" },
-  shown: (i: number) => ({ y: 0, transition: { duration: 1, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] } }),
+  hidden: {},
+  shown: (i: number) => ({ transition: { delayChildren: i * 0.12, staggerChildren: 0.018 } }),
+};
+const charVariants = {
+  hidden: { y: "115%", rotate: 14, skewX: -8, opacity: 0 },
+  shown: { y: 0, rotate: 0, skewX: 0, opacity: 1, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
 };
 
-/** Splits a heading into lines that slide up one after another. Pass lines explicitly.
- *  The in-view trigger sits on the heading itself: each line starts clipped by its mask,
- *  so an observer on the line would never see it intersect. */
-export function RevealLines({ lines, as: Tag = "h2", className }: { lines: string[]; as?: "h1" | "h2" | "h3"; className?: string }) {
+/** Splits a heading into lines whose letters rise in a wave, each tipping upright as it lands.
+ *  Words stay unbroken; screen readers get the plain text. `grad` gives a line the colour-graded
+ *  gradient (index into `lines`, or -1 for none). The in-view trigger sits on the heading itself:
+ *  each line starts clipped by its mask, so an observer on the line would never see it intersect. */
+export function RevealLines({ lines, as: Tag = "h2", className, grad = -1 }: { lines: string[]; as?: "h1" | "h2" | "h3"; className?: string; grad?: number }) {
   const reduce = useReducedMotion();
   if (reduce) {
-    return <Tag className={className}>{lines.map((l, i) => <span key={i} style={{ display: "block" }}>{l}</span>)}</Tag>;
+    return <Tag className={className}>{lines.map((l, i) => <span key={i} className={i === grad ? "grad-text" : undefined} style={{ display: "block" }}>{l}</span>)}</Tag>;
   }
   const MotionTag = motion[Tag];
   return (
-    <MotionTag className={className} initial="hidden" whileInView="shown" viewport={{ once: true, margin: "-40px" }}>
-      {lines.map((l, i) => (
-        <span key={i} style={{ display: "block", overflow: "hidden", paddingBottom: "0.06em" }}>
-          <motion.span style={{ display: "block" }} variants={lineVariants} custom={i}>{l}</motion.span>
-        </span>
-      ))}
+    <MotionTag className={className} aria-label={lines.join(" ")} initial="hidden" whileInView="shown" viewport={{ once: true, margin: "-40px" }}>
+      {lines.map((l, i) => {
+        // Each letter of a graded line paints its own slice of the gradient (transformed letters
+        // can't share one background-clip), so the colour still runs smoothly across the line.
+        const total = Math.max(1, l.replace(/ /g, "").length - 1);
+        let n = 0;
+        return (
+          <motion.span key={i} aria-hidden="true" className={`wave-line${i === grad ? " grad-line" : ""}`} variants={lineVariants} custom={i}>
+            {l.split(" ").map((w, j) => (
+              <Fragment key={j}>
+                {j > 0 && " "}
+                <span className="wave-word">
+                  {Array.from(w).map((ch, k) => {
+                    const style = i === grad ? ({ "--n": total + 1, "--p": `${((n++) / total) * 100}%` } as CSSProperties) : undefined;
+                    return <motion.span key={k} className="wave-char" style={style} variants={charVariants}>{ch}</motion.span>;
+                  })}
+                </span>
+              </Fragment>
+            ))}
+          </motion.span>
+        );
+      })}
     </MotionTag>
   );
 }

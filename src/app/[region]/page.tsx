@@ -4,7 +4,8 @@ import { CtaBand } from "@/components/Chrome";
 import { HeroLight, Parallax } from "@/components/Effects";
 import Icon, { Arrow } from "@/components/Icon";
 import LiquidArt from "@/components/LiquidArt";
-import { Counter, Reveal, RevealLines } from "@/components/Motion";
+import { Counter, Reveal, RevealLines, ScrollText } from "@/components/Motion";
+import HeroSlides from "@/components/HeroSlides";
 import Testimonials from "@/components/Testimonials";
 import { getContent, getPillars, getPosts, getPrices, getProjects } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
@@ -30,26 +31,28 @@ export default async function Home({ params }: { params: { region: RegionCode } 
         <div className="streaks-anim" />
         <HeroLight />
         <Parallax className="hero-orb" speed={-0.18}><span /></Parallax>
-        <div className="wrap hero-inner">
-          <RevealLines as="h1" lines={["Turning ideas", "into results"]} grad={1} />
-          <Reveal className="hero-side" delay={0.35}>
-            <p>Amphin is a creative growth agency in London, Kochi and Abu Dhabi. We build brands, websites and campaigns that people remember and that bring in customers.</p>
+        <HeroSlides
+          tagline="Empowering Brands, Redefining Possibilities"
+          slides={[
+            { lines: ["Trusted agency with", "proven brand experience."], grad: 1, text: "Our team blends creativity with advanced strategies to drive impactful results, whether in branding, digital transformation or user experience design." },
+            { lines: ["Turning ideas", "into results"], grad: 1, text: "Amphin is a creative growth agency in London, Kochi and Abu Dhabi. We build brands, websites and campaigns that people remember and that bring in customers." },
+          ]}
+          actions={
             <div style={{ display: "flex", gap: 22, alignItems: "center", flexWrap: "wrap" }}>
               <Link href={`${base}/quote`} className="btn-pill magnetic">Start a project</Link>
               <Link href={`${base}/work`} className="link-arrow">See our work <Arrow /></Link>
             </div>
-          </Reveal>
-        </div>
+          }
+        />
       </section>
 
       <LogoMarquee clients={c.clients} />
 
       <section className="section">
         <div className="wrap grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 40, alignItems: "end" }}>
-          <Reveal>
-            <div className="mono" style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.5 }}>
-              <span style={{ color: "var(--accent)" }}>where</span> creativity<br />meets <span style={{ color: "var(--accent)" }}>strategy</span><br />to grow your brand
-            </div>
+          <Reveal className="mission">
+            <div className="eyebrow" style={{ marginBottom: 14 }}>mission</div>
+            <p className="mission-text">where creativity<br />meets strategy<br />to elevate<br />your brand</p>
             <div className="mono" style={{ fontSize: "clamp(40px,5vw,64px)", marginTop: 18, letterSpacing: "-0.04em" }}>est.2023</div>
           </Reveal>
           <div>
@@ -65,6 +68,8 @@ export default async function Home({ params }: { params: { region: RegionCode } 
         </div>
       </section>
 
+      <ScrollText text="where creativity meets strategy" />
+
       <section className="section">
         <div className="wrap">
           <div className="rule"><Eyebrow>services</Eyebrow></div>
@@ -73,6 +78,21 @@ export default async function Home({ params }: { params: { region: RegionCode } 
             <Link href={`${base}/services`} className="link-arrow">All services <Arrow /></Link>
           </div>
           <Reveal><ServiceIndex pillars={pillars} region={region} /></Reveal>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <Link href={`${base}/make-me-a-celebrity`} className="celeb-spot">
+            <div className="celeb-copy">
+              <span className="celeb-badge">★ Signature service</span>
+              <h2>Make me a <span className="grad-text">celebrity</span></h2>
+              <p>Personal branding, media relations, social growth and stage time, run as one programme that turns you into the name people recognise in your field.</p>
+              <span className="link-arrow">Explore the programme <Arrow /></span>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/media/social/trend-boss.webp" alt="Make Me a Celebrity, Amphin's personal branding programme" loading="lazy" />
+          </Link>
         </div>
       </section>
 

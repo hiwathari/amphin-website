@@ -36,8 +36,9 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
           <Link href={base} aria-current={path === base ? "page" : undefined}>Home</Link>
           <Link href={`${base}/about`} aria-current={is("/about")}>About</Link>
           <div className="has-menu">
-            <Link href={`${base}/services`} aria-current={is("/services")}>Services ▾</Link>
+            <Link href={`${base}/services`} aria-current={is("/services")}>Services <svg className="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg></Link>
             <div className="menu">
+              <Link href={`${base}/make-me-a-celebrity`} className="menu-star">★ Make Me a Celebrity <small>signature</small></Link>
               {pillars.map((p) => (
                 <Link key={p.slug} href={`${base}/services/${p.slug}`}>{p.title}</Link>
               ))}
@@ -74,7 +75,7 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
             <button className="burger" aria-label="Close menu" onClick={() => setOpen(false)}><Icon name="close" size={18} /></button>
           </div>
           {[
-            ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/work", "Work"], ["/pricing", "Pricing"],
+            ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/work", "Work"], ["/pricing", "Pricing"],
             ["/blog", "Blog"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/contact", "Contact"],
           ].map(([href, label]) => (
             <Link key={href} href={`${base}${href}`}>{label}</Link>

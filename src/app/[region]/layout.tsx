@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
+import Preloader from "@/components/Preloader";
 import { Footer, TopBar } from "@/components/Chrome";
 import { BackToTop } from "@/components/Motion";
 import { CursorGlow, ScrollProgress, SmoothScroll } from "@/components/Effects";
@@ -24,6 +25,7 @@ export default async function RegionLayout({ children, params }: { children: Rea
     url: SITE_URL,
     logo: `${SITE_URL}/brand/amphin-logo.png`,
     email: EMAILS.hello,
+    slogan: "Empowering Brands, Redefining Possibilities",
     sameAs: c.socials.map((s) => s.url),
     department: c.offices.map((o) => ({
       "@type": "LocalBusiness", name: o.name, telephone: o.phone,
@@ -32,6 +34,7 @@ export default async function RegionLayout({ children, params }: { children: Rea
   };
   return (
     <>
+      <Preloader />
       <a href="#main" className="skip">Skip to content</a>
       <SmoothScroll />
       <ScrollProgress />

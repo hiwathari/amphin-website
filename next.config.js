@@ -12,6 +12,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // The signature programme has its own page; the generic service URL points there so the two don't compete in search.
+      { source: "/:region(uk|eu|us|in|ae)/services/pr-influencer/make-me-a-celebrity", destination: "/:region/make-me-a-celebrity", permanent: true },
       { source: "/admin", destination: "https://os.amphin.agency/website", permanent: false },
       { source: "/admin/:path*", destination: "https://os.amphin.agency/website", permanent: false },
     ];
@@ -26,6 +28,8 @@ const nextConfig = {
     ];
     return [
       { source: "/:path*", headers: security },
+      // Only amphin.agency should be indexed; preview and vercel.app copies stay out of search results.
+      { source: "/:path*", has: [{ type: "host", value: "(?<host>.*\\.vercel\\.app)" }], headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
       { source: "/brand/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=2592000" }] },
       { source: "/clients/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=2592000" }] },
     ];

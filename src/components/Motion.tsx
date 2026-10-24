@@ -1,7 +1,7 @@
 "use client";
 // Scroll motion: heading letters ride in on a wave, blocks rise into place as they enter the viewport, and numbers
 // count up. Everything is static when the visitor has reduced motion switched on.
-import { motion, useInView, useReducedMotion, animate } from "framer-motion";
+import { motion, useInView, useReducedMotion, useScroll, useTransform, animate } from "framer-motion";
 import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 export function Reveal({ children, delay = 0, y = 34, className }: { children: ReactNode; delay?: number; y?: number; className?: string }) {
@@ -36,7 +36,7 @@ const charVariants = {
 export function RevealLines({ lines, as: Tag = "h2", className, grad = -1 }: { lines: string[]; as?: "h1" | "h2" | "h3"; className?: string; grad?: number }) {
   const reduce = useReducedMotion();
   if (reduce) {
-    return <Tag className={className}>{lines.map((l, i) => <span key={i} className={i === grad ? "grad-text" : undefined} style={{ display: "block" }}>{l}</span>)}</Tag>;
+    return <Tag className={className}>{lines.map((l, i) => <Fragment key={i}>{i > 0 && " "}<span className={i === grad ? "grad-text" : undefined} style={{ display: "block" }}>{l}</span></Fragment>)}</Tag>;
   }
   const MotionTag = motion[Tag];
   return (
@@ -47,7 +47,10 @@ export function RevealLines({ lines, as: Tag = "h2", className, grad = -1 }: { l
         const total = Math.max(1, l.replace(/ /g, "").length - 1);
         let n = 0;
         return (
-          <motion.span key={i} aria-hidden="true" className={`wave-line${i === grad ? " grad-line" : ""}`} variants={lineVariants} custom={i}>
+          <Fragment key={i}>
+          {/* A real space between lines, so the heading's text reads correctly to search engines. */}
+          {i > 0 && " "}
+          <motion.span aria-hidden="true" className={`wave-line${i === grad ? " grad-line" : ""}`} variants={lineVariants} custom={i}>
             {l.split(" ").map((w, j) => (
               <Fragment key={j}>
                 {j > 0 && " "}
@@ -60,6 +63,7 @@ export function RevealLines({ lines, as: Tag = "h2", className, grad = -1 }: { l
               </Fragment>
             ))}
           </motion.span>
+          </Fragment>
         );
       })}
     </MotionTag>
@@ -92,5 +96,18 @@ export function BackToTop() {
     <button className="back-top" aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
       <svg viewBox="0 0 32 32" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 26V6M9 13l7-7 7 7" /></svg>
     </button>
+  );
+}
+
+/** Oversized line of type that slides sideways as the page scrolls past it. */
+export function ScrollText({ text, className = "" }: { text: string; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], ["8%", "-58%"]);
+  return (
+    <div ref={ref} className={`scroll-text ${className}`} aria-hidden="true">
+      <motion.div style={reduce ? undefined : { x }}>{text}</motion.div>
+    </div>
   );
 }

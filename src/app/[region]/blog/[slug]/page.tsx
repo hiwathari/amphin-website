@@ -7,6 +7,7 @@ import PageHero from "@/components/PageHero";
 import { getPost, getPosts } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
+import { opt } from "@/lib/img";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -33,7 +34,7 @@ export default async function PostPage({ params }: { params: { region: RegionCod
         <div className="wrap">
           {p.featuredImage && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={p.featuredImage} alt="" style={{ width: "100%", maxHeight: 560, objectFit: "cover", borderRadius: 18, marginBottom: 50 }} />
+            <img src={opt(p.featuredImage, 1920)} alt={p.title} style={{ width: "100%", maxHeight: 560, objectFit: "cover", borderRadius: 18, marginBottom: 50 }} />
           )}
           <article className="prose" style={{ margin: "0 auto" }}>
             {p.body.map((l, i) => (/^#{2,4}\s/.test(l) ? <h2 key={i}>{l.replace(/^#+\s/, "")}</h2> : /^- /.test(l) ? <p key={i}>• {l.slice(2)}</p> : <p key={i}>{l}</p>))}

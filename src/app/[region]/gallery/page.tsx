@@ -7,6 +7,7 @@ import PageHero from "@/components/PageHero";
 import { getProjects } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
+import { opt } from "@/lib/img";
 
 export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/gallery", { title: "Gallery", description: "Highlights from Amphin's branding, web and content projects." });
@@ -28,7 +29,7 @@ export default async function Gallery({ params }: { params: { region: RegionCode
                 <RevealMedia delay={(i % 3) * 0.08} className="g-inner">
                   <LiquidArt seed={t.slug} style={{ position: "absolute", inset: 0 }} animate={false} />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  {t.img && <img src={t.img} alt={t.title} loading="lazy" />}
+                  {t.img && <img src={opt(t.img, 828)} alt={t.title} loading="lazy" />}
                 </RevealMedia>
               </Link>
             ))}

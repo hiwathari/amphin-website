@@ -7,8 +7,7 @@ export const metadata: Metadata = {
   title: { default: "Amphin | Growth Marketing & Creative Agency", template: "%s | Amphin" },
   description: "Amphin builds brands with confidence: branding, social media, web and app development, video and growth marketing. London · Kochi · Abu Dhabi.",
   applicationName: COMPANY.brand,
-  icons: { icon: "/brand/amphin-icon.png", apple: "/apple-touch-icon.png" },
-  openGraph: { type: "website", siteName: "Amphin", images: ["/brand/og-default.jpg"] },
+  openGraph: { type: "website", siteName: "Amphin", images: ["/media/social/og-marketing-made-easy.jpg"] },
   twitter: { card: "summary_large_image", site: "@helloamphin" },
 };
 
@@ -16,7 +15,7 @@ export const viewport: Viewport = { themeColor: "#0e0e0e", width: "device-width"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

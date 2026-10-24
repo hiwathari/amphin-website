@@ -7,6 +7,7 @@ import { Reveal, RevealLines } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
 import { getPillar, getPillars, getPrices, getServices, projectsForService } from "@/lib/content";
+import { cityForRegion, pillarPhrase } from "@/lib/landing";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
@@ -35,6 +36,8 @@ export default async function PillarPage({ params }: { params: { region: RegionC
   const services = await getServices(pillar.slug);
   const work = (await projectsForService(services.map((s) => s.slug))).slice(0, 3);
   const prices = await getPrices({ pillar: pillar.slug });
+  const city = cityForRegion(region);
+  const phrase = pillarPhrase(pillar);
 
   return (
     <>
@@ -63,6 +66,15 @@ export default async function PillarPage({ params }: { params: { region: RegionC
           </div>
         </div>
       </section>
+
+      {city && (
+        <section className="wrap">
+          <Link href={`/${region}/${phrase.slug}-${city.slug}`} className="local-strip">
+            <span className="mono muted">/ {city.name.toLowerCase()}</span>
+            <span>Looking for a {phrase.phrase.toLowerCase()} in {city.name}? Meet our local team <Arrow /></span>
+          </Link>
+        </section>
+      )}
 
       <section className="section">
         <div className="wrap">

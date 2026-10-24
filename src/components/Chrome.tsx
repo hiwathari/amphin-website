@@ -37,7 +37,12 @@ export function CtaBand({ region, title = "Get in touch!" }: { region: RegionCod
     <section className="wrap" style={{ paddingBottom: "clamp(40px, 6vw, 80px)" }}>
       <div className="cta-band">
         <LiquidArt seed="amphin-cta-band" style={{ position: "absolute", inset: 0, opacity: 0.55, mixBlendMode: "overlay" }} />
-        <h2>{title}</h2>
+        <h2>
+          {title}
+          <svg className="scribble" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M6 26 C120 10 260 8 420 14 S560 22 594 18 M40 34 C180 24 330 22 470 28" pathLength={1} />
+          </svg>
+        </h2>
         <Link href={`/${region}/quote`} className="btn-circle magnetic">Get in touch</Link>
       </div>
     </section>
@@ -79,7 +84,7 @@ export function Footer({ region, offices, socials }: { region: RegionCode; offic
           <h5>Main menu</h5>
           <ul>
             {[["/services", "Services"], ["/work", "Work"], ["/pricing", "Pricing"], ["/about", "About"], ["/about/team", "Team"], ["/blog", "Blog"],
-              ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/gallery", "Gallery"], ["/faq", "FAQ"]].map(([h, l]) => (
+              ["/make-me-a-celebrity", "Make Me a Celebrity"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/gallery", "Gallery"], ["/faq", "FAQ"], ["/locations", "Locations"]].map(([h, l]) => (
               <li key={h}><Link href={`${base}${h}`}>{l}</Link></li>
             ))}
             <li><Link href="/login">Login</Link></li>

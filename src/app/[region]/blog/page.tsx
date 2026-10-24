@@ -9,6 +9,7 @@ import PageHero from "@/components/PageHero";
 import { getPosts, type Post } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
+import { opt } from "@/lib/img";
 
 export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/blog", { title: "Blog", description: "Marketing, branding, digital and technology insights from the Amphin team." });
@@ -73,7 +74,7 @@ export default async function Blog({ params, searchParams }: { params: { region:
                         <span style={{ position: "relative", width: 64, height: 64, borderRadius: 10, overflow: "hidden", display: "block" }}>
                           <LiquidArt seed={p.slug} style={{ position: "absolute", inset: 0 }} animate={false} />
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          {p.featuredImage && <img src={p.featuredImage} alt="" style={{ position: "relative", width: "100%", height: "100%", objectFit: "cover", color: "transparent" }} />}
+                          {p.featuredImage && <img src={opt(p.featuredImage, 828)} alt={p.title} style={{ position: "relative", width: "100%", height: "100%", objectFit: "cover", color: "transparent" }} />}
                         </span>
                         <span><small className="mono muted">{p.date.slice(0, 10)}</small><br />{p.title}</span>
                       </Link>
@@ -111,7 +112,7 @@ function PostItem({ post: p, region }: { post: Post; region: RegionCode }) {
           <RevealMedia className="cover">
             <LiquidArt seed={p.slug} style={{ position: "absolute", inset: 0 }} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {p.featuredImage && <img src={p.featuredImage} alt="" loading="lazy" />}
+            {p.featuredImage && <img src={opt(p.featuredImage, 1200)} alt={p.title} loading="lazy" />}
             {cats.length > 0 && <span className="cat-tags">{cats.map((c) => <span key={c}>{c}</span>)}</span>}
           </RevealMedia>
         </Link>

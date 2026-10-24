@@ -4,6 +4,7 @@ import LiquidArt from "./LiquidArt";
 import { RevealMedia, Tilt } from "./Effects";
 import { formatPrice, REGIONS, type RegionCode } from "@/lib/regions";
 import type { ClientLogo, Pillar, PriceRow, Project, TeamMember } from "@/lib/content";
+import { opt } from "@/lib/img";
 
 /** Generated liquid artwork (kept under the old name so existing pages keep working). */
 export function Art({ seed, className, style }: { seed: string; className?: string; style?: React.CSSProperties }) {
@@ -54,7 +55,7 @@ export function ProjectCard({ project, region }: { project: Project; region: Reg
         <LiquidArt seed={project.slug} style={{ position: "absolute", inset: 0 }} />
         {project.featuredImage && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={project.featuredImage} alt={project.title} loading="lazy" decoding="async" style={{ position: "relative" }} />
+          <img src={opt(project.featuredImage, 828)} alt={project.title} loading="lazy" decoding="async" style={{ position: "relative" }} />
         )}
       </RevealMedia>
       <div>

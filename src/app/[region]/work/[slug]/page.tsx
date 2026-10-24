@@ -8,6 +8,7 @@ import PageHero from "@/components/PageHero";
 import { getProject, getProjects, serviceBySlug } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
+import { opt } from "@/lib/img";
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -61,7 +62,7 @@ export default async function CaseStudy({ params }: { params: { region: RegionCo
             <div style={{ display: "grid", gap: 16, alignContent: "start" }}>
               {gallery.slice(0, 3).map((src) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={src} src={src} alt={`${p.title} artwork`} loading="lazy" style={{ width: "100%", borderRadius: 14 }} />
+                <img key={src} src={opt(src, 1200)} alt={`${p.title} artwork`} loading="lazy" style={{ width: "100%", borderRadius: 14 }} />
               ))}
             </div>
           </div>
@@ -69,7 +70,7 @@ export default async function CaseStudy({ params }: { params: { region: RegionCo
             <div className="grid cols-2" style={{ marginTop: 40 }}>
               {gallery.slice(3).map((src) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={src} src={src} alt={`${p.title} artwork`} loading="lazy" style={{ width: "100%", borderRadius: 14 }} />
+                <img key={src} src={opt(src, 1200)} alt={`${p.title} artwork`} loading="lazy" style={{ width: "100%", borderRadius: 14 }} />
               ))}
             </div>
           )}

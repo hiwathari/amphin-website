@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
 import { getPillar, getPrices, getService, getServices, projectsForService } from "@/lib/content";
+import { cityForRegion } from "@/lib/landing";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
@@ -32,6 +33,7 @@ export default async function ServicePage({ params }: { params: { region: Region
   const siblings = all.filter((s) => s.slug !== service.slug);
   const work = (await projectsForService([service.slug])).slice(0, 3);
   const prices = await getPrices({ service: service.slug });
+  const city = cityForRegion(region);
 
   return (
     <>
@@ -53,6 +55,13 @@ export default async function ServicePage({ params }: { params: { region: Region
               <p className="muted" style={{ fontSize: 14, margin: 0 }}>See starting prices for {service.title} in your currency, or ask for a quote.</p>
               <Link href={`${base}/${service.slug}/pricing`} className="link-arrow">View pricing <Arrow /></Link>
             </div>
+            {city && service.slug !== "make-me-a-celebrity" && (
+              <div className="row-card">
+                <h3 style={{ fontSize: 20 }}>{service.title} in {city.name}</h3>
+                <p className="muted" style={{ fontSize: 14, margin: 0 }}>Local team, office and prices for {city.name} and {city.area}.</p>
+                <Link href={`/${region}/${service.slug}-${city.slug}`} className="link-arrow">See {city.name} page <Arrow /></Link>
+              </div>
+            )}
             <div className="row-card">
               <h3 style={{ fontSize: 20 }}>More in {pillar.title}</h3>
               <div className="chips">{siblings.map((s) => <Link key={s.slug} className="chip" href={`${base}/${s.slug}`}>{s.title}</Link>)}</div>

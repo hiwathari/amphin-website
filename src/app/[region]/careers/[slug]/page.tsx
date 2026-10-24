@@ -5,7 +5,7 @@ import ApplyForm from "@/components/forms/ApplyForm";
 import { getJob, getJobs } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
-import { COMPANY, PHONES } from "@/lib/site";
+import { COMPANY, PHONES, SITE_URL } from "@/lib/site";
 
 export async function generateStaticParams() {
   const jobs = await getJobs();
@@ -22,7 +22,7 @@ export default async function JobPage({ params }: { params: { region: RegionCode
   const region = params.region;
   const schema = {
     "@context": "https://schema.org", "@type": "JobPosting", title: j.title, employmentType: j.type.toUpperCase().replace(/[^A-Z]/g, "_"),
-    hiringOrganization: { "@type": "Organization", name: COMPANY.brand, sameAs: "https://amphin.agency" },
+    hiringOrganization: { "@type": "Organization", name: COMPANY.brand, sameAs: SITE_URL },
     jobLocationType: /remote/i.test(j.location) ? "TELECOMMUTE" : undefined,
     description: [...j.description, ...j.responsibilities].join(" "),
   };

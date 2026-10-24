@@ -90,5 +90,5 @@ export const SOCIALS = [
   { platform: "TikTok", url: "https://www.tiktok.com/@helloamphin", short: "tt" },
 ];
 
-export const SITE_URL = "https://amphin.agency";
+export const SITE_URL = "https://www.amphin.agency";
 export const AMOS_URL = "https://os.amphin.agency";

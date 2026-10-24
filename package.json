@@ -1,0 +1,27 @@
+{
+  "name": "amphin-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "seed:build": "node scripts/build-seed.mjs"
+  },
+  "dependencies": {
+    "@fontsource/dm-mono": "^5.1.0",
+    "@fontsource/dm-sans": "^5.1.0",
+    "framer-motion": "^11.11.0",
+    "next": "^14.2.35",
+    "postgres": "^3.4.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,149 @@
+[
+  {
+    "slug": "branding",
+    "title": "Branding & Identity",
+    "icon": "spark",
+    "pitch": "Distinctive brand identities, logo systems and design that make a business recognisable at a glance.",
+    "order": 0,
+    "serviceSlugs": [
+      "brand-identity-design",
+      "graphic-design",
+      "ui-design",
+      "developing-organizational-culture"
+    ]
+  },
+  {
+    "slug": "social-media",
+    "title": "Social Media Marketing",
+    "icon": "orbit",
+    "pitch": "Always-on social content, community management and growth across every platform your customers use.",
+    "order": 1,
+    "serviceSlugs": [
+      "smm",
+      "instagram",
+      "facebook",
+      "youtube",
+      "twitterx",
+      "instagram-automation",
+      "youtube-automation"
+    ]
+  },
+  {
+    "slug": "content-video",
+    "title": "Content & Video Production",
+    "icon": "play",
+    "pitch": "Photography, video, reels and copy produced by an in-house creative team, from concept to final cut.",
+    "order": 2,
+    "serviceSlugs": [
+      "content-production",
+      "video-production",
+      "photography",
+      "copywriting",
+      "content-marketing"
+    ]
+  },
+  {
+    "slug": "web-development",
+    "title": "Web Design & Development",
+    "icon": "grid",
+    "pitch": "Fast, search-friendly websites designed around your brand and built to convert visitors into leads.",
+    "order": 3,
+    "serviceSlugs": [
+      "web-development",
+      "custom-web-development",
+      "wordpress-websites",
+      "one-page-website"
+    ]
+  },
+  {
+    "slug": "ecommerce",
+    "title": "E-commerce",
+    "icon": "bag",
+    "pitch": "Online stores on Shopify, WooCommerce or custom stacks, set up to sell from day one.",
+    "order": 4,
+    "serviceSlugs": [
+      "shopify-stores",
+      "woo-commerce-websites",
+      "custom-e-commerce-website",
+      "e-commerce-web-designing"
+    ]
+  },
+  {
+    "slug": "app-development",
+    "title": "App Development",
+    "icon": "phone",
+    "pitch": "iOS and Android apps with clean, intuitive interfaces and reliable back ends.",
+    "order": 5,
+    "serviceSlugs": [
+      "app-development",
+      "android-app",
+      "ios-app"
+    ]
+  },
+  {
+    "slug": "seo-performance",
+    "title": "SEO & Performance Marketing",
+    "icon": "chart",
+    "pitch": "Search, paid media and email campaigns measured against leads and revenue, not vanity metrics.",
+    "order": 6,
+    "serviceSlugs": [
+      "seo",
+      "sem",
+      "ppc-campaigns",
+      "display-ads",
+      "video-advertising",
+      "mobile-marketing",
+      "email-marketing",
+      "advertising-solutions",
+      "automation"
+    ]
+  },
+  {
+    "slug": "pr-influencer",
+    "title": "PR, Influencer & Reputation",
+    "icon": "mic",
+    "pitch": "Press, influencer partnerships and reputation management that put your brand in the right conversations.",
+    "order": 7,
+    "serviceSlugs": [
+      "brand-pr",
+      "press-media",
+      "influencer-management",
+      "artist-management",
+      "make-me-a-celebrity",
+      "online-reputation-management",
+      "csr"
+    ]
+  },
+  {
+    "slug": "it-systems",
+    "title": "IT & Business Systems",
+    "icon": "chip",
+    "pitch": "Email, workspace, security, POS and accounting systems set up and supported for growing teams.",
+    "order": 8,
+    "serviceSlugs": [
+      "technical-support",
+      "cyber-security",
+      "email-services",
+      "web-mail",
+      "gmail",
+      "g-suite",
+      "e-pos-system",
+      "accounting-software-solutions",
+      "account-recovery"
+    ]
+  },
+  {
+    "slug": "strategy",
+    "title": "Strategy & Consulting",
+    "icon": "compass",
+    "pitch": "Market analysis, growth strategy and performance reviews that give every campaign a clear direction.",
+    "order": 9,
+    "serviceSlugs": [
+      "marketing-strategy",
+      "strategy-development",
+      "market-analysis",
+      "performance-optimization",
+      "internal-audit"
+    ]
+  }
+]

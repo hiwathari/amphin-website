@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { Art, Eyebrow, LogoWall, PriceRows, ProjectCard, ServiceCard, TESTIMONIALS } from "@/components/Blocks";
+import { Eyebrow, LogoMarquee, PriceRows, ProjectCard, ServiceCard, TeamGrid } from "@/components/Blocks";
 import { CtaBand } from "@/components/Chrome";
+import { HeroLight, Parallax } from "@/components/Effects";
 import Icon, { Arrow } from "@/components/Icon";
+import LiquidArt from "@/components/LiquidArt";
 import { Counter, Reveal, RevealLines } from "@/components/Motion";
 import Testimonials from "@/components/Testimonials";
-import { getPillars, getPosts, getPrices, getProjects } from "@/lib/content";
+import { getContent, getPillars, getPosts, getPrices, getProjects } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
 
@@ -12,42 +14,52 @@ export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/", { title: { absolute: "Amphin | Growth Marketing & Creative Agency" } });
 }
 
-export default function Home({ params }: { params: { region: RegionCode } }) {
+export default async function Home({ params }: { params: { region: RegionCode } }) {
   const region = params.region;
   const base = `/${region}`;
-  const pillars = getPillars();
-  const projects = getProjects();
-  const featured = ["koko-bites-branding", "nexgro", "saanvira-fashion-website-design-development", "soundkraft-event-technology-website-design", "chengavi-brand-guidelines", "sasco-global-website-development"]
-    .map((s) => projects.find((p) => p.slug === s))
-    .filter((p): p is NonNullable<typeof p> => !!p);
-  const posts = getPosts().slice(0, 3);
-  const pricing = getPrices({ pillar: "seo-performance" }).slice(0, 3);
+  const [c, pillars, projects, posts, pricing] = await Promise.all([
+    getContent(), getPillars(), getProjects(), getPosts(), getPrices({ pillar: "seo-performance" }),
+  ]);
+  const featured = projects.slice(0, 6); // favourites (★ in AMOS) come first
+  const team = c.team.slice(0, 4);
 
   return (
     <>
       <section className="hero">
-        <div className="streaks" />
-        <div className="hero-orb" />
+        <LiquidArt seed="amphin-home-hero" className="liquid-hero" intensity={1.4} />
+        <div className="streaks-anim" />
+        <HeroLight />
+        <Parallax className="hero-orb" speed={-0.18}><span /></Parallax>
         <div className="wrap hero-inner">
           <RevealLines as="h1" lines={["Turning ideas", "into results"]} />
-          <Reveal className="hero-side" delay={0.3}>
+          <Reveal className="hero-side" delay={0.35}>
             <p>Amphin is a creative growth agency in London, Kochi and Abu Dhabi. We build brands, websites and campaigns that people remember and that bring in customers.</p>
-            <Link href={`${base}/services`} className="link-arrow">Explore services <Arrow /></Link>
+            <div style={{ display: "flex", gap: 22, alignItems: "center", flexWrap: "wrap" }}>
+              <Link href={`${base}/quote`} className="btn-pill magnetic">Start a project</Link>
+              <Link href={`${base}/work`} className="link-arrow">See our work <Arrow /></Link>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: "clamp(40px,6vw,80px)" }}>
-        <div className="wrap">
-          <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 40, alignItems: "end" }}>
-            <Reveal>
-              <div className="mono" style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.5 }}>
-                <span style={{ color: "var(--accent)" }}>where</span> creativity<br />meets <span style={{ color: "var(--accent)" }}>strategy</span><br />to grow your brand
+      <LogoMarquee clients={c.clients} />
+
+      <section className="section">
+        <div className="wrap grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 40, alignItems: "end" }}>
+          <Reveal>
+            <div className="mono" style={{ fontSize: 13, color: "var(--muted)", lineHeight: 1.5 }}>
+              <span style={{ color: "var(--accent)" }}>where</span> creativity<br />meets <span style={{ color: "var(--accent)" }}>strategy</span><br />to grow your brand
+            </div>
+            <div className="mono" style={{ fontSize: "clamp(40px,5vw,64px)", marginTop: 18, letterSpacing: "-0.04em" }}>est.2023</div>
+          </Reveal>
+          <div>
+            <RevealLines lines={["London's growth marketing", "and creative agency"]} />
+            <Reveal delay={0.15}>
+              <div style={{ display: "flex", gap: 40, marginTop: 30, flexWrap: "wrap" }}>
+                <div><Counter to={projects.length} suffix="+" className="stat-num" /><div className="stat-label">Case studies</div></div>
+                <div><Counter to={c.clients.length} suffix="+" className="stat-num" /><div className="stat-label">Brands on our wall</div></div>
+                <div><Counter to={c.offices.length} className="stat-num" /><div className="stat-label">Offices</div></div>
               </div>
-              <div className="mono" style={{ fontSize: "clamp(40px,5vw,64px)", marginTop: 18, letterSpacing: "-0.04em" }}>est.{2023}</div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 style={{ fontSize: "clamp(28px,3.2vw,44px)" }}>London&apos;s growth marketing and creative agency, with studios in India and the UAE.</h2>
             </Reveal>
           </div>
         </div>
@@ -61,18 +73,14 @@ export default function Home({ params }: { params: { region: RegionCode } }) {
             <Link href={`${base}/services`} className="link-arrow">All services <Arrow /></Link>
           </div>
           <div className="grid cols-3">
-            {pillars.slice(0, 6).map((p, i) => (
-              <Reveal key={p.slug} delay={(i % 3) * 0.08}><ServiceCard pillar={p} index={i} region={region} /></Reveal>
-            ))}
+            {pillars.slice(0, 6).map((p, i) => <Reveal key={p.slug} delay={(i % 3) * 0.08}><ServiceCard pillar={p} index={i} region={region} /></Reveal>)}
           </div>
         </div>
       </section>
 
       <div className="marquee" aria-hidden="true">
         <div className="marquee-track marquee-words">
-          {[0, 1].map((k) => (
-            <span key={k}>where <em>creativity</em> meets strategy · brands that stick · growth that thrills · </span>
-          ))}
+          {[0, 1].map((k) => <span key={k}>where <em>creativity</em> meets strategy · brands that stick · growth that thrills · </span>)}
         </div>
       </div>
 
@@ -81,14 +89,11 @@ export default function Home({ params }: { params: { region: RegionCode } }) {
           <div className="rule"><Eyebrow>work</Eyebrow></div>
           <div className="section-head">
             <RevealLines lines={["Brands, websites and campaigns", "we've crafted"]} />
-            <div style={{ display: "flex", gap: 28, alignItems: "flex-end" }}>
-              <div><Counter to={projects.length} suffix="+" className="stat-num" /><div className="stat-label">Case studies online</div></div>
-            </div>
+            <Link href={`${base}/work`} className="link-arrow">See all work <Arrow /></Link>
           </div>
-          <div className="grid cols-3" style={{ rowGap: 40 }}>
+          <div className="grid cols-3" style={{ rowGap: 44 }}>
             {featured.map((p, i) => <Reveal key={p.slug} delay={(i % 3) * 0.08}><ProjectCard project={p} region={region} /></Reveal>)}
           </div>
-          <div style={{ marginTop: 40 }}><Link href={`${base}/work`} className="link-arrow">See all work <Arrow /></Link></div>
         </div>
       </section>
 
@@ -96,7 +101,7 @@ export default function Home({ params }: { params: { region: RegionCode } }) {
         <div className="wrap">
           <div className="rule"><Eyebrow>pricing</Eyebrow></div>
           <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 40 }}>
-            <div />
+            <Parallax speed={-0.08}><LiquidArt seed="pricing-side" style={{ aspectRatio: "4 / 3", borderRadius: 18 }} /></Parallax>
             <RevealLines lines={["Clear starting prices,", "tailored to your market"]} />
           </div>
           <div style={{ marginTop: 40 }}><PriceRows rows={pricing} region={region} /></div>
@@ -107,8 +112,8 @@ export default function Home({ params }: { params: { region: RegionCode } }) {
       <section className="section">
         <div className="wrap">
           <div className="quote-band">
-            <div className="art hot" />
-            <Testimonials items={TESTIMONIALS} title={["What our", "clients say", "about Amphin"]} />
+            <LiquidArt seed="amphin-testimonials" className="art" intensity={1.2} />
+            <Testimonials items={c.testimonials} title={["What our", "clients say", "about Amphin"]} stat={{ value: c.clients.length, suffix: "+", label: "happy clients" }} />
           </div>
         </div>
       </section>
@@ -124,23 +129,24 @@ export default function Home({ params }: { params: { region: RegionCode } }) {
               ["Built to convert", "Websites and apps designed around enquiries and sales.", "grid"],
               ["Measured growth", "SEO, ads and reports tied to leads, not likes.", "chart"],
             ].map(([t, d, i], n) => (
-              <Reveal key={t} delay={n * 0.08}>
-                <div className="feature"><h4>{t}</h4><p>{d}</p><Icon name={i} className="svc-icon" /></div>
-              </Reveal>
+              <Reveal key={t} delay={n * 0.08}><div className="feature"><h4>{t}</h4><p>{d}</p><Icon name={i} className="svc-icon" /></div></Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="wrap">
-          <div className="rule"><Eyebrow>clients</Eyebrow></div>
-          <div className="section-head right" style={{ gridTemplateColumns: "1fr" }}>
-            <RevealLines lines={["Trusted by growing brands", "across three continents"]} />
+      {team.length > 0 && (
+        <section className="section">
+          <div className="wrap">
+            <div className="rule"><Eyebrow>team</Eyebrow></div>
+            <div className="section-head">
+              <RevealLines lines={["Get to know our", "creative team"]} />
+              <Link href={`${base}/about/team`} className="link-arrow">Meet everyone <Arrow /></Link>
+            </div>
+            <TeamGrid team={team} />
           </div>
-          <LogoWall />
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="section">
         <div className="wrap">
@@ -150,11 +156,11 @@ export default function Home({ params }: { params: { region: RegionCode } }) {
             <Link href={`${base}/blog`} className="link-arrow">All articles <Arrow /></Link>
           </div>
           <div className="table-rows">
-            {posts.map((p) => (
+            {posts.slice(0, 4).map((p) => (
               <Link key={p.slug} href={`${base}/blog/${p.slug}`}>
                 <span className="mono muted">{p.date.slice(0, 10)}</span>
                 <span style={{ fontSize: 17 }}>{p.title}</span>
-                <span className="muted" style={{ display: "var(--hide-sm, block)" }}>{p.categories.filter((c) => c !== "Blog").slice(0, 2).join(" · ")}</span>
+                <span className="muted">{p.categories.filter((x) => x !== "Blog").slice(0, 2).join(" · ")}</span>
                 <span className="link-arrow" style={{ justifySelf: "end" }}>Read <Arrow /></span>
               </Link>
             ))}

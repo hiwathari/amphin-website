@@ -34,7 +34,7 @@ export const WHATSAPP = {
 };
 
 export interface Office {
-  slug: "london" | "kochi" | "abu-dhabi" | "canada";
+  slug: string;
   name: string;
   city: string;
   country: string;
@@ -68,8 +68,8 @@ export const OFFICES: Office[] = [
   },
 ];
 
-export function officeFor(region: RegionCode): Office {
-  return OFFICES.find((o) => o.regions.includes(region)) ?? OFFICES[0];
+export function officeFor(region: RegionCode, offices: Office[] = OFFICES): Office {
+  return offices.find((o) => o.regions.includes(region)) ?? offices[0];
 }
 
 export function salesPhone(region: RegionCode): string {

@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { Art, Eyebrow, LogoWall } from "@/components/Blocks";
+import { Art, Eyebrow, LogoWall, TeamGrid } from "@/components/Blocks";
+import { RevealMedia } from "@/components/Effects";
 import { CtaBand } from "@/components/Chrome";
 import { Arrow } from "@/components/Icon";
 import { Counter, Reveal, RevealLines } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
-import { getProjects } from "@/lib/content";
+import { getContent, getProjects } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
-import { COMPANY, OFFICES } from "@/lib/site";
+import { COMPANY } from "@/lib/site";
 
 export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/about", { title: "About", description: "Amphin is a creative digital marketing agency based in London, with studios in Kochi and Abu Dhabi." });
@@ -19,8 +20,9 @@ const VALUES = [
   ["Collaboration", "We work closely with every client, so strategies fit your goals and results can be measured."],
 ];
 
-export default function About({ params }: { params: { region: RegionCode } }) {
+export default async function About({ params }: { params: { region: RegionCode } }) {
   const region = params.region;
+  const [c, projects] = await Promise.all([getContent(), getProjects()]);
   return (
     <>
       <PageHero title={["About Amphin"]} lead="A creative digital marketing agency based in London, with studios in Kochi and Abu Dhabi, serving clients across the UK, Europe, India, the Middle East and North America." />
@@ -28,9 +30,9 @@ export default function About({ params }: { params: { region: RegionCode } }) {
         <div className="wrap grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 60, alignItems: "center" }}>
           <div style={{ position: "relative", aspectRatio: "1", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, transform: "skewX(-14deg)" }}>
             {[0, 1, 2, 3].map((i) => (
-              <Reveal key={i} delay={i * 0.1} y={60}>
+              <RevealMedia key={i} delay={i * 0.12}>
                 <Art seed={`about-${i}`} style={{ position: "relative", height: "100%", minHeight: 360, borderRadius: 999, overflow: "hidden" }} />
-              </Reveal>
+              </RevealMedia>
             ))}
           </div>
           <div>
@@ -44,8 +46,8 @@ export default function About({ params }: { params: { region: RegionCode } }) {
               That lets us deliver agency-quality work at a cost that suits new and growing businesses.
             </p>
             <div style={{ display: "flex", gap: 40, marginTop: 30, flexWrap: "wrap", alignItems: "flex-end" }}>
-              <div><Counter to={getProjects().length} suffix="+" className="stat-num" /><div className="stat-label">Projects published</div></div>
-              <div><Counter to={OFFICES.length} className="stat-num" /><div className="stat-label">Offices</div></div>
+              <div><Counter to={projects.length} suffix="+" className="stat-num" /><div className="stat-label">Projects published</div></div>
+              <div><Counter to={c.offices.length} className="stat-num" /><div className="stat-label">Offices</div></div>
             </div>
           </div>
         </div>
@@ -84,8 +86,19 @@ export default function About({ params }: { params: { region: RegionCode } }) {
 
       <section className="section">
         <div className="wrap">
+          <div className="rule"><Eyebrow>team</Eyebrow></div>
+          <div className="section-head">
+            <RevealLines lines={["Get to know our", "creative team"]} />
+            <Link href={`/${region}/about/team`} className="link-arrow">Whole team <Arrow /></Link>
+          </div>
+          <TeamGrid team={c.team.slice(0, 4)} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
           <div className="rule"><Eyebrow>clients</Eyebrow></div>
-          <LogoWall />
+          <LogoWall clients={c.clients} />
         </div>
       </section>
 

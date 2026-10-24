@@ -1,19 +1,20 @@
 import { notFound } from "next/navigation";
 import PageHero from "@/components/PageHero";
-import { LEGAL, getLegal } from "@/lib/legal";
+import { getContent } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
-export function generateStaticParams() {
-  return REGION_CODES.flatMap((region) => LEGAL.map((l) => ({ region, slug: l.slug })));
+export async function generateStaticParams() {
+  const { legal } = await getContent();
+  return REGION_CODES.flatMap((region) => legal.map((l) => ({ region, slug: l.slug })));
 }
-export function generateMetadata({ params }: { params: { region: string; slug: string } }) {
-  const l = getLegal(params.slug);
+export async function generateMetadata({ params }: { params: { region: string; slug: string } }) {
+  const l = (await getContent()).legal.find((x) => x.slug === params.slug);
   return regionalMeta(params.region, `/legal/${params.slug}`, { title: l?.title, description: l?.summary });
 }
 
-export default function LegalPage({ params }: { params: { region: RegionCode; slug: string } }) {
-  const l = getLegal(params.slug);
+export default async function LegalPage({ params }: { params: { region: RegionCode; slug: string } }) {
+  const l = (await getContent()).legal.find((x) => x.slug === params.slug);
   if (!l) notFound();
   return (
     <>

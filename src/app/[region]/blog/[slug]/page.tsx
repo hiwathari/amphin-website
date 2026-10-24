@@ -8,22 +8,23 @@ import { getPost, getPosts } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
-export function generateStaticParams() {
-  return REGION_CODES.flatMap((region) => getPosts().map((p) => ({ region, slug: p.slug })));
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return REGION_CODES.flatMap((region) => posts.map((p) => ({ region, slug: p.slug })));
 }
-export function generateMetadata({ params }: { params: { region: string; slug: string } }) {
-  const p = getPost(params.slug);
+export async function generateMetadata({ params }: { params: { region: string; slug: string } }) {
+  const p = await getPost(params.slug);
   return regionalMeta(params.region, `/blog/${params.slug}`, {
     title: p?.seo?.title || p?.title, description: p?.excerpt,
     openGraph: p?.featuredImage ? { type: "article", images: [p.featuredImage] } : undefined,
   });
 }
 
-export default function PostPage({ params }: { params: { region: RegionCode; slug: string } }) {
-  const p = getPost(params.slug);
+export default async function PostPage({ params }: { params: { region: RegionCode; slug: string } }) {
+  const p = await getPost(params.slug);
   if (!p) notFound();
   const region = params.region;
-  const more = getPosts().filter((x) => x.slug !== p.slug && x.categories.some((c) => p.categories.includes(c) && c !== "Blog")).slice(0, 3);
+  const more = (await getPosts()).filter((x) => x.slug !== p.slug && x.categories.some((c) => p.categories.includes(c) && c !== "Blog")).slice(0, 3);
   const schema = { "@context": "https://schema.org", "@type": "BlogPosting", headline: p.title, datePublished: p.date, image: p.featuredImage || undefined, author: { "@type": "Organization", name: "Amphin" } };
   return (
     <>

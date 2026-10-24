@@ -7,16 +7,17 @@ import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 import { COMPANY, PHONES } from "@/lib/site";
 
-export function generateStaticParams() {
-  return REGION_CODES.flatMap((region) => getJobs().map((j) => ({ region, slug: j.slug })));
+export async function generateStaticParams() {
+  const jobs = await getJobs();
+  return REGION_CODES.flatMap((region) => jobs.map((j) => ({ region, slug: j.slug })));
 }
-export function generateMetadata({ params }: { params: { region: string; slug: string } }) {
-  const j = getJob(params.slug);
+export async function generateMetadata({ params }: { params: { region: string; slug: string } }) {
+  const j = await getJob(params.slug);
   return regionalMeta(params.region, `/careers/${params.slug}`, { title: j ? `${j.title} · Careers` : "Careers" });
 }
 
-export default function JobPage({ params }: { params: { region: RegionCode; slug: string } }) {
-  const j = getJob(params.slug);
+export default async function JobPage({ params }: { params: { region: RegionCode; slug: string } }) {
+  const j = await getJob(params.slug);
   if (!j) notFound();
   const region = params.region;
   const schema = {
@@ -39,7 +40,7 @@ export default function JobPage({ params }: { params: { region: RegionCode; slug
           </div>
           <div>
             <div className="rule"><Eyebrow>apply</Eyebrow></div>
-            <ApplyForm job={j.slug} title={j.title} />
+            <ApplyForm job={j.slug} title={j.title} region={region} />
           </div>
         </div>
       </section>

@@ -3,19 +3,20 @@ import { Eyebrow } from "@/components/Blocks";
 import { CtaBand } from "@/components/Chrome";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
-import { getServices } from "@/lib/content";
+import { getContent, getServices } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
-import { EMAILS, OFFICES, PHONES, SOCIALS, officeFor } from "@/lib/site";
+import { EMAILS, PHONES, officeFor } from "@/lib/site";
 
 export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/contact", { title: "Contact", description: "Contact Amphin in London, Kochi or Abu Dhabi." });
 }
 
-export default function Contact({ params }: { params: { region: RegionCode } }) {
+export default async function Contact({ params }: { params: { region: RegionCode } }) {
   const region = params.region;
-  const home = officeFor(region);
-  const offices = [home, ...OFFICES.filter((o) => o.slug !== home.slug)];
+  const [c, services] = await Promise.all([getContent(), getServices()]);
+  const home = officeFor(region, c.offices);
+  const offices = [home, ...c.offices.filter((o) => o.slug !== home.slug)];
   return (
     <>
       <PageHero title={["Contacts"]} />
@@ -45,11 +46,11 @@ export default function Contact({ params }: { params: { region: RegionCode } }) 
                 <p style={{ fontSize: 14, margin: "8px 0" }}>
                   Sales India: {PHONES.salesIndia}<br />HR (India and UK): {PHONES.hr}
                 </p>
-                <div className="socials">{SOCIALS.map((s) => <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>{s.short}</a>)}</div>
+                <div className="socials">{c.socials.map((s) => <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>{s.short}</a>)}</div>
               </div>
             </div>
           </div>
-          <ContactForm region={region} services={getServices().map((s) => ({ value: s.slug, label: s.title }))} />
+          <ContactForm region={region} services={services.map((s) => ({ value: s.slug, label: s.title }))} />
         </div>
       </section>
       <section className="wrap" style={{ paddingBottom: 40 }}>

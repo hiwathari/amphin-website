@@ -12,9 +12,9 @@ export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/careers", { title: "Careers", description: "Join Amphin's creative team in London, Kochi or remotely." });
 }
 
-export default function Careers({ params }: { params: { region: RegionCode } }) {
+export default async function Careers({ params }: { params: { region: RegionCode } }) {
   const region = params.region;
-  const jobs = getJobs();
+  const jobs = await getJobs();
   return (
     <>
       <PageHero title={["Build your career", "at Amphin"]} lead="We hire designers, editors, videographers, marketers and developers who care about craft. Remote and studio roles across the UK and India." />

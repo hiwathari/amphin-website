@@ -10,12 +10,13 @@ import { getPillar, getPillars, getPrices, getServices, projectsForService } fro
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
-export function generateStaticParams() {
-  return REGION_CODES.flatMap((region) => getPillars().map((p) => ({ region, pillar: p.slug })));
+export async function generateStaticParams() {
+  const pillars = await getPillars();
+  return REGION_CODES.flatMap((region) => pillars.map((p) => ({ region, pillar: p.slug })));
 }
 
-export function generateMetadata({ params }: { params: { region: string; pillar: string } }) {
-  const p = getPillar(params.pillar);
+export async function generateMetadata({ params }: { params: { region: string; pillar: string } }) {
+  const p = await getPillar(params.pillar);
   return regionalMeta(params.region, `/services/${params.pillar}`, { title: p?.title, description: p?.pitch });
 }
 
@@ -26,14 +27,14 @@ const STEPS = [
   ["Grow", "Launch, measure and improve, with a monthly report you can actually read."],
 ];
 
-export default function PillarPage({ params }: { params: { region: RegionCode; pillar: string } }) {
-  const pillar = getPillar(params.pillar);
+export default async function PillarPage({ params }: { params: { region: RegionCode; pillar: string } }) {
+  const pillar = await getPillar(params.pillar);
   if (!pillar) notFound();
   const region = params.region;
   const base = `/${region}/services/${pillar.slug}`;
-  const services = getServices(pillar.slug);
-  const work = projectsForService(services.map((s) => s.slug)).slice(0, 3);
-  const prices = getPrices({ pillar: pillar.slug });
+  const services = await getServices(pillar.slug);
+  const work = (await projectsForService(services.map((s) => s.slug))).slice(0, 3);
+  const prices = await getPrices({ pillar: pillar.slug });
 
   return (
     <>

@@ -10,27 +10,28 @@ import { getPillar, getPrices, getService, getServices, projectsForService } fro
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
-export function generateStaticParams() {
-  return REGION_CODES.flatMap((region) => getServices().map((s) => ({ region, pillar: s.pillar, service: s.slug })));
+export async function generateStaticParams() {
+  const services = await getServices();
+  return REGION_CODES.flatMap((region) => services.map((s) => ({ region, pillar: s.pillar, service: s.slug })));
 }
 
-export function generateMetadata({ params }: { params: { region: string; pillar: string; service: string } }) {
-  const s = getService(params.pillar, params.service);
+export async function generateMetadata({ params }: { params: { region: string; pillar: string; service: string } }) {
+  const s = await getService(params.pillar, params.service);
   return regionalMeta(params.region, `/services/${params.pillar}/${params.service}`, {
     title: s?.seo?.title || s?.title,
     description: s?.seo?.description || s?.intro.slice(0, 160),
   });
 }
 
-export default function ServicePage({ params }: { params: { region: RegionCode; pillar: string; service: string } }) {
-  const pillar = getPillar(params.pillar);
-  const service = getService(params.pillar, params.service);
+export default async function ServicePage({ params }: { params: { region: RegionCode; pillar: string; service: string } }) {
+  const [pillar, service] = await Promise.all([getPillar(params.pillar), getService(params.pillar, params.service)]);
   if (!pillar || !service) notFound();
   const region = params.region;
   const base = `/${region}/services/${pillar.slug}`;
-  const siblings = getServices(pillar.slug).filter((s) => s.slug !== service.slug);
-  const work = projectsForService([service.slug]).slice(0, 3);
-  const prices = getPrices({ service: service.slug });
+  const all = await getServices(pillar.slug);
+  const siblings = all.filter((s) => s.slug !== service.slug);
+  const work = (await projectsForService([service.slug])).slice(0, 3);
+  const prices = await getPrices({ service: service.slug });
 
   return (
     <>
@@ -77,7 +78,7 @@ export default function ServicePage({ params }: { params: { region: RegionCode; 
 
       <section className="section">
         <div className="wrap" style={{ maxWidth: 820 }}>
-          <ContactForm region={region} form="quote" title={`Get a quote for ${service.title}`} defaultService={service.title} services={getServices(pillar.slug).map((s) => ({ value: s.slug, label: s.title }))} />
+          <ContactForm region={region} form="quote" title={`Get a quote for ${service.title}`} defaultService={service.title} services={all.map((s) => ({ value: s.slug, label: s.title }))} />
         </div>
       </section>
       <CtaBand region={region} />

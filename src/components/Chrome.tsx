@@ -1,15 +1,20 @@
-// Server-rendered parts of the frame: top info bar, CTA band and footer.
+// Server-rendered parts of the frame: top info bar, CTA band and footer. Offices and social accounts
+// come from AMOS (Website → Offices / Socials) through the content feed.
 import Link from "next/link";
-import { COMPANY, EMAILS, OFFICES, SOCIALS, officeFor, salesPhone } from "@/lib/site";
+import { COMPANY, EMAILS, officeFor, salesPhone, type Office } from "@/lib/site";
 import type { RegionCode } from "@/lib/regions";
+import type { Social } from "@/lib/content";
+import LiquidArt from "./LiquidArt";
 import NewsletterForm from "./forms/NewsletterForm";
 
-export function TopBar({ region }: { region: RegionCode }) {
+const tel = (p: string) => `tel:${p.replace(/[^+\d]/g, "")}`;
+
+export function TopBar({ region, socials }: { region: RegionCode; socials: Social[] }) {
   const phone = salesPhone(region);
   return (
     <div className="topbar">
       <div>
-        Have any questions? <b><a href={`tel:${phone.replace(/[^+\d]/g, "")}`}>{phone}</a></b>
+        Have any questions? <b><a href={tel(phone)}>{phone}</a></b>
         <span className="sep" />
         Mail us <b><a href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a></b>
       </div>
@@ -17,8 +22,8 @@ export function TopBar({ region }: { region: RegionCode }) {
         <Link href="/login">Login</Link>
         <span>Follow us</span>
         <span className="sep" style={{ margin: 0 }} />
-        {SOCIALS.slice(0, 5).map((s) => (
-          <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform} className="mono" style={{ textTransform: "uppercase", color: "var(--text)" }}>
+        {socials.slice(0, 6).map((s) => (
+          <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform} className="mono" style={{ textTransform: "uppercase", color: "var(--text)" }}>
             {s.short}
           </a>
         ))}
@@ -31,16 +36,17 @@ export function CtaBand({ region, title = "Get in touch!" }: { region: RegionCod
   return (
     <section className="wrap" style={{ paddingBottom: "clamp(40px, 6vw, 80px)" }}>
       <div className="cta-band">
+        <LiquidArt seed="amphin-cta-band" style={{ position: "absolute", inset: 0, opacity: 0.55, mixBlendMode: "overlay" }} />
         <h2>{title}</h2>
-        <Link href={`/${region}/quote`} className="btn-circle">Get in touch</Link>
+        <Link href={`/${region}/quote`} className="btn-circle magnetic">Get in touch</Link>
       </div>
     </section>
   );
 }
 
-export function Footer({ region }: { region: RegionCode }) {
-  const home = officeFor(region);
-  const others = OFFICES.filter((o) => o.slug !== home.slug && !o.comingSoon);
+export function Footer({ region, offices, socials }: { region: RegionCode; offices: Office[]; socials: Social[] }) {
+  const home = officeFor(region, offices);
+  const others = offices.filter((o) => o.slug !== home.slug);
   const base = `/${region}`;
   const year = new Date().getFullYear();
   return (
@@ -49,25 +55,21 @@ export function Footer({ region }: { region: RegionCode }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/brand/amphin-logo.png" alt="Amphin" width={150} height={48} style={{ height: 30, width: "auto" }} />
         <div className="socials">
-          {SOCIALS.map((s) => (
-            <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>{s.short}</a>
-          ))}
+          {socials.map((s) => <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>{s.short}</a>)}
         </div>
       </div>
       <div className="footer-cols">
         <div>
           <h5>{home.city}</h5>
           <p>{home.address.map((l) => <span key={l}>{l}<br /></span>)}</p>
-          {home.phone && <p><a href={`tel:${home.phone.replace(/[^+\d]/g, "")}`}>{home.phone}</a></p>}
+          {home.phone && <p><a href={tel(home.phone)}>{home.phone}</a></p>}
           <h5 style={{ marginTop: 22 }}>Other offices</h5>
-          <ul>
-            {others.map((o) => <li key={o.slug}><Link href={`${base}/contact/${o.slug}`}>{o.name}</Link></li>)}
-          </ul>
+          <ul>{others.map((o) => <li key={o.slug}><Link href={`${base}/contact/${o.slug}`}>{o.name}</Link></li>)}</ul>
         </div>
         <div>
           <h5>Contact</h5>
           <ul>
-            <li>Sales: <a href={`tel:${salesPhone(region).replace(/[^+\d]/g, "")}`}>{salesPhone(region)}</a></li>
+            <li>Sales: <a href={tel(salesPhone(region))}>{salesPhone(region)}</a></li>
             <li><a className="accent-link" href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a></li>
             <li><a href={`mailto:${EMAILS.support}`}>{EMAILS.support}</a> (clients)</li>
             <li><a href={`mailto:${EMAILS.marketing}`}>{EMAILS.marketing}</a> (partnerships)</li>
@@ -76,13 +78,10 @@ export function Footer({ region }: { region: RegionCode }) {
         <div>
           <h5>Main menu</h5>
           <ul>
-            <li><Link href={`${base}/services`}>Services</Link></li>
-            <li><Link href={`${base}/work`}>Work</Link></li>
-            <li><Link href={`${base}/pricing`}>Pricing</Link></li>
-            <li><Link href={`${base}/about`}>About</Link></li>
-            <li><Link href={`${base}/blog`}>Blog</Link></li>
-            <li><Link href={`${base}/careers`}>Careers</Link></li>
-            <li><Link href={`${base}/connect`}>Amphin Connect</Link></li>
+            {[["/services", "Services"], ["/work", "Work"], ["/pricing", "Pricing"], ["/about", "About"], ["/about/team", "Team"], ["/blog", "Blog"],
+              ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/gallery", "Gallery"], ["/faq", "FAQ"]].map(([h, l]) => (
+              <li key={h}><Link href={`${base}${h}`}>{l}</Link></li>
+            ))}
             <li><Link href="/login">Login</Link></li>
           </ul>
         </div>

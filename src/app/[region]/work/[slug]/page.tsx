@@ -9,11 +9,12 @@ import { getProject, getProjects, serviceBySlug } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 
-export function generateStaticParams() {
-  return REGION_CODES.flatMap((region) => getProjects().map((p) => ({ region, slug: p.slug })));
+export async function generateStaticParams() {
+  const projects = await getProjects();
+  return REGION_CODES.flatMap((region) => projects.map((p) => ({ region, slug: p.slug })));
 }
-export function generateMetadata({ params }: { params: { region: string; slug: string } }) {
-  const p = getProject(params.slug);
+export async function generateMetadata({ params }: { params: { region: string; slug: string } }) {
+  const p = await getProject(params.slug);
   return regionalMeta(params.region, `/work/${params.slug}`, {
     title: p?.seo?.title || p?.title,
     description: p?.summary,
@@ -21,13 +22,13 @@ export function generateMetadata({ params }: { params: { region: string; slug: s
   });
 }
 
-export default function CaseStudy({ params }: { params: { region: RegionCode; slug: string } }) {
-  const p = getProject(params.slug);
+export default async function CaseStudy({ params }: { params: { region: RegionCode; slug: string } }) {
+  const p = await getProject(params.slug);
   if (!p) notFound();
   const region = params.region;
-  const all = getProjects();
+  const all = await getProjects();
   const next = all[(all.findIndex((x) => x.slug === p.slug) + 1) % all.length];
-  const services = p.services.map(serviceBySlug).filter((s): s is NonNullable<typeof s> => !!s);
+  const services = (await Promise.all(p.services.map(serviceBySlug))).filter((s): s is NonNullable<typeof s> => !!s);
   const gallery = Array.from(new Set([p.featuredImage, ...p.images].filter((x): x is string => !!x))).slice(0, 24);
   const schema = {
     "@context": "https://schema.org", "@type": "CreativeWork", name: p.title, about: p.summary,

@@ -1,12 +1,13 @@
 "use client";
 import { Honeypot, useSubmit } from "./useSubmit";
 
-export default function ApplyForm({ job, title }: { job: string; title: string }) {
+export default function ApplyForm({ job, title, region }: { job: string; title: string; region: string }) {
   const { status, onSubmit } = useSubmit("/api/apply", "Thanks for applying. Our HR team reviews every application and will be in touch.");
   return (
     <form onSubmit={onSubmit} className="form-grid" style={{ position: "relative" }} encType="multipart/form-data">
       <h3 style={{ fontSize: 24 }}>Apply for {title}</h3>
       <input type="hidden" name="job" value={job} />
+      <input type="hidden" name="region" value={region} />
       <Honeypot />
       <div className="form-grid two">
         <div className="field"><label htmlFor="ap-name">Full name *</label><input id="ap-name" name="name" required autoComplete="name" /></div>

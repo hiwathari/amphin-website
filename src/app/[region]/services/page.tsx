@@ -4,7 +4,7 @@ import { CtaBand } from "@/components/Chrome";
 import { Arrow } from "@/components/Icon";
 import { Reveal } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
-import { getPillars, getServices, startingPrice } from "@/lib/content";
+import { getPillars, getPrices, getServices, startingPriceSync } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGIONS, formatPrice, type RegionCode } from "@/lib/regions";
 
@@ -12,9 +12,9 @@ export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/services", { title: "Services", description: "Branding, social media, content and video, websites, e-commerce, apps, SEO and paid media, PR and influencer marketing, IT systems and strategy." });
 }
 
-export default function Services({ params }: { params: { region: RegionCode } }) {
+export default async function Services({ params }: { params: { region: RegionCode } }) {
   const region = params.region;
-  const pillars = getPillars();
+  const [pillars, services, prices] = await Promise.all([getPillars(), getServices(), getPrices()]);
   return (
     <>
       <PageHero title={["Expert services from", "one creative team"]} lead="Ten service areas, one team. Pick a single service or let us run your brand, content and growth together." />
@@ -31,7 +31,7 @@ export default function Services({ params }: { params: { region: RegionCode } })
           <div className="rule"><Eyebrow>everything we do</Eyebrow></div>
           <div className="grid cols-2" style={{ gap: 0 }}>
             {pillars.map((p) => {
-              const from = startingPrice(p.slug, region);
+              const from = startingPriceSync(prices, p.slug, region);
               return (
                 <div key={p.slug} style={{ padding: "26px 0", borderBottom: "1px solid var(--line)", display: "grid", gap: 10, paddingRight: 24 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "baseline" }}>
@@ -42,7 +42,7 @@ export default function Services({ params }: { params: { region: RegionCode } })
                   </div>
                   <p className="muted" style={{ margin: 0, fontSize: 14 }}>{p.pitch}</p>
                   <div className="chips">
-                    {getServices(p.slug).map((s) => <Link key={s.slug} className="chip" href={`/${region}/services/${p.slug}/${s.slug}`}>{s.title}</Link>)}
+                    {services.filter((s) => s.pillar === p.slug).map((s) => <Link key={s.slug} className="chip" href={`/${region}/services/${p.slug}/${s.slug}`}>{s.title}</Link>)}
                   </div>
                   <Link className="link-arrow" href={`/${region}/services/${p.slug}/pricing`} style={{ marginTop: 6 }}>Pricing <Arrow /></Link>
                 </div>

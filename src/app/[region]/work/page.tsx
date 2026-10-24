@@ -11,13 +11,13 @@ export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/work", { title: "Work", description: "Branding, websites, content and social media projects by Amphin." });
 }
 
-export default function Work({ params, searchParams }: { params: { region: RegionCode }; searchParams: { category?: string } }) {
+export default async function Work({ params, searchParams }: { params: { region: RegionCode }; searchParams: { category?: string } }) {
   const region = params.region;
   const cat = PROJECT_CATEGORIES.includes(searchParams.category || "") ? searchParams.category : undefined;
-  const projects = getProjects(cat);
+  const [projects, all] = await Promise.all([getProjects(cat), getProjects()]);
   return (
     <>
-      <PageHero title={["Crafting brands and", "experiences that connect"]} lead={`${getProjects().length} projects across branding, websites, content and social media.`} />
+      <PageHero title={["Crafting brands and", "experiences that connect"]} lead={`${all.length} projects across branding, websites, content and social media.`} />
       <section className="section">
         <div className="wrap">
           <div className="rule" style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 14 }}>

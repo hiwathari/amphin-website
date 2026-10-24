@@ -3,7 +3,7 @@ import { Eyebrow, PriceRows } from "@/components/Blocks";
 import { CtaBand } from "@/components/Chrome";
 import { Arrow } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
-import { getPillars, getPrices, startingPrice } from "@/lib/content";
+import { getPillars, getPrices, startingPriceSync } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGIONS, formatPrice, type RegionCode } from "@/lib/regions";
 
@@ -11,10 +11,10 @@ export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/pricing", { title: "Pricing", description: "Starting prices for Amphin's services in your currency." });
 }
 
-export default function Pricing({ params }: { params: { region: RegionCode } }) {
+export default async function Pricing({ params }: { params: { region: RegionCode } }) {
   const region = params.region;
   const r = REGIONS[region];
-  const pillars = getPillars();
+  const [pillars, prices] = await Promise.all([getPillars(), getPrices()]);
   return (
     <>
       <PageHero title={["Pricing that fits", "your market"]} lead={`Starting prices in ${r.currency}. Each service has its own pricing page; anything without a listed price is quoted for you.`} />
@@ -23,7 +23,7 @@ export default function Pricing({ params }: { params: { region: RegionCode } }) 
           <div className="rule"><Eyebrow>by service</Eyebrow></div>
           <div className="table-rows">
             {pillars.map((p, i) => {
-              const from = startingPrice(p.slug, region);
+              const from = startingPriceSync(prices, p.slug, region);
               return (
                 <Link key={p.slug} href={`/${region}/services/${p.slug}/pricing`}>
                   <span className="mono muted">/ {String(i + 1).padStart(2, "0")}</span>
@@ -37,7 +37,7 @@ export default function Pricing({ params }: { params: { region: RegionCode } }) 
         </div>
       </section>
       {["seo-performance", "social-media"].map((slug) => {
-        const rows = getPrices({ pillar: slug });
+        const rows = prices.filter((x) => x.pillar === slug);
         const p = pillars.find((x) => x.slug === slug);
         return (
           <section className="section" key={slug}>

@@ -8,9 +8,10 @@ export function generateMetadata({ params }: { params: { region: string } }) {
   return regionalMeta(params.region, "/quote", { title: "Get a quote" });
 }
 
-export default function Quote({ params, searchParams }: { params: { region: RegionCode }; searchParams: { service?: string; item?: string } }) {
-  const item = searchParams.item ? getPrices().find((p) => p.item === searchParams.item) : undefined;
-  const pillar = searchParams.service ? getPillar(searchParams.service) : undefined;
+export default async function Quote({ params, searchParams }: { params: { region: RegionCode }; searchParams: { service?: string; item?: string } }) {
+  const [prices, services] = await Promise.all([getPrices(), getServices()]);
+  const item = searchParams.item ? prices.find((p) => p.item === searchParams.item) : undefined;
+  const pillar = searchParams.service ? await getPillar(searchParams.service) : undefined;
   const pre = item?.label || pillar?.title;
   return (
     <>
@@ -22,7 +23,7 @@ export default function Quote({ params, searchParams }: { params: { region: Regi
             form="quote"
             title={pre ? `Quote for ${pre}` : "Tell us about your project"}
             defaultService={pre}
-            services={[...(pre ? [{ value: "pre", label: pre }] : []), ...getServices().map((s) => ({ value: s.slug, label: s.title }))]}
+            services={[...(pre ? [{ value: "pre", label: pre }] : []), ...services.map((s) => ({ value: s.slug, label: s.title }))]}
           />
         </div>
       </section>

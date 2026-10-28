@@ -6,6 +6,7 @@ import type { RegionCode } from "@/lib/regions";
 import type { Social } from "@/lib/content";
 import LiquidArt from "./LiquidArt";
 import NewsletterForm from "./forms/NewsletterForm";
+import { CookieSettingsLink } from "./Consent";
 
 const tel = (p: string) => `tel:${p.replace(/[^+\d]/g, "")}`;
 
@@ -64,32 +65,30 @@ export function Footer({ region, offices, socials }: { region: RegionCode; offic
         </div>
       </div>
       <div className="footer-cols">
-        <div>
-          <h5>{home.city}</h5>
-          <p>{home.address.map((l) => <span key={l}>{l}<br /></span>)}</p>
-          {home.phone && <p><a href={tel(home.phone)}>{home.phone}</a></p>}
-          <h5 style={{ marginTop: 22 }}>Other offices</h5>
-          <ul>{others.map((o) => <li key={o.slug}><Link href={`${base}/contact/${o.slug}`}>{o.name}</Link></li>)}</ul>
-        </div>
-        <div>
-          <h5>Contact</h5>
+        <nav aria-label="Company">
+          <h5>Company</h5>
           <ul>
-            <li>Call: <a href={tel(mainPhone(region))}>{mainPhone(region)}</a></li>
-            <li>Sales: <a href={tel(salesPhone(region))}>{salesPhone(region)}</a></li>
-            <li>WhatsApp: <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer">{PHONES.london}</a></li>
-            <li><a className="accent-link" href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a></li>
-            <li><a href={`mailto:${EMAILS.support}`}>{EMAILS.support}</a> (clients)</li>
-            <li><a href={`mailto:${EMAILS.marketing}`}>{EMAILS.marketing}</a> (partnerships)</li>
-          </ul>
-        </div>
-        <div>
-          <h5>Main menu</h5>
-          <ul>
-            {[["/services", "Services"], ["/work", "Work"], ["/pricing", "Pricing"], ["/about", "About"], ["/about/team", "Team"], ["/blog", "Blog"],
-              ["/make-me-a-celebrity", "Make Me a Celebrity"], ["/amos", "AmOS agency OS"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/gallery", "Gallery"], ["/faq", "FAQ"], ["/locations", "Locations"]].map(([h, l]) => (
+            {[["/about", "About us"], ["/work", "Our work"], ["/amos", "AmOS agency OS"], ["/blog", "Blog"], ["/careers", "Careers"], ["/contact", "Contact"]].map(([h, l]) => (
               <li key={h}><Link href={`${base}${h}`}>{l}</Link></li>
             ))}
-            <li><Link href="/login">Login</Link></li>
+          </ul>
+        </nav>
+        <nav aria-label="Services">
+          <h5>Services</h5>
+          <ul>
+            {[["/services", "All services"], ["/make-me-a-celebrity", "Make Me a Celebrity"], ["/pricing", "Pricing"], ["/connect", "Amphin Connect"], ["/locations", "Locations"], ["/faq", "FAQ"]].map(([h, l]) => (
+              <li key={h}><Link href={`${base}${h}`}>{l}</Link></li>
+            ))}
+          </ul>
+        </nav>
+        <div>
+          <h5>Talk to us</h5>
+          <ul>
+            <li>Call <a href={tel(mainPhone(region))}>{mainPhone(region)}</a></li>
+            <li>Sales <a href={tel(salesPhone(region))}>{salesPhone(region)}</a></li>
+            <li><a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer">WhatsApp {PHONES.london}</a></li>
+            <li><a className="accent-link" href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a></li>
+            <li className="muted">{[home, ...others].map((o) => o.city).join(" · ")}</li>
           </ul>
         </div>
         <div>
@@ -99,15 +98,17 @@ export function Footer({ region, offices, socials }: { region: RegionCode; offic
         </div>
       </div>
       <div className="footer-legal">
-        <span>
-          © {year} {COMPANY.ukEntity}. {COMPANY.trademark} is a registered trademark. {COMPANY.ukRegistration}, company no. {COMPANY.ukCompanyNumber}. {COMPANY.indiaRegistration}.
-        </span>
-        <span style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+        <span>© {year} {COMPANY.ukEntity} · {COMPANY.ukRegistration}, no. {COMPANY.ukCompanyNumber} · {COMPANY.trademark}</span>
+        <nav aria-label="Legal" className="footer-legal-links">
           <Link href={`${base}/legal/privacy-policy`}>Privacy</Link>
           <Link href={`${base}/legal/cookie-policy`}>Cookies</Link>
-          <Link href={`${base}/legal/terms-of-use`}>Terms</Link>
-          <Link href={`${base}/legal`}>All legal</Link>
-        </span>
+          <Link href={`${base}/legal/terms-of-use`}>Terms of use</Link>
+          <Link href={`${base}/legal/terms-of-service`}>Terms of service</Link>
+          <Link href={`${base}/legal/accessibility`}>Accessibility</Link>
+          <Link href={`${base}/legal`}>All policies</Link>
+          <CookieSettingsLink />
+          <Link href="/login">Staff login</Link>
+        </nav>
       </div>
     </footer>
   );

@@ -125,8 +125,8 @@ export default async function About({ params }: { params: { region: RegionCode }
         <div className="wrap">
           <div className="rule"><Eyebrow>company</Eyebrow></div>
           <p className="muted" style={{ maxWidth: 760 }}>
-            {COMPANY.trademark} is a registered trademark. {COMPANY.ukEntity} is {COMPANY.ukRegistration.toLowerCase()} under company number {COMPANY.ukCompanyNumber}.
-            In India, {COMPANY.indiaEntity} is {COMPANY.indiaRegistration.toLowerCase().replace(/^registered/, "registered")}.
+            {COMPANY.trademark} is a registered trademark. {COMPANY.ukEntity}: {COMPANY.ukRegistration}, company number {COMPANY.ukCompanyNumber}.
+            In India, {COMPANY.indiaEntity}: {COMPANY.indiaRegistration}.
             {" "}<Link href={`/${region}/legal/company-information`} className="link-arrow" style={{ display: "inline-flex" }}>Company information</Link>
           </p>
         </div>

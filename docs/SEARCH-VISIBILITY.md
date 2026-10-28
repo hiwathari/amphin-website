@@ -19,6 +19,8 @@ service's own help pages when you sign up, because they change.
 - Five regional versions (/uk /eu /us /in /ae) linked with hreflang so each country sees its own currency.
 - `sitemap.xml`, `robots.txt` (all search and AI crawlers allowed), and `llms.txt` (a plain-text summary
   for AI assistants listing what Amphin does and which pages to cite).
+- `llms-full.txt` (the full text of every service page and all 322 blog articles in one file, for AI
+  assistants) and `rss.xml` (the latest 50 articles, for feed readers and aggregators).
 - Share cards (Open Graph and X/Twitter) on every page, fast pages, mobile layout, and descriptive image alt text.
 - Studio → Settings → Analytics & search: paste the Google Search Console and Bing verification codes
   and the Google Analytics ID there; the site adds them automatically.

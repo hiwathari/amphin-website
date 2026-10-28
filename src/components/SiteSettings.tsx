@@ -1,8 +1,8 @@
-import Script from "next/script";
 import type { SiteSettings } from "@/lib/content";
 
-// Applies Studio → Settings to the page: fonts, colours, the text gradient, the animation switches
-// and the optional analytics tags. Defaults match globals.css, so nothing changes until someone edits.
+// Applies Studio → Settings to the page: fonts, colours, the text gradient and the animation switches.
+// Defaults match globals.css, so nothing changes until someone edits. Optional analytics tags load from
+// <Consent> once the visitor agrees.
 const SAFE_FONT = /^[A-Za-z0-9 ]{2,40}$/;
 const SAFE_COLOR = /^#[0-9a-f]{6}$/i;
 
@@ -29,8 +29,6 @@ export default function SiteSettingsStyle({ s }: { s: SiteSettings }) {
     s.mobile.compactHeader ? `@media (max-width: 700px) { .topbar { display: none !important; } .header-bar { min-height: 54px !important; } }` : "",
   ].filter(Boolean).join("\n");
 
-  const ga = /^G-[A-Z0-9]{4,15}$/i.test(s.analytics.gaId) ? s.analytics.gaId : "";
-  const clarity = /^[a-z0-9]{6,20}$/i.test(s.analytics.clarityId) ? s.analytics.clarityId : "";
   return (
     <>
       {fonts.length > 0 && (
@@ -41,15 +39,14 @@ export default function SiteSettingsStyle({ s }: { s: SiteSettings }) {
         </>
       )}
       <style dangerouslySetInnerHTML={{ __html: css }} />
-      {ga && (
-        <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${ga}`} strategy="afterInteractive" />
-          <Script id="ga" strategy="afterInteractive">{`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${ga}',{anonymize_ip:true});`}</Script>
-        </>
-      )}
-      {clarity && (
-        <Script id="clarity" strategy="afterInteractive">{`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarity}");`}</Script>
-      )}
     </>
   );
+}
+
+/** Analytics IDs from Studio, validated before they reach a script tag. */
+export function analyticsIds(s: SiteSettings) {
+  return {
+    ga: /^G-[A-Z0-9]{4,15}$/i.test(s.analytics.gaId) ? s.analytics.gaId : "",
+    clarity: /^[a-z0-9]{6,20}$/i.test(s.analytics.clarityId) ? s.analytics.clarityId : "",
+  };
 }

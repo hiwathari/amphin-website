@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Preloader from "@/components/Preloader";
-import SiteSettingsStyle from "@/components/SiteSettings";
+import SiteSettingsStyle, { analyticsIds } from "@/components/SiteSettings";
+import Consent from "@/components/Consent";
 import Tracker from "@/components/Tracker";
 import MotionPrefs from "@/components/MotionPrefs";
 import { Footer, TopBar, WhatsAppButton } from "@/components/Chrome";
@@ -62,6 +63,7 @@ export default async function RegionLayout({ children, params }: { children: Rea
       </div>
       <BackToTop />
       <WhatsAppButton />
+      <Consent {...analyticsIds(c.settings)} region={region} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
     </>
   );

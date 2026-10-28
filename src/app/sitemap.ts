@@ -18,8 +18,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...c.offices.map((o) => `/contact/${o.slug}`),
     ...c.legal.map((l) => `/legal/${l.slug}`),
   ];
+  // Posts carry their own date so crawlers can tell new articles from old ones.
+  const modified = new Map(c.posts.map((p) => [`/blog/${p.slug}`, new Date(p.date.replace(" ", "T") + "Z")]));
   const regional = paths.map((p) => ({
     url: `${SITE_URL}/uk${p}`,
+    ...(modified.has(p) ? { lastModified: modified.get(p) } : {}),
     alternates: { languages: Object.fromEntries(REGION_CODES.map((r) => [REGIONS[r].hreflang, `${SITE_URL}/${r}${p}`])) },
   }));
   // Local landing pages exist only in their own city's region, so they have no regional alternates.

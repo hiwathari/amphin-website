@@ -8,7 +8,7 @@ export interface LegalPage { slug: string; title: string; summary: string; versi
 
 const UPDATED = "2026-10-24";
 const VERSION = "1.0 draft";
-const who = `${COMPANY.ukEntity}, ${COMPANY.ukRegistration.toLowerCase()} (company no. ${COMPANY.ukCompanyNumber}), and ${COMPANY.indiaEntity}, ${COMPANY.indiaRegistration.toLowerCase()}`;
+const who = `${COMPANY.ukEntity} (company no. ${COMPANY.ukCompanyNumber}, ${COMPANY.ukRegistration}) and ${COMPANY.indiaEntity} (${COMPANY.indiaRegistration})`;
 const UK_OFFICE = "Office 19, 241E High St N, London E12 6SJ, United Kingdom";
 const IN_OFFICE = "C3 V Square IT Hub, Kakkanad West, Kochi, Kerala 682030, India";
 

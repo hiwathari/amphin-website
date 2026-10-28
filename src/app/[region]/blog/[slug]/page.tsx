@@ -4,12 +4,12 @@ import { Eyebrow } from "@/components/Blocks";
 import { CtaBand } from "@/components/Chrome";
 import { Arrow } from "@/components/Icon";
 import PageHero from "@/components/PageHero";
-import { getPost, getPosts } from "@/lib/content";
+import { getPost, getPosts, getService } from "@/lib/content";
 import { regionalMeta } from "@/lib/meta";
 import { REGION_CODES, type RegionCode } from "@/lib/regions";
 import { opt } from "@/lib/img";
 import VideoEmbed from "@/components/VideoEmbed";
-import { SITE_URL } from "@/lib/site";
+import { PHONES, SITE_URL, WHATSAPP } from "@/lib/site";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { region: string; slug: string } }) {
   const p = await getPost(params.slug);
   return regionalMeta(params.region, `/blog/${params.slug}`, {
-    title: p?.seo?.title || p?.title, description: p?.excerpt,
+    title: p?.seo?.title || p?.title, description: p?.seo?.description || p?.excerpt,
+    keywords: p?.seo ? [p.seo.focus_keyword, ...(p.seo.keywords ?? [])].filter((k): k is string => !!k) : undefined,
     openGraph: p?.featuredImage ? { type: "article", images: [p.featuredImage] } : undefined,
   });
 }
@@ -31,8 +32,14 @@ export default async function PostPage({ params }: { params: { region: RegionCod
   const layout = p.layout ?? "standard";
   const videos = p.videos ?? [];
   const gallery = p.gallery ?? [];
+  const [svcPillar, svcSlug] = (p.seo?.service ?? "").split("/");
+  const service = svcSlug ? await getService(svcPillar, svcSlug) : undefined;
+  const faqs = p.seo?.faqs ?? [];
+  const indian = (p.seo?.market ?? "").toLowerCase().startsWith("india") || region === "in";
   const schema = {
-    "@context": "https://schema.org", "@type": "BlogPosting", headline: p.title, datePublished: p.date, description: p.excerpt,
+    "@context": "https://schema.org", "@type": "BlogPosting", headline: p.title, datePublished: p.date, description: p.seo?.description || p.excerpt,
+    ...(p.seo?.focus_keyword ? { keywords: [p.seo.focus_keyword, ...(p.seo.keywords ?? [])].join(", ") } : {}),
+    ...(service ? { about: { "@type": "Service", name: service.title, url: `${SITE_URL}/${region}/services/${service.pillar}/${service.slug}`, provider: { "@type": "Organization", name: "Amphin" } } } : {}),
     image: p.featuredImage || undefined, mainEntityOfPage: `${SITE_URL}/${region}/blog/${p.slug}`,
     author: p.author ? { "@type": "Person", name: p.author, jobTitle: p.authorTitle ?? undefined, worksFor: { "@type": "Organization", name: "Amphin" } } : { "@type": "Organization", name: "Amphin" },
     publisher: { "@type": "Organization", name: "Amphin", logo: { "@type": "ImageObject", url: `${SITE_URL}/brand/amphin-logo.png` } },
@@ -66,11 +73,23 @@ export default async function PostPage({ params }: { params: { region: RegionCod
       )}
       <section className="section" style={{ paddingTop: layout === "feature" ? undefined : 0 }}>
         <div className="wrap">
-          {layout !== "feature" && <div style={{ maxWidth: 760, margin: "0 auto 26px" }}>{byline}</div>}
+          {layout !== "feature" && <div style={{ maxWidth: 760, margin: "0 auto 26px" }}>{p.seo?.subtitle && <p className="post-subtitle">{p.seo.subtitle}</p>}{byline}</div>}
           {layout === "video" && videos.length > 0 ? (
             <div className="post-videos">{videos.map((v) => <VideoEmbed key={v.url} video={v} title={p.title} />)}</div>
           ) : cover}
           {body}
+          {service && (
+            <aside className="post-service" aria-label="Related Amphin service">
+              <span className="mono muted">/ related service /</span>
+              <h3><Link href={`/${region}/services/${service.pillar}/${service.slug}`}>{service.title}</Link></h3>
+              <p className="muted">{service.intro ? service.intro.slice(0, 180) + (service.intro.length > 180 ? "…" : "") : `Amphin can help with ${service.title.toLowerCase()}.`}</p>
+              <div className="post-service-links">
+                <Link className="link-arrow" href={`/${region}/services/${service.pillar}/${service.slug}`}>See the service <Arrow /></Link>
+                <a href={`tel:${(indian ? PHONES.salesIndia : PHONES.salesUk).replace(/[^+\d]/g, "")}`}>Sales: {indian ? PHONES.salesIndia : PHONES.salesUk}</a>
+                <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener">WhatsApp</a>
+              </div>
+            </aside>
+          )}
           {layout !== "video" && videos.length > 0 && <div className="post-videos" style={{ marginTop: 40 }}>{videos.map((v) => <VideoEmbed key={v.url} video={v} title={p.title} />)}</div>}
           {gallery.length > 0 && (
             <div className={`post-gallery${layout === "gallery" ? " big" : ""}`}>
@@ -96,6 +115,12 @@ export default async function PostPage({ params }: { params: { region: RegionCod
       )}
       <CtaBand region={region} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      {faqs.length > 0 && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org", "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+        }) }} />
+      )}
     </>
   );
 }

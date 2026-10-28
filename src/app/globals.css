@@ -668,3 +668,12 @@ p { margin: 0 0 1em; }
 .amos-spot img { object-fit: cover; object-position: top left; }
 .luvder-logo { display: grid; place-items: center; padding: 48px 32px; border: 1px solid var(--line); border-radius: 20px; background: #f4f1ec; }
 .luvder-logo img { width: min(100%, 360px); height: auto; }
+
+/* Blog: subtitle and the related-service card under each article */
+.post-subtitle { font-size: 18px; color: var(--text); margin: 0 0 10px; }
+.post-service { max-width: 760px; margin: 50px auto 0; padding: 26px 28px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(135deg, rgba(138,91,208,.10), rgba(246,124,55,.10)); }
+.post-service h3 { margin: 8px 0 6px; font-size: 22px; }
+.post-service p { margin: 0 0 14px; }
+.post-service-links { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font-size: 14px; }
+.post-service-links a:not(.link-arrow) { color: var(--muted); }
+.post-service-links a:not(.link-arrow):hover { color: var(--orange); }

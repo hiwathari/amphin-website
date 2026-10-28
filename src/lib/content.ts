@@ -13,7 +13,13 @@ import type { RegionCode } from "./regions";
 import { LEGAL, type LegalPage } from "./legal";
 import { OFFICES, SOCIALS, type Office } from "./site";
 
-export interface Seo { title?: string; description?: string; focus_keyword?: string }
+export interface Seo {
+  title?: string; description?: string; focus_keyword?: string;
+  // Blog library extras: related keywords, the service the article promotes ("pillar/slug"),
+  // its market, FAQ pairs for the FAQPage schema, a subtitle and the planned image name.
+  keywords?: string[]; service?: string; market?: string; faqs?: { q: string; a: string }[]; subtitle?: string;
+  imageAlt?: string; imageFile?: string;
+}
 export interface Pillar { slug: string; title: string; icon: string; pitch: string; order: number; favorite?: boolean; cover?: string | null }
 export interface Service { slug: string; pillar: string; order: number; title: string; intro: string; body: string[]; seo?: Seo; favorite?: boolean; cover?: string | null }
 export interface Project {
@@ -91,7 +97,7 @@ function seed(): Content {
     services: (servicesSeed as Service[]),
     projects: (projectsSeed as (Project & { status: string })[]).filter((p) => p.status === "published"),
     jobs: jobsSeed as Job[],
-    posts: (postsSeed as Omit<Post, "tags">[]).map((p) => ({ ...p, tags: [] })),
+    posts: (postsSeed as (Omit<Post, "tags"> & { tags?: string[] })[]).map((p) => ({ ...p, tags: p.tags ?? [] })),
     prices: pricesSeed as PriceRow[],
     team: SEED_TEAM, clients: SEED_CLIENTS, testimonials: SEED_TESTIMONIALS,
     offices: OFFICES, socials: SOCIALS, legal: LEGAL, settings: DEFAULT_SETTINGS,

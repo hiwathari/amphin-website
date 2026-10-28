@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { forgetContent } from "@/lib/content";
 import { timingSafeEqual } from "node:crypto";
 import { REGION_CODES } from "@/lib/regions";
 
@@ -14,6 +15,7 @@ export async function POST(req: Request) {
   if (!ok) return NextResponse.json({ ok: false }, { status: 401 });
   const body = (await req.json().catch(() => ({}))) as { paths?: unknown };
   const paths = Array.isArray(body.paths) ? body.paths.filter((p): p is string => typeof p === "string" && p.startsWith("/")).slice(0, 50) : [];
+  forgetContent();
   revalidateTag("amos");
   for (const p of paths) for (const r of REGION_CODES) revalidatePath(`/${r}${p === "/" ? "" : p}`, "layout");
   return NextResponse.json({ ok: true, revalidated: paths.length });

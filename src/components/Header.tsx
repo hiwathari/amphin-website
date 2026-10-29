@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Icon from "./Icon";
 import { REGIONS, REGION_CODES, type RegionCode } from "@/lib/regions";
+import { EMAILS, SOCIALS, salesPhone } from "@/lib/site";
 
 interface NavPillar { slug: string; title: string }
 
@@ -14,6 +15,8 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
   useEffect(() => setOpen(false), [path]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    document.body.classList.toggle("menu-open", open);
+    return () => document.body.classList.remove("menu-open");
   }, [open]);
 
   const is = (p: string) => (path === `${base}${p}` || (p !== "" && path.startsWith(`${base}${p}/`)) ? "page" : undefined);
@@ -68,20 +71,39 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
       </div>
 
       {open && (
-        <div className="mobile-menu" role="dialog" aria-label="Menu">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/amphin-logo.png" alt="Amphin" width={130} height={42} />
+        <div className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu">
+          <div className="mm-bg" aria-hidden="true"><i /><i /><i /></div>
+          <div className="mm-top">
+            <Link href={base} className="mm-logo" aria-label="Amphin home" onClick={() => setOpen(false)}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/amphin-logo.png" alt="Amphin" />
+            </Link>
             <button className="burger" aria-label="Close menu" onClick={() => setOpen(false)}><Icon name="close" size={18} /></button>
           </div>
-          {[
-            ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/amos", "AmOS"], ["/work", "Work"],
-            ["/blog", "Blog"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/contact", "Contact"],
-          ].map(([href, label]) => (
-            <Link key={href} href={`${base}${href}`}>{label}</Link>
-          ))}
-          <Link href="/login" style={{ color: "var(--muted)", fontSize: 18 }}>Login</Link>
-          <Link href={`${base}/quote`} className="btn-pill btn-accent" style={{ marginTop: 18, fontSize: 13 }}>Get a quote</Link>
+          <div className="mm-body">
+            <nav className="mm-links" aria-label="Menu">
+              {[
+                ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/amos", "AmOS"], ["/work", "Work"],
+                ["/blog", "Blog"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/contact", "Contact"],
+              ].map(([href, label]) => (
+                <Link key={href} href={`${base}${href}`} aria-current={href === "" ? (path === base ? "page" : undefined) : is(href)}>{label}</Link>
+              ))}
+            </nav>
+            <div className="mm-side">
+              <Link href={`${base}/quote`} className="btn-pill btn-accent">Get a quote</Link>
+              <div className="mm-contact">
+                <small>Call us</small>
+                <a href={`tel:${phone.replace(/[^+\d]/g, "")}`}>{phone}</a>
+                <a href={`tel:${salesPhone(region).replace(/[^+\d]/g, "")}`}>{salesPhone(region)} <span>sales</span></a>
+                <small>Email</small>
+                <a href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a>
+              </div>
+              <div className="mm-social" aria-label="Social media">
+                {SOCIALS.map((x) => <a key={x.short} href={x.url} target="_blank" rel="noopener noreferrer">{x.platform}</a>)}
+              </div>
+              <Link href="/login" className="mm-login">Team login</Link>
+            </div>
+          </div>
         </div>
       )}
     </header>

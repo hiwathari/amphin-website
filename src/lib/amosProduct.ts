@@ -3,10 +3,11 @@
 // Demo names are fictional. Dates in TIMELINE come from AmOS's own records (first user account, first
 // clients and tasks, first invoices, domains and storage set-up); see docs/AMOS-TIMELINE.md.
 
-export type EditionKey = "core" | "care" | "prop" | "emply" | "rest" | "payroll" | "clock";
+export type EditionKey = "core" | "care" | "prop" | "emply" | "rest";
+export type ServiceKey = "payroll" | "clock";
 
 export interface Edition {
-  key: EditionKey;
+  key: EditionKey | ServiceKey;
   name: string;
   tagline: string;
   forWho: string;
@@ -52,21 +53,27 @@ export const EDITIONS: Edition[] = [
     summary: "Build the weekly rota, let staff swap and clock in, and watch labour cost against sales while the shift is still running.",
     features: ["Weekly rota by role and station", "Shift swaps and time-off requests", "Clock in, breaks and clock out", "Labour cost against sales", "Late and no-show flags", "Hours that flow into payroll"],
   },
+];
+
+// Services are switched on inside any edition; they are not editions of their own.
+export const SERVICES: Edition[] = [
   {
     key: "payroll", name: "Payroll", tagline: "Salary runs from the hours you already recorded",
-    forWho: "Every edition",
+    forWho: "Every OS",
     demoBusiness: "Northlight Studio",
     summary: "Monthly payroll built from attendance, leave and agreed pay, with payslips for each person and sensitive pay data encrypted.",
     features: ["Pay runs from attendance and leave", "Payslips for each employee", "Allowances and deductions", "Approvals before a run is final", "Encrypted salary and bank fields", "Exports for your accountant"],
   },
   {
     key: "clock", name: "Clock in / out", tagline: "Attendance people actually use",
-    forWho: "Every edition",
+    forWho: "Every OS",
     demoBusiness: "Saffron & Salt Kitchen",
     summary: "One tap to start and finish the day or the shift, with leave, holidays and work-from-home days in the same record.",
     features: ["Clock in and clock out", "Breaks and overtime", "Leave and holiday calendar", "Work-from-home days", "Late and missing clock-in flags", "Daily and monthly attendance reports"],
   },
 ];
+
+export const NAMING = "Every business gets an OS with its own name: CareOS for care, PropOS for property, RestOS for restaurants and hospitality, EmplyOS for staffing. Yours can carry your own name too, as YourNameOS, with payroll, clock in and clock out switched on inside it as services.";
 
 export const FEATURES: { name: string; text: string }[] = [
   { name: "Sales and CRM", text: "Leads move stage by stage, with a due-today view so nothing goes cold, and every client gets a health score and tier." },
@@ -106,7 +113,7 @@ export const TIMELINE: TimelineEntry[] = [
   { date: "2026-10-24", era: "AmOS 1 · Website and hiring", title: "Website module and hiring pipeline", text: "The company website now reads from AmOS: portfolio, blogs, services, vacancies, team photos and approvals, plus a hiring pipeline for HR." },
   { date: "2026-10-25", era: "AmOS 1 · Website and hiring", title: "Studio", text: "Studio, the website dashboard, arrives with its own login: media library with compression, visitor analytics, settings and approvals." },
   { date: "2026-10-28", era: "AmOS 1 · Website and hiring", title: "dashboard.amphin.agency", text: "Studio gets its own address, and the website feed is rebuilt to be fast and reliable." },
-  { date: "2026-10-29", era: "AmOS 2.0", title: "AmOS 2.0", text: "One platform, several editions: AmOS Core plus CareOS, PropOS, EmplyOS and RestOS, with payroll and clock in and out shared across them. It is handed to three agencies for testing." },
+  { date: "2026-10-29", era: "AmOS 2.0", title: "AmOS 2.0", text: "One platform, several named editions: AmOS Core plus CareOS, PropOS, EmplyOS and RestOS, each with payroll and clock in and out shared across them. It is handed to three agencies for testing." },
 ];
 
 export const ERAS = Array.from(new Set(TIMELINE.map((t) => t.era)));
@@ -119,6 +126,8 @@ export const FAQ: [string, string][] = [
   ["Can AmOS be customised for my business?", "Yes. Roles, permissions, pipelines, services and modules are set up around each business, and Amphin builds new modules where they are needed."],
   ["Which tools does AmOS integrate with?", "WhatsApp Business API, Zoho Invoice, Google Sheets, a shared IMAP and SMTP inbox, Resend email and Cloudflare R2 storage are live today. Others, such as Xero, QuickBooks, BambooHR, Clockify and Toggl, connect on request through their public APIs or export files, and more are on the roadmap. The integrations section on this page shows each one with its status."],
   ["Can we move our data over from our current software?", "Yes. Employees, clients, leads, invoices, timesheets and tasks can be imported from CSV and Excel exports, with a preview before anything is saved. Teams usually run AmOS next to their current tools and switch one module at a time. A full export is available whenever you want it."],
+  ["Are payroll and clock in and out separate products?", "No. Payroll and clock in and out are services you switch on inside any AmOS edition, whether that is AmOS Core, CareOS, PropOS, EmplyOS, RestOS or an OS carrying your own business name."],
+  ["Can my business have its own OS name?", "Yes. Each business can run AmOS under its own name, in the same way as CareOS, PropOS and RestOS: your brand followed by OS. The modules and services you need are switched on inside it."],
   ["Is AmOS only for small businesses?", "No. AmOS is designed for teams of any size, from a few people to large organisations, with roles, approvals, organisation charts and audit logs. Large rollouts are scoped, tested and phased with the client before go-live."],
   ["How do I get AmOS?", "Book a demo below. We show it working on a business like yours and plan the setup, data migration and training with you."],
 ];

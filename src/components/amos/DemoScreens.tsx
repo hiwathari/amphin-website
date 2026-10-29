@@ -1,7 +1,7 @@
 // Demo screens for each AmOS edition. They are drawn in code with made-up businesses and people, so
 // nothing here is a real customer's data. Every window is labelled "Demo data".
 import { Fragment, type CSSProperties, type ReactNode } from "react";
-import type { EditionKey } from "@/lib/amosProduct";
+import type { EditionKey, ServiceKey } from "@/lib/amosProduct";
 
 type Tone = "g" | "r" | "a" | "b" | "";
 const Badge = ({ t = "", children }: { t?: Tone; children: ReactNode }) => <span className={`badge ${t}`}>{children}</span>;
@@ -209,9 +209,9 @@ function Clock() {
   );
 }
 
-const SCREENS: Record<EditionKey, () => ReactNode> = { core: Core, care: Care, prop: Prop, emply: Emply, rest: Rest, payroll: Payroll, clock: Clock };
+const SCREENS: Record<EditionKey | ServiceKey, () => ReactNode> = { core: Core, care: Care, prop: Prop, emply: Emply, rest: Rest, payroll: Payroll, clock: Clock };
 
-export function DemoScreen({ edition }: { edition: EditionKey }) {
+export function DemoScreen({ edition }: { edition: EditionKey | ServiceKey }) {
   const Screen = SCREENS[edition];
   return (
     <>

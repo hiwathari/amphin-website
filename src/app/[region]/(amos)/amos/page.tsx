@@ -7,7 +7,7 @@ import AmosFaq from "@/components/amos/Faq";
 import DemoForm from "@/components/amos/DemoForm";
 import { AMOS_SHOTS } from "@/lib/amosShots";
 import Integrations from "@/components/amos/Integrations";
-import { EDITIONS, FAQ, FEATURES, IMPORTS, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
+import { EDITIONS, FAQ, FEATURES, IMPORTS, NAMING, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
 import { COMPANY, EMAILS, OFFICES, SITE_URL, mainPhone, salesPhone } from "@/lib/site";
@@ -74,7 +74,7 @@ export default function AmosPage({ params }: { params: { region: RegionCode } })
           </div>
           <div className="am-stats">
             <Reveal><div className="am-stat"><b><Counter to={30} suffix="+" /></b><span>Built-in modules</span></div></Reveal>
-            <Reveal delay={0.06}><div className="am-stat"><b><Counter to={EDITIONS.length} /></b><span>Editions and shared modules</span></div></Reveal>
+            <Reveal delay={0.06}><div className="am-stat"><b><Counter to={EDITIONS.length} /></b><span>Named editions, each with its own OS</span></div></Reveal>
             <Reveal delay={0.12}><div className="am-stat"><b><Counter to={3} /></b><span>Agencies testing AmOS today</span></div></Reveal>
             <Reveal delay={0.18}><div className="am-stat dark"><b>2.0</b><span>Released today</span></div></Reveal>
           </div>
@@ -102,6 +102,7 @@ export default function AmosPage({ params }: { params: { region: RegionCode } })
         <div className="am-wrap">
           <span className="am-eyebrow">/ editions /</span>
           <div id="ed-h"><RevealLines lines={["Pick the edition that", "fits your business"]} grad={1} /></div>
+          <p style={{ marginTop: 18, maxWidth: "66ch", fontSize: 15 }}>{NAMING}</p>
           <div style={{ marginTop: "clamp(26px, 3vw, 44px)" }}>
             <EditionList items={EDITIONS.map((e) => ({ key: e.key, name: e.name, meta: e.forWho }))} />
           </div>

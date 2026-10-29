@@ -6,7 +6,8 @@ import Timeline from "@/components/amos/Timeline";
 import AmosFaq from "@/components/amos/Faq";
 import DemoForm from "@/components/amos/DemoForm";
 import { AMOS_SHOTS } from "@/lib/amosShots";
-import { EDITIONS, FAQ, FEATURES, TIMELINE } from "@/lib/amosProduct";
+import Integrations from "@/components/amos/Integrations";
+import { EDITIONS, FAQ, FEATURES, IMPORTS, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
 import { COMPANY, EMAILS, OFFICES, SITE_URL, mainPhone, salesPhone } from "@/lib/site";
@@ -142,11 +143,54 @@ export default function AmosPage({ params }: { params: { region: RegionCode } })
       </section>
 
       {/* ---------- timeline ---------- */}
+      {/* ---------- integrations ---------- */}
+      <section id="integrations" className="am-sec" aria-labelledby="in-h">
+        <div className="am-wrap">
+          <span className="am-eyebrow">/ integrations /</span>
+          <div id="in-h"><RevealLines lines={["Connects to the tools", "you already use"]} grad={1} /></div>
+          <p style={{ marginTop: 18, marginBottom: 28, maxWidth: "64ch", fontSize: 15 }}>Invoicing, HR, time tracking, messaging, calendars, ads and industry systems. Connect them, import from them, or let AmOS replace them module by module.</p>
+          <Integrations />
+        </div>
+      </section>
+
+      {/* ---------- switch and import ---------- */}
+      <section className="am-sec soft" aria-labelledby="sw-h">
+        <div className="am-wrap">
+          <span className="am-eyebrow">/ switch with confidence /</span>
+          <div id="sw-h"><RevealLines lines={["Bring your data.", "Keep it safe."]} grad={1} /></div>
+          <div className="am-two">
+            {IMPORTS.map((x, i) => <Reveal key={x.t} delay={i * 0.05}><div style={{ background: "#fff" }}><h3>{x.t}</h3><p>{x.d}</p></div></Reveal>)}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- built for every size ---------- */}
+      <section className="am-sec" aria-labelledby="sc-h">
+        <div className="am-wrap">
+          <span className="am-eyebrow">/ every size of business /</span>
+          <div id="sc-h"><RevealLines lines={["From a small team", "to a large organisation"]} grad={1} /></div>
+          <div className="am-three">
+            {SCALES.map((x, i) => <Reveal key={x.t} delay={i * 0.06}><div><h3>{x.t}</h3><p>{x.d}</p></div></Reveal>)}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- stack ---------- */}
+      <section id="stack" className="am-dark" aria-labelledby="st-h">
+        <div className="am-wrap" style={{ padding: "clamp(56px, 7vw, 110px) 0" }}>
+          <span className="am-eyebrow" style={{ color: "#ff6a72" }}>/ under the hood /</span>
+          <div id="st-h"><RevealLines lines={["The technology AmOS", "runs on"]} /></div>
+          <div className="am-stack">
+            {STACK.map((g) => <div key={g.group}><h3>{g.group}</h3><ul>{g.items.map((i) => <li key={i}>{i}</li>)}</ul></div>)}
+          </div>
+        </div>
+      </section>
+
       <section id="timeline" className="am-sec" aria-labelledby="tl-h">
         <div className="am-wrap" style={{ marginBottom: "clamp(30px, 4vw, 56px)" }}>
           <span className="am-eyebrow">/ timeline /</span>
-          <div id="tl-h"><RevealLines lines={["From the first account", "to AmOS 2.0"]} grad={1} /></div>
-          <p style={{ marginTop: 18, maxWidth: "62ch", fontSize: 15 }}>Scroll to play AmOS's story, or open the bars underneath to read each change. Dates come from AmOS's own records.</p>
+          <div id="tl-h"><RevealLines lines={["From the first idea", "to AmOS 2.0"]} grad={1} /></div>
+          <p style={{ marginTop: 18, maxWidth: "62ch", fontSize: 15 }}>Scroll to play AmOS's story, from the first research conversations to AmOS 2.0, or open the bars underneath to read each change.</p>
         </div>
         <div className="am-wrap" style={{ width: "min(1500px, calc(100% - 2 * clamp(8px, 1.4vw, 20px)))" }}>
           <Timeline />

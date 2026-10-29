@@ -1,6 +1,6 @@
 "use client";
 // AmOS timeline in two forms. The showreel is a pinned, scroll-driven film: as you scroll, each
-// milestone from the first account to AmOS 2.0 plays in turn. Below it, the same history sits in
+// milestone from the first idea to AmOS 2.0 plays in turn. Below it, the same history sits in
 // open/close bars grouped by era, so anyone who just wants a fact can open the bar and read it.
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
@@ -25,7 +25,7 @@ function Showreel() {
     window.scrollTo({ top, behavior: "smooth" });
   };
   return (
-    <div ref={ref} className="am-reel" style={{ height: `${n * 52 + 100}vh` }}>
+    <div ref={ref} className="am-reel" style={{ height: `${n * 42 + 100}vh` }}>
       <div className="am-reel-stage">
         <motion.div className="am-reel-orb" animate={{ "--ox": `${20 + (i / n) * 60}%`, "--oy": `${30 + Math.sin(i) * 20}%` } as never} transition={{ duration: 1.2 }} />
         <div className="am-wrap am-reel-inner">

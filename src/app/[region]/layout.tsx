@@ -1,16 +1,10 @@
 import { notFound } from "next/navigation";
-import Header from "@/components/Header";
-import Preloader from "@/components/Preloader";
 import SiteSettingsStyle, { analyticsIds } from "@/components/SiteSettings";
 import Consent from "@/components/Consent";
 import Tracker from "@/components/Tracker";
-import MotionPrefs from "@/components/MotionPrefs";
-import { Footer, TopBar, WhatsAppButton } from "@/components/Chrome";
-import { BackToTop } from "@/components/Motion";
-import { CursorGlow, ScrollProgress, SmoothScroll } from "@/components/Effects";
-import { getContent, getPillars } from "@/lib/content";
+import { getContent } from "@/lib/content";
 import { REGION_CODES, isRegion } from "@/lib/regions";
-import { COMPANY, EMAILS, SITE_URL, mainPhone } from "@/lib/site";
+import { COMPANY, EMAILS, SITE_URL } from "@/lib/site";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -28,7 +22,7 @@ export async function generateMetadata() {
 export default async function RegionLayout({ children, params }: { children: React.ReactNode; params: { region: string } }) {
   if (!isRegion(params.region)) notFound();
   const region = params.region;
-  const [c, pillars] = await Promise.all([getContent(), getPillars()]);
+  const c = await getContent();
   const org = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -48,21 +42,8 @@ export default async function RegionLayout({ children, params }: { children: Rea
   return (
     <>
       <SiteSettingsStyle s={c.settings} />
-      {c.settings.motion.animations && c.settings.motion.preloader && <Preloader />}
-      <a href="#main" className="skip">Skip to content</a>
-      {c.settings.motion.animations && c.settings.motion.smoothScroll && <SmoothScroll />}
-      <ScrollProgress />
-      {c.settings.motion.animations && c.settings.motion.cursorGlow && <CursorGlow />}
       <Tracker region={region} />
-      <div className="frame-glow" />
-      <div className="frame">
-        <TopBar region={region} socials={c.socials} />
-        <Header region={region} phone={mainPhone(region)} pillars={pillars.map((p) => ({ slug: p.slug, title: p.title }))} />
-        <main id="main"><MotionPrefs off={!c.settings.motion.animations}>{children}</MotionPrefs></main>
-        <Footer region={region} offices={c.offices} socials={c.socials} />
-      </div>
-      <BackToTop />
-      <WhatsAppButton />
+      {children}
       <Consent {...analyticsIds(c.settings)} region={region} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
     </>

@@ -7,7 +7,7 @@ import AmosFaq from "@/components/amos/Faq";
 import DemoForm from "@/components/amos/DemoForm";
 import { AMOS_SHOTS } from "@/lib/amosShots";
 import Integrations from "@/components/amos/Integrations";
-import { EDITIONS, FAQ, FEATURES, IMPORTS, NAMING, TRY_IT, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
+import { AMOS_LINKS, EDITIONS, FAQ, FEATURES, IMPORTS, NAMING, TRY_IT, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
 import { COMPANY, EMAILS, OFFICES, SITE_URL, mainPhone, salesPhone } from "@/lib/site";

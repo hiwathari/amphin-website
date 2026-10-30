@@ -7,7 +7,7 @@ import AmosFaq from "@/components/amos/Faq";
 import DemoForm from "@/components/amos/DemoForm";
 import { AMOS_SHOTS } from "@/lib/amosShots";
 import Integrations from "@/components/amos/Integrations";
-import { EDITIONS, FAQ, FEATURES, IMPORTS, NAMING, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
+import { EDITIONS, FAQ, FEATURES, IMPORTS, NAMING, TRY_IT, SCALES, STACK, TIMELINE } from "@/lib/amosProduct";
 import { regionalMeta } from "@/lib/meta";
 import type { RegionCode } from "@/lib/regions";
 import { COMPANY, EMAILS, OFFICES, SITE_URL, mainPhone, salesPhone } from "@/lib/site";
@@ -66,7 +66,8 @@ export default function AmosPage({ params }: { params: { region: RegionCode } })
               <div className="am-hero-side">
                 <div className="am-blob" aria-hidden="true" />
                 <p>AmOS runs the people, work and money of a service business: leads, projects, shifts, attendance, payroll, invoices and chat. Version 2.0 adds editions for agencies, care, property, staffing and hospitality.</p>
-                <a className="am-btn" href="#editions"><Arrow /> Discover</a>
+                <a className="am-btn" href="#editions"><Arrow /> Discover</a>{" "}
+                <a className="am-btn outline" href={AMOS_LINKS.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>
                 <br />
                 <a className="am-watch" href="#showcase"><i><svg viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="M1 0l9 5-9 5z" /></svg></i><span>See it working</span></a>
               </div>
@@ -133,6 +134,24 @@ export default function AmosPage({ params }: { params: { region: RegionCode } })
           </div>
         </section>
       )}
+
+      {/* ---------- try it and sign in ---------- */}
+      <section id="try" className="am-sec soft" aria-labelledby="try-h">
+        <div className="am-wrap">
+          <span className="am-eyebrow">/ try it, sign in /</span>
+          <div id="try-h"><RevealLines lines={["Try AmOS, or", "sign in to yours"]} grad={1} /></div>
+          <p style={{ marginTop: 18, maxWidth: "62ch", fontSize: 15 }}>The demos use made-up data, so you can click anything. Sign-in pages are for people who already have an AmOS account.</p>
+          <div className="am-try">
+            {TRY_IT.map((x, i) => (
+              <Reveal key={x.t} delay={i * 0.05}>
+                <a className="am-try-card" href={x.href} target="_blank" rel="noopener noreferrer">
+                  <small>{x.tag}</small><h3>{x.t}</h3><p>{x.d}</p><span>{x.cta} ↗</span>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ---------- features ---------- */}
       <section id="features" className="am-sec soft" aria-labelledby="ft-h">

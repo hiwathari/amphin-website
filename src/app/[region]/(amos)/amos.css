@@ -342,3 +342,12 @@
 @media (max-width: 900px) { .am-int-grid, .am-two { grid-template-columns: 1fr; } .am-stack, .am-three { grid-template-columns: 1fr; } }
 .am-chip { all: unset; box-sizing: border-box; cursor: pointer; height: 38px; padding: 0 16px; border-radius: 999px; font-size: 13px; font-weight: 600; border: 1px solid rgba(0,0,0,.14); display: inline-flex; align-items: center; transition: all .25s; }
 .am-chip:hover { border-color: var(--am-ink); } .am-chip[data-on="true"] { background: var(--am-ink); color: #fff; border-color: var(--am-ink); } .am-chip:focus-visible { outline: 2px solid var(--am-indigo); outline-offset: 2px; }
+
+.am-try { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px; }
+.am-try-card { display: flex; flex-direction: column; height: 100%; min-height: 230px; padding: 26px; border-radius: 24px; background: #fff; transition: background .35s, color .35s, transform .35s; }
+.am-try-card small { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--am-muted); }
+.am-try-card h3 { font-size: 26px; margin: 8px 0 8px; } .am-try-card p { font-size: 14.5px; margin: 0 0 18px; flex: 1; }
+.am-try-card span { font-weight: 600; font-size: 14px; }
+.am-try-card:hover { background: var(--am-red); color: #fff; transform: translateY(-5px); } .am-try-card:hover small, .am-try-card:hover h3 { color: #fff; }
+.am-try-card:focus-visible { outline: 2px solid var(--am-indigo); outline-offset: 3px; }
+@media (max-width: 960px) { .am-try { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 600px) { .am-try { grid-template-columns: 1fr; } }

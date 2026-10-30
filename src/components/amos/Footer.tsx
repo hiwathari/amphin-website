@@ -1,3 +1,4 @@
+import { AMOS_LINKS } from "@/lib/amosProduct";
 import { COMPANY, EMAILS, PHONES, mainPhone, salesPhone, WHATSAPP } from "@/lib/site";
 import type { RegionCode } from "@/lib/regions";
 import { AmosLogo } from "./Logo";
@@ -31,6 +32,8 @@ export default function AmosFooter({ base, region }: { base: string; region: Reg
               <li><a href="#features">Features</a></li>
               <li><a href="#timeline">Timeline</a></li>
               <li><a href="#faq">FAQ</a></li>
+              <li><a href="#try">Live demo and sign in</a></li>
+              <li><a href={AMOS_LINKS.studio} target="_blank" rel="noopener noreferrer">Studio login</a></li>
               <li><a href="#demo">Book a demo</a></li>
             </ul>
           </div>

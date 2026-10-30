@@ -179,3 +179,20 @@ export const SCALES = [
   { t: "Growing agencies and groups", d: "Several offices, regions and currencies, with roles and approvals per team." },
   { t: "Large organisations", d: "Organisation charts, role-based access, audit logs and integrations through APIs. Large rollouts are scoped, load-tested and phased with the client before go-live." },
 ];
+
+// Where people go to try or sign in to AmOS. The demo workspaces hold sample data only.
+export const AMOS_LINKS = {
+  demo: "https://os.amphin.agency/demo/v2",
+  demoClassic: "https://os.amphin.agency/demo/v1",
+  signIn: "https://os.amphin.agency/login",
+  studio: "https://dashboard.amphin.agency",
+  portal: "https://os.amphin.agency/portal/login",
+};
+
+export const TRY_IT: { t: string; d: string; href: string; cta: string; tag: string }[] = [
+  { t: "Live demo", d: "Click through AmOS 2.0 with sample data: dashboard, CRM, tasks, attendance, finance and chat. No sign-up needed.", href: AMOS_LINKS.demo, cta: "Open the demo", tag: "AmOS 2.0" },
+  { t: "Classic demo", d: "The original AmOS 1.0 interface, for teams that want to compare it with 2.0.", href: AMOS_LINKS.demoClassic, cta: "Open classic demo", tag: "AmOS 1.0" },
+  { t: "Team sign in", d: "Already on AmOS? Sign in with your work email to reach your workspace.", href: AMOS_LINKS.signIn, cta: "Sign in", tag: "Staff" },
+  { t: "Studio", d: "The website dashboard: blogs, works, services, vacancies, media, approvals and visitor numbers.", href: AMOS_LINKS.studio, cta: "Open Studio", tag: "Website dashboard" },
+  { t: "Client portal", d: "Where your clients follow their projects, approvals and invoices.", href: AMOS_LINKS.portal, cta: "Client sign in", tag: "Clients" },
+];

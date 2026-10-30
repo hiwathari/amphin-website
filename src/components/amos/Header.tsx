@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { AmosLogo } from "./Logo";
 
 const LEFT = [["overview", "Overview"], ["editions", "Editions"], ["features", "Features"]] as const;
-const RIGHT = [["integrations", "Integrations"], ["timeline", "Timeline"], ["amphin", "Amphin"], ["faq", "FAQ"]] as const;
+const RIGHT = [["try", "Try it"], ["integrations", "Integrations"], ["timeline", "Timeline"], ["amphin", "Amphin"], ["faq", "FAQ"]] as const;
 const ALL = [...LEFT, ...RIGHT, ["demo", "Demo"]] as const;
 
 const Arrow = () => (

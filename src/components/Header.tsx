@@ -49,6 +49,7 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
             </div>
           </div>
           <Link href={`${base}/work`} aria-current={is("/work")}>Work</Link>
+          <Link href={`${base}/industries`} aria-current={is("/industries")}>Industries</Link>
           <Link href={`${base}/blog`} aria-current={is("/blog")}>Blog</Link>
           <Link href={`${base}/careers`} aria-current={is("/careers")}>Careers</Link>
           <Link href={`${base}/contact`} aria-current={is("/contact")}>Contact</Link>
@@ -83,7 +84,7 @@ export default function Header({ region, pillars, phone }: { region: RegionCode;
           <div className="mm-body">
             <nav className="mm-links" aria-label="Menu">
               {[
-                ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/amos", "AmOS"], ["/work", "Work"],
+                ["", "Home"], ["/about", "About"], ["/services", "Services"], ["/make-me-a-celebrity", "Make Me a Celebrity ★"], ["/amos", "AmOS"], ["/work", "Work"], ["/industries", "Industries"],
                 ["/blog", "Blog"], ["/careers", "Careers"], ["/connect", "Amphin Connect"], ["/contact", "Contact"],
               ].map(([href, label]) => (
                 <Link key={href} href={`${base}${href}`} aria-current={href === "" ? (path === base ? "page" : undefined) : is(href)}>{label}</Link>

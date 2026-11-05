@@ -721,3 +721,25 @@ p { margin: 0 0 1em; }
 .consent-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
 .consent-actions .btn-pill { border: 1px solid var(--line); background: transparent; color: #fff; cursor: pointer; }
 .consent-actions .btn-pill.btn-accent { background: var(--grad, var(--orange)); border-color: transparent; }
+
+/* floating start-a-project button */
+.start-float { position: fixed; right: 18px; bottom: 74px; z-index: 55; display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 52px; min-width: 52px; padding: 0; border-radius: 999px;
+  background: var(--coral); color: #fff; font-weight: 600; font-size: 14px; letter-spacing: .01em; box-shadow: 0 14px 34px -12px rgba(246,124,55,.85); transition: transform .3s, box-shadow .3s; }
+.start-float span { display: none; }
+.start-float:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -12px rgba(246,124,55,.95); }
+@media (min-width: 900px) { .start-float { bottom: 22px; right: 76px; padding: 0 22px 0 18px; } .start-float span { display: inline; } }
+.menu-open .start-float { display: none; }
+@media print { .start-float { display: none; } }
+/* industries */
+.ind-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; margin-top: 8px; }
+.ind-card { display: flex; flex-direction: column; min-height: 280px; height: 100%; padding: clamp(22px, 3vw, 34px); border: 1px solid var(--line); border-radius: 22px; background: #151515; transition: transform .4s var(--ease), border-color .3s, background .3s; }
+.ind-card:hover { transform: translateY(-5px); border-color: var(--orange); background: #1a1a1a; }
+.ind-no { color: var(--orange); font-size: 12px; }
+.ind-card h2 { font-size: clamp(26px, 3vw, 38px); margin: 14px 0 10px; letter-spacing: -0.02em; }
+.ind-line { color: var(--muted); margin: 0; flex: 1; font-size: 16px; }
+.ind-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13.5px; }
+
+.hero-dots { align-items: center; }
+.hero-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); background: none; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; transition: border-color .25s, background .25s; }
+.hero-arrow:hover { border-color: var(--orange); background: rgba(246,124,55,.15); }
+.hero-inner { touch-action: pan-y; }

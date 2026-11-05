@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Preloader from "@/components/Preloader";
 import MotionPrefs from "@/components/MotionPrefs";
-import { Footer, TopBar, WhatsAppButton } from "@/components/Chrome";
+import { Footer, StartProjectFloat, TopBar, WhatsAppButton } from "@/components/Chrome";
 import { BackToTop } from "@/components/Motion";
 import { CursorGlow, ScrollProgress, SmoothScroll } from "@/components/Effects";
 import { getContent, getPillars } from "@/lib/content";
@@ -29,6 +29,7 @@ export default async function SiteLayout({ children, params }: { children: React
       </div>
       <BackToTop />
       <WhatsAppButton />
+      <StartProjectFloat region={region} />
     </>
   );
 }

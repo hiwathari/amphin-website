@@ -35,6 +35,8 @@ export default async function Home({ params }: { params: { region: RegionCode } 
         <HeroSlides
           tagline="Empowering Brands, Redefining Possibilities"
           slides={[
+            { lines: ["Brands that move", "across borders."], grad: 1, text: "Amphin is a growth marketing and creative agency with offices in London, Kochi and Abu Dhabi. We take brands across markets with strategy, design and technology that travel well." },
+            { lines: ["Build brands", "people remember."], grad: 1, text: "Brands are built through every interaction people have with your business. Whether you are launching something new, repositioning an established company or creating campaigns people talk about, we combine strategic thinking with creative that stands out and stays relevant." },
             { lines: ["Trusted agency with", "proven brand experience."], grad: 1, text: "Our team blends creativity with advanced strategies to drive impactful results, whether in branding, digital transformation or user experience design." },
             { lines: ["Turning ideas", "into results"], grad: 1, text: "Amphin is a creative growth agency in London, Kochi and Abu Dhabi. We build brands, websites and campaigns that people remember and that bring in customers." },
           ]}

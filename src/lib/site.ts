@@ -15,9 +15,8 @@ export const COMPANY = {
 };
 
 export const EMAILS = {
-  hello: "hello@amphin.com", // general enquiries, quotes
-  support: "support@amphin.com", // clients, portal, data requests
-  marketing: "marketing@amphin.com", // Connect, partnerships, press, newsletter
+  hello: "hello@amphin.com", // every enquiry: quotes, clients, privacy requests, partnerships, press
+  hr: "hr@amphin.com", // jobs, applications and HR questions
 };
 
 export const PHONES = {

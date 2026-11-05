@@ -37,7 +37,7 @@ export default function Connect({ params }: { params: { region: RegionCode } }) 
           <div>
             <div className="rule"><Eyebrow>join</Eyebrow></div>
             <RevealLines lines={["Influencer or brand,", "start here"]} />
-            <p className="muted" style={{ marginTop: 22 }}>Questions about Connect? Email <a href={`mailto:${EMAILS.marketing}`} style={{ color: "var(--accent)" }}>{EMAILS.marketing}</a>.</p>
+            <p className="muted" style={{ marginTop: 22 }}>Questions about Connect? Email <a href={`mailto:${EMAILS.hello}`} style={{ color: "var(--accent)" }}>{EMAILS.hello}</a>.</p>
           </div>
           <ConnectForm region={params.region} />
         </div>

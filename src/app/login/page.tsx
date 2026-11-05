@@ -31,7 +31,7 @@ export default function Login() {
             ))}
           </div>
           <p className="muted" style={{ textAlign: "center", fontSize: 14 }}>
-            Trouble signing in? Email <a style={{ color: "var(--accent)" }} href={`mailto:${EMAILS.support}`}>{EMAILS.support}</a>.
+            Trouble signing in? Email <a style={{ color: "var(--accent)" }} href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a>.
           </p>
         </div>
       </main>

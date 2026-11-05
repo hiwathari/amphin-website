@@ -37,8 +37,7 @@ export default async function Contact({ params }: { params: { region: RegionCode
                 <h4 style={{ fontSize: 15, fontWeight: 600, letterSpacing: 0 }}>Email</h4>
                 <p style={{ fontSize: 14, margin: "8px 0" }}>
                   <a style={{ color: "var(--accent)" }} href={`mailto:${EMAILS.hello}`}>{EMAILS.hello}</a><br />
-                  <a href={`mailto:${EMAILS.support}`}>{EMAILS.support}</a> (clients)<br />
-                  <a href={`mailto:${EMAILS.marketing}`}>{EMAILS.marketing}</a> (partnerships)
+                  <a href={`mailto:${EMAILS.hr}`}>{EMAILS.hr}</a> (jobs and HR)
                 </p>
               </div>
               <div>

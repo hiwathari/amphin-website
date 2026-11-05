@@ -19,7 +19,7 @@ export const LEGAL: LegalPage[] = [
     sections: [
       ["Who we are", [
         `This website (amphin.agency) is run by ${who} ("Amphin", "we", "us"). Amphin LTD is the controller for visitors and clients outside India; Amphin (India) is the data fiduciary for visitors and clients in India.`,
-        `Privacy contact: ${EMAILS.support}, or write to us at ${UK_OFFICE}. In India, you can also write to our Grievance Officer at ${IN_OFFICE}.`,
+        `Privacy contact: ${EMAILS.hello}, or write to us at ${UK_OFFICE}. In India, you can also write to our Grievance Officer at ${IN_OFFICE}.`,
       ]],
       ["What we collect", [
         "Enquiry and quote forms: your name, email, phone number, company, the service you are interested in, budget, region and your message.",
@@ -65,10 +65,10 @@ export const LEGAL: LegalPage[] = [
         "India: you can ask for a summary of your data and how it is processed, correction, completion, updating and erasure, nominate another person to act for you, and raise a grievance with our Grievance Officer.",
         "United States: we do not sell or share personal information for cross-context behavioural advertising. Residents of states with privacy laws can ask to know, correct or delete their information, and we will not treat you differently for doing so.",
         "UAE and Canada: you can ask for access to and correction of your data, and withdraw consent, as provided by local law.",
-        `To use any of these rights, email ${EMAILS.support}. We may need to confirm your identity. We reply within one month (or sooner where local law requires).`,
+        `To use any of these rights, email ${EMAILS.hello}. We may need to confirm your identity. We reply within one month (or sooner where local law requires).`,
       ]],
       ["Complaints", [
-        `Please contact us first at ${EMAILS.support} so we can try to put things right.`,
+        `Please contact us first at ${EMAILS.hello} so we can try to put things right.`,
         "UK: you can complain to the Information Commissioner's Office (ico.org.uk). EU: to the data protection authority where you live or work. India: once it is operating for your complaint, to the Data Protection Board of India, after first raising it with our Grievance Officer.",
       ]],
       ["Children", ["This website and our services are for businesses and adults. We do not knowingly collect data from anyone under 18. If you think a child has sent us their details, contact us and we will delete them."]],
@@ -179,7 +179,7 @@ export const LEGAL: LegalPage[] = [
         "If you ask us to start within those 14 days, you will pay for the work done up to the point you cancel.",
       ]],
       ["Retainers", ["Monthly retainers can be cancelled with 30 days' written notice unless your proposal says otherwise. Months already started are not refunded."]],
-      ["Problems with a deliverable", [`If you are unhappy with a deliverable, tell us within 14 days at ${EMAILS.support}. We will review it with you and make reasonable corrections within the agreed scope.`]],
+      ["Problems with a deliverable", [`If you are unhappy with a deliverable, tell us within 14 days at ${EMAILS.hello}. We will review it with you and make reasonable corrections within the agreed scope.`]],
       ["How refunds are paid", ["Refunds are paid to the original payment method within 14 days of being agreed."]],
     ],
   },
@@ -194,7 +194,7 @@ export const LEGAL: LegalPage[] = [
       ]],
       ["Dates", ["Monthly and annual recaps are dated by the period they cover, so the archive reads in order. Many of these recaps were written or revised after that period, using the information available when they were prepared, and may be updated later."]],
       ["Sources", ["Where an article discusses a product launch, study or event, we link to or name the original source. Announcements, previews and general availability are different stages, and we try to say which one applies."]],
-      ["Corrections", [`If you spot an error, email ${EMAILS.marketing}. We correct mistakes promptly and update the page.`]],
+      ["Corrections", [`If you spot an error, email ${EMAILS.hello}. We correct mistakes promptly and update the page.`]],
       ["Services and contact details", ["Articles may end with a link to a related Amphin service and our sales numbers. This is how we make the blog useful for readers who want help. It does not change what the article says."]],
     ],
   },
@@ -224,7 +224,7 @@ export const LEGAL: LegalPage[] = [
         "Text has strong contrast on our dark theme, and images that carry meaning have text alternatives.",
       ]],
       ["Known issues", ["Some older portfolio images and embedded videos from other platforms may not have full text alternatives or captions yet. We are working through them."]],
-      ["Tell us about a problem", [`If something is hard to use, email ${EMAILS.support} or call ${PHONES.london}. Tell us the page and the problem, and we will reply within 5 working days.`]],
+      ["Tell us about a problem", [`If something is hard to use, email ${EMAILS.hello} or call ${PHONES.london}. Tell us the page and the problem, and we will reply within 5 working days.`]],
     ],
   },
   {
@@ -236,7 +236,7 @@ export const LEGAL: LegalPage[] = [
       ["What we do", [
         "We pay fair wages, keep written employment contracts and do not hold staff documents.",
         "We work with reputable suppliers and ask freelancers and production partners to confirm they meet these standards.",
-        `Anyone can raise a concern confidentially at ${EMAILS.support}. We will investigate and act on it.`,
+        `Anyone can raise a concern confidentially at ${EMAILS.hello}. We will investigate and act on it.`,
       ]],
     ],
   },
@@ -255,7 +255,7 @@ export const LEGAL: LegalPage[] = [
     sections: [
       ["United Kingdom", [`${COMPANY.ukEntity}. ${COMPANY.ukRegistration}. Company number ${COMPANY.ukCompanyNumber}.`, `Office: ${UK_OFFICE}.`, `Phone: ${PHONES.london}.`]],
       ["India", [`${COMPANY.indiaEntity}. ${COMPANY.indiaRegistration}.`, `Office: ${IN_OFFICE}.`, `Phone: ${PHONES.india}.`]],
-      ["Contact", [`General enquiries: ${EMAILS.hello}. Clients and privacy requests: ${EMAILS.support}. Partnerships and press: ${EMAILS.marketing}.`]],
+      ["Contact", [`Email ${EMAILS.hello} for general enquiries, clients, privacy requests, partnerships and press. Job applications and HR: ${EMAILS.hr}.`]],
     ],
   },
   {
@@ -264,7 +264,7 @@ export const LEGAL: LegalPage[] = [
     sections: [
       ["Grievance Officer", [
         `Grievance Officer, ${COMPANY.indiaEntity} (India), ${IN_OFFICE}.`,
-        `Email: ${EMAILS.support} (subject: "Grievance"). Phone: ${PHONES.india}. Monday to Friday, 10:00 to 18:00 IST.`,
+        `Email: ${EMAILS.hello} (subject: "Grievance"). Phone: ${PHONES.india}. Monday to Friday, 10:00 to 18:00 IST.`,
       ]],
       ["What you can raise", ["Complaints about content on this website, how we handle your personal data, or how we have responded to a request about your data."]],
       ["How we respond", ["We acknowledge grievances within 24 hours and aim to resolve them within 15 days, or sooner where the law requires."]],
@@ -278,7 +278,7 @@ export const LEGAL: LegalPage[] = [
       ["What we collect", ["Your contact details, CV, portfolio, work history, the role you applied for, interview notes and, if you receive an offer, the checks needed to employ you legally."]],
       ["How we use it", ["Only to assess you for the role you applied for, and for similar roles if you agree. HR and the hiring manager can see your application in our HR system."]],
       ["How long we keep it", ["Up to 12 months after the role is filled, then we delete it, unless you ask us to keep it for future roles. If you join us, your application becomes part of your employee record."]],
-      ["Your rights", [`You can ask to see, correct or delete your application at any time by emailing ${EMAILS.support}. See our Privacy Policy for your full rights.`]],
+      ["Your rights", [`You can ask to see, correct or delete your application at any time by emailing ${EMAILS.hr}. See our Privacy Policy for your full rights.`]],
     ],
   },
 ];

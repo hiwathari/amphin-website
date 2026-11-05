@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ ok: false, error: "We couldn't send your application just now. Please email it to hello@amphin.com." }, { status: 502 });
+    return NextResponse.json({ ok: false, error: "We couldn't send your application just now. Please email it to hr@amphin.com." }, { status: 502 });
   }
   return NextResponse.json({ ok: true });
 }

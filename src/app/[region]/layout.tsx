@@ -6,7 +6,9 @@ import { getContent } from "@/lib/content";
 import { REGION_CODES, isRegion } from "@/lib/regions";
 import { COMPANY, EMAILS, SITE_URL } from "@/lib/site";
 
-export const dynamicParams = false;
+// New jobs, works, posts and services get their own pages on demand: no address has to exist at build time.
+// Unknown regions are rejected below, and the landing pages keep their own fixed list.
+export const dynamicParams = true;
 // Pages are rebuilt from the AMOS feed at most every 5 minutes, so a new job, work or post appears (and a cached "not found"
 // clears) even if the instant refresh from AMOS did not get through.
 export const revalidate = 300;

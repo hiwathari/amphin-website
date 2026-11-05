@@ -7,6 +7,10 @@ import { REGION_CODES, isRegion } from "@/lib/regions";
 import { COMPANY, EMAILS, SITE_URL } from "@/lib/site";
 
 export const dynamicParams = false;
+// Pages are rebuilt from the AMOS feed at most every 5 minutes, so a new job, work or post appears (and a cached "not found"
+// clears) even if the instant refresh from AMOS did not get through.
+export const revalidate = 300;
+
 export function generateStaticParams() {
   return REGION_CODES.map((region) => ({ region }));
 }

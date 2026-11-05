@@ -147,10 +147,22 @@ function fromFeed(f: Raw): Content {
 /** All site content for this request (one fetch, shared by every component in the render). */
 // AMOS can be slow on a cold start or while a build renders hundreds of pages at once, so give it
 // time and one more try before falling back to the seed (a fallback page stays cached until it revalidates).
+async function feedVersion(): Promise<number> {
+  try {
+    const r = await fetch(AMOS_FEED.replace(/\/content$/, "/version"), { cache: "no-store", signal: AbortSignal.timeout(3000) });
+    if (!r.ok) return 0;
+    const j = (await r.json()) as { v?: number };
+    return Number(j.v) || 0;
+  } catch { return 0; }
+}
+
 async function loadContent(): Promise<Content> {
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      const r = await fetch(AMOS_FEED, { next: { revalidate: 300, tags: ["amos"] }, signal: AbortSignal.timeout(15000) });
+      // AMOS bumps this number on every change. Asking for /content?v=<number> skips the CDN's cached copy of the feed
+      // after a change, so edits (a new job, a hidden post) show up straight away instead of after a minute or more.
+      const v = await feedVersion();
+      const r = await fetch(v ? `${AMOS_FEED}?v=${v}` : AMOS_FEED, { next: { revalidate: 300, tags: ["amos"] }, signal: AbortSignal.timeout(15000) });
       if (!r.ok) throw new Error(`feed ${r.status}`);
       return fromFeed(await r.json());
     } catch (e) {

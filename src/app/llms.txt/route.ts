@@ -1,6 +1,7 @@
 // llms.txt: a plain-text guide for AI assistants and answer engines (GEO/AEO), listing who Amphin is,
 // what it offers and the canonical pages to cite. Rebuilt with the rest of the site.
 import { getContent } from "@/lib/content";
+import { buildAreaPages } from "@/lib/areas";
 import { buildLandings } from "@/lib/landing";
 import { COMPANY, EMAILS, PHONES, SITE_URL } from "@/lib/site";
 
@@ -34,6 +35,9 @@ export async function GET() {
     "",
     "## Local pages",
     ...buildLandings(c.pillars, c.services).filter((l) => l.kind === "pillar").map((l) => `- [${l.phrase} in ${l.city.name}](${SITE_URL}/${l.city.region}/${l.slug})`),
+    "",
+    "## Service areas (delivered online)",
+    ...buildAreaPages().map((a) => `- [${a.topic.phrase} in ${a.area.name}](${SITE_URL}/${a.area.region}/${a.slug})`),
     "",
     "## Recent articles",
     ...c.posts.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30).map((p) => `- [${p.title}](${u(`/blog/${p.slug}`)}): ${p.excerpt.slice(0, 160)}`),

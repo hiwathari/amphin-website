@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getContent } from "@/lib/content";
+import { AREA_CONTENT_DATE, buildAreaPages } from "@/lib/areas";
 import { buildLandings } from "@/lib/landing";
 import { REGIONS, REGION_CODES } from "@/lib/regions";
 import { SITE_URL } from "@/lib/site";
@@ -27,5 +28,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
   // Local landing pages exist only in their own city's region, so they have no regional alternates.
   const local = buildLandings(c.pillars, c.services).map((l) => ({ url: `${SITE_URL}/${l.city.region}/${l.slug}`, priority: l.kind === "pillar" ? 0.8 : 0.6 }));
-  return [...regional, ...local];
+  const areas = buildAreaPages().map((a) => ({ url: `${SITE_URL}/${a.area.region}/${a.slug}`, lastModified: new Date(`${AREA_CONTENT_DATE}T00:00:00Z`), changeFrequency: "monthly" as const, priority: 0.7 }));
+  return [...regional, ...local, ...areas];
 }

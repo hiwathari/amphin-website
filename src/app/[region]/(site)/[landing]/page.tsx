@@ -9,6 +9,8 @@ import { Reveal, RevealLines } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
 import ContactForm from "@/components/forms/ContactForm";
 import { getContent, getPrices, projectsForService } from "@/lib/content";
+import AreaLanding, { areaMetadata } from "@/components/AreaLanding";
+import { buildAreaPages, findAreaPage } from "@/lib/areas";
 import { buildLandings, coverFor, type Landing } from "@/lib/landing";
 import { shareCard } from "@/lib/meta";
 import { REGIONS, formatPrice, type RegionCode } from "@/lib/regions";
@@ -30,7 +32,7 @@ const COVERS = (() => {
 })();
 
 export async function generateStaticParams() {
-  return (await landings()).map((l) => ({ region: l.city.region, landing: l.slug }));
+  return [...(await landings()).map((l) => ({ region: l.city.region, landing: l.slug })), ...buildAreaPages().map((a) => ({ region: a.area.region, landing: a.slug }))];
 }
 
 async function find(region: string, slug: string): Promise<Landing | undefined> {
@@ -47,6 +49,8 @@ function description(l: Landing) {
 }
 
 export async function generateMetadata({ params }: { params: { region: string; landing: string } }) {
+  const area = findAreaPage(params.region, params.landing);
+  if (area) return areaMetadata(area);
   const l = await find(params.region, params.landing);
   if (!l) return {};
   const url = `/${l.city.region}/${l.slug}`;
@@ -64,6 +68,8 @@ export async function generateMetadata({ params }: { params: { region: string; l
 }
 
 export default async function LandingPage({ params }: { params: { region: RegionCode; landing: string } }) {
+  const areaPage = findAreaPage(params.region, params.landing);
+  if (areaPage) return <AreaLanding page={areaPage} region={params.region} />;
   const l = await find(params.region, params.landing);
   if (!l) notFound();
   const c = await getContent();

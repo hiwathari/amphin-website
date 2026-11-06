@@ -22,7 +22,13 @@ export async function generateMetadata() {
   const { settings } = await getContent();
   const other: Record<string, string> = {};
   if (settings.analytics.bingVerify) other["msvalidate.01"] = settings.analytics.bingVerify;
-  return { verification: { google: settings.analytics.searchConsole || undefined, other } };
+  // The founder appears in page metadata only (author tags and structured data), not in visible copy.
+  return {
+    verification: { google: settings.analytics.searchConsole || undefined, other },
+    authors: [{ name: "Abhishek Sajan", url: "https://abhisheksajan.com" }],
+    creator: "Abhishek Sajan",
+    publisher: "Amphin",
+  };
 }
 
 export default async function RegionLayout({ children, params }: { children: React.ReactNode; params: { region: string } }) {
@@ -37,6 +43,7 @@ export default async function RegionLayout({ children, params }: { children: Rea
     url: SITE_URL,
     logo: `${SITE_URL}/brand/amphin-logo.png`,
     email: EMAILS.hello,
+    founder: { "@type": "Person", name: "Abhishek Sajan", url: "https://abhisheksajan.com" },
     slogan: "Empowering Brands, Redefining Possibilities",
     sameAs: c.socials.map((s) => s.url),
     subOrganization: { "@type": "Organization", name: "Luvder", url: "https://luvder.com", description: "Advertising platform for bold ideas: online, offline, print, content, SEO, AEO and GEO." },

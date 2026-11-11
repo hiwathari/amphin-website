@@ -51,6 +51,16 @@ export default async function Home({ params }: { params: { region: RegionCode } 
 
       <LogoMarquee clients={c.clients} />
 
+      <section className="partner-strip" aria-label="Google Cloud Partner">
+        <div className="wrap partner-strip-inner">
+          <span className="partner-badge">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/google-cloud-partner.png" alt="Google Cloud Partner" width={240} height={85} />
+          </span>
+          <p>Amphin is now a member of <strong>Google Cloud Partner Advantage</strong>. <Link href={`${base}/blog/amphin-joins-google-cloud-partner-advantage`} className="link-arrow">Read the announcement <Arrow /></Link></p>
+        </div>
+      </section>
+
       <section className="section">
         <div className="wrap grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 40, alignItems: "end" }}>
           <Reveal className="mission">

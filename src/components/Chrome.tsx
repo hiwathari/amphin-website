@@ -60,6 +60,10 @@ export function Footer({ region, offices, socials }: { region: RegionCode; offic
       <div className="footer-top">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/brand/amphin-logo.png" alt="Amphin" width={150} height={48} style={{ height: 30, width: "auto" }} />
+        <Link href={`${base}/blog/amphin-joins-google-cloud-partner-advantage`} className="partner-badge partner-badge-sm" aria-label="Google Cloud Partner Advantage member">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/google-cloud-partner.png" alt="Google Cloud Partner" width={120} height={43} />
+        </Link>
         <div className="socials">
           {socials.map((s) => <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.platform}>{s.short}</a>)}
         </div>

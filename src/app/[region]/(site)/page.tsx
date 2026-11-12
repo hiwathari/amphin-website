@@ -51,13 +51,20 @@ export default async function Home({ params }: { params: { region: RegionCode } 
 
       <LogoMarquee clients={c.clients} />
 
-      <section className="partner-strip" aria-label="Google Cloud Partner">
-        <div className="wrap partner-strip-inner">
-          <span className="partner-badge">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/google-cloud-partner.png" alt="Google Cloud Partner" width={240} height={85} />
-          </span>
-          <p>Amphin is now a member of <strong>Google Cloud Partner Advantage</strong>. <Link href={`${base}/blog/amphin-joins-google-cloud-partner-advantage`} className="link-arrow">Read the announcement <Arrow /></Link></p>
+      <section className="achievement" aria-label="Achievement: Google Cloud Partner Advantage">
+        <div className="wrap">
+          <Reveal className="achievement-card">
+            <div className="achievement-text">
+              <div className="eyebrow" style={{ marginBottom: 14 }}>big news</div>
+              <h2>Amphin is now a member of Google Cloud Partner Advantage</h2>
+              <p>A milestone for our team. We have joined Google Cloud&apos;s partner programme, and we will use it to build better websites, AI agents and cloud systems for our clients.</p>
+              <Link href={`${base}/blog/amphin-joins-google-cloud-partner-advantage`} className="btn-pill magnetic">Read the announcement</Link>
+            </div>
+            <span className="achievement-badge">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/google-cloud-partner.png" alt="Google Cloud Partner" width={480} height={170} />
+            </span>
+          </Reveal>
         </div>
       </section>
 

@@ -382,7 +382,7 @@ p { margin: 0 0 1em; }
 .cta-band .btn-circle { position: relative; }
 
 /* footer */
-.footer { padding: clamp(50px, 6vw, 80px) 0 28px; }
+.footer { padding: clamp(50px, 6vw, 80px) 0 104px; } /* room so the floating chat/WhatsApp buttons never cover the legal links */
 .footer-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-bottom: 26px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
 .footer-cols { display: grid; gap: 34px; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .footer-cols { grid-template-columns: repeat(2, 1fr); } }
@@ -755,3 +755,6 @@ p { margin: 0 0 1em; }
 .partner-badge img { height: 52px; width: auto; display: block; }
 .partner-badge-sm { padding: 6px 12px; border-radius: 10px; }
 .partner-badge-sm img { height: 34px; }
+.partner-row { display: flex; align-items: center; gap: 18px 24px; flex-wrap: wrap; padding-bottom: 26px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+.partner-row-label { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #8a8a8a; }
+.partner-row-badges { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }

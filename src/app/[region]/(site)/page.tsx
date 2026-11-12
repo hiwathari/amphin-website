@@ -62,7 +62,7 @@ export default async function Home({ params }: { params: { region: RegionCode } 
             </div>
             <span className="achievement-badge">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/google-cloud-partner.png" alt="Google Cloud Partner" width={480} height={170} />
+              <img src="/brand/partners/google-cloud-partner.png" alt="Google Cloud Partner" width={480} height={170} />
             </span>
           </Reveal>
         </div>

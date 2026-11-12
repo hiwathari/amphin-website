@@ -3,6 +3,9 @@ import { Art, Eyebrow, LogoWall, TeamGrid } from "@/components/Blocks";
 import { RevealMedia } from "@/components/Effects";
 import { CtaBand } from "@/components/Chrome";
 import { Arrow } from "@/components/Icon";
+import { clientCount } from "@/lib/stats";
+import { PartnerMark } from "@/components/PartnerBadges";
+import { PARTNERS } from "@/lib/partners";
 import { Counter, Reveal, RevealLines } from "@/components/Motion";
 import PageHero from "@/components/PageHero";
 import { getContent, getProjects } from "@/lib/content";
@@ -48,7 +51,20 @@ export default async function About({ params }: { params: { region: RegionCode }
             </p>
             <div style={{ display: "flex", gap: 40, marginTop: 30, flexWrap: "wrap", alignItems: "flex-end" }}>
               <div><Counter to={projects.length} suffix="+" className="stat-num" /><div className="stat-label">Projects published</div></div>
+              <div><Counter to={clientCount(c)} suffix="+" className="stat-num" /><div className="stat-label">Clients served</div></div>
               <div><Counter to={c.offices.length} className="stat-num" /><div className="stat-label">Offices</div></div>
+            </div>
+            <div className="about-partners">
+              <div className="eyebrow" style={{ marginBottom: 14 }}>partnerships</div>
+              <p className="muted" style={{ marginBottom: 18 }}>We work with the platforms our clients rely on, and hold partner status with several of them.</p>
+              <ul className="about-partner-list">
+                {PARTNERS.map((p) => (
+                  <li key={p.key}>
+                    <PartnerMark p={p} base={`/${params.region}`} size="lg" />
+                    <span className="muted">{p.blurb}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>

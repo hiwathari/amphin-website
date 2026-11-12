@@ -46,6 +46,7 @@ export interface Content {
   pillars: Pillar[]; services: Service[]; projects: Project[]; jobs: Job[]; posts: Post[]; prices: PriceRow[];
   team: TeamMember[]; clients: ClientLogo[]; testimonials: Testimonial[]; offices: Office[]; socials: Social[]; legal: LegalPage[];
   settings: SiteSettings;
+  stats?: { clients: number | null };
 }
 
 /** Look and behaviour set in AMOS Studio → Settings. */
@@ -136,6 +137,7 @@ function fromFeed(f: Raw): Content {
     team: pick((f.team ?? []).map((t: Raw) => ({ name: t.name, title: t.title, word: t.word, founder: !!t.founder, photo: t.photo, silhouette: !!t.silhouette, socials: t.socials ?? {} })), s.team),
     clients: pick((f.clients ?? []).filter((c: Raw) => c.logo).map((c: Raw) => ({ name: c.name, logo: c.logo, website: c.website })), s.clients),
     testimonials: pick((f.testimonials ?? []).map((t: Raw) => ({ quote: t.quote, name: t.person, role: t.role, project: t.project })), s.testimonials),
+    stats: { clients: typeof f.stats?.clients === "number" ? f.stats.clients : null },
     offices: pick((f.offices ?? []).map((o: Raw) => ({ slug: o.slug, name: o.name, city: o.city, country: o.country, address: arr(o.address),
       phone: o.phone ?? undefined, email: o.email ?? "hello@amphin.com", mapQuery: o.map_query ?? o.name, regions: arr(o.regions) as RegionCode[] })), s.offices),
     socials: pick((f.socials ?? []).filter((x: Raw) => !x.office).map((x: Raw) => ({ platform: x.platform, url: x.url, short: SHORT[String(x.platform).toLowerCase()] ?? String(x.platform).slice(0, 2).toLowerCase() })), s.socials),

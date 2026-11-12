@@ -5,6 +5,7 @@ import { CtaBand } from "@/components/Chrome";
 import { HeroLight, Parallax } from "@/components/Effects";
 import Icon, { Arrow } from "@/components/Icon";
 import LiquidArt from "@/components/LiquidArt";
+import { clientCount } from "@/lib/stats";
 import { Counter, Reveal, RevealLines, ScrollText } from "@/components/Motion";
 import HeroSlides from "@/components/HeroSlides";
 import Testimonials from "@/components/Testimonials";
@@ -51,23 +52,6 @@ export default async function Home({ params }: { params: { region: RegionCode } 
 
       <LogoMarquee clients={c.clients} />
 
-      <section className="achievement" aria-label="Achievement: Google Cloud Partner Advantage">
-        <div className="wrap">
-          <Reveal className="achievement-card">
-            <div className="achievement-text">
-              <div className="eyebrow" style={{ marginBottom: 14 }}>big news</div>
-              <h2>Amphin is now a member of Google Cloud Partner Advantage</h2>
-              <p>A milestone for our team. We have joined Google Cloud&apos;s partner programme, and we will use it to build better websites, AI agents and cloud systems for our clients.</p>
-              <Link href={`${base}/blog/amphin-joins-google-cloud-partner-advantage`} className="btn-pill magnetic">Read the announcement</Link>
-            </div>
-            <span className="achievement-badge">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/partners/google-cloud-partner.png" alt="Google Cloud Partner" width={480} height={170} />
-            </span>
-          </Reveal>
-        </div>
-      </section>
-
       <section className="section">
         <div className="wrap grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 40, alignItems: "end" }}>
           <Reveal className="mission">
@@ -80,7 +64,7 @@ export default async function Home({ params }: { params: { region: RegionCode } 
             <Reveal delay={0.15}>
               <div style={{ display: "flex", gap: 40, marginTop: 30, flexWrap: "wrap" }}>
                 <div><Counter to={projects.length} suffix="+" className="stat-num" /><div className="stat-label">Case studies</div></div>
-                <div><Counter to={c.clients.length} suffix="+" className="stat-num" /><div className="stat-label">Brands on our wall</div></div>
+                <div><Counter to={clientCount(c)} suffix="+" className="stat-num" /><div className="stat-label">Clients served</div></div>
                 <div><Counter to={c.offices.length} className="stat-num" /><div className="stat-label">Offices</div></div>
               </div>
             </Reveal>

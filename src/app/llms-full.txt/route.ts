@@ -3,7 +3,8 @@
 import { getContent, getPosts } from "@/lib/content";
 import { COMPANY, EMAILS, PHONES, SITE_URL } from "@/lib/site";
 
-export const revalidate = 3600;
+// Rebuilt when AMOS calls /api/revalidate; this long timer is only a safety net.
+export const revalidate = 86400;
 
 export async function GET() {
   const c = await getContent();

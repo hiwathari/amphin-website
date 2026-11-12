@@ -5,7 +5,8 @@ import { buildLandings } from "@/lib/landing";
 import { REGIONS, REGION_CODES } from "@/lib/regions";
 import { SITE_URL } from "@/lib/site";
 
-export const revalidate = 3600;
+// Rebuilt when AMOS calls /api/revalidate; this long timer is only a safety net.
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const c = await getContent();

@@ -2,7 +2,8 @@
 import { getPosts } from "@/lib/content";
 import { COMPANY, SITE_URL } from "@/lib/site";
 
-export const revalidate = 3600;
+// Rebuilt when AMOS calls /api/revalidate; this long timer is only a safety net.
+export const revalidate = 86400;
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 

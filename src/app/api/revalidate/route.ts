@@ -7,7 +7,8 @@ import { REGION_CODES } from "@/lib/regions";
 export const runtime = "nodejs";
 
 // Called by AMOS after a publish, a visibility toggle, a team/client change or a new client logo.
-// Refreshes the cached AMOS feed and the listed paths in every region.
+// Refreshes the cached AMOS feed and the listed paths in every region. This is the only thing that rebuilds pages
+// (plus a 24-hour safety net): there is no 5-minute timer.
 export async function POST(req: Request) {
   const secret = process.env.WEBSITE_SYNC_SECRET || "";
   const given = req.headers.get("x-revalidate-secret") || "";
@@ -18,5 +19,7 @@ export async function POST(req: Request) {
   forgetContent();
   revalidateTag("amos");
   for (const p of paths) for (const r of REGION_CODES) revalidatePath(`/${r}${p === "/" ? "" : p}`, "layout");
+  // Machine-readable listings are built from the same feed.
+  for (const f of ["/sitemap.xml", "/llms.txt", "/llms-full.txt", "/rss.xml"]) revalidatePath(f);
   return NextResponse.json({ ok: true, revalidated: paths.length });
 }

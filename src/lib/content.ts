@@ -147,44 +147,45 @@ function fromFeed(f: Raw): Content {
 /** All site content for this request (one fetch, shared by every component in the render). */
 // AMOS can be slow on a cold start or while a build renders hundreds of pages at once, so give it
 // time and one more try before falling back to the seed (a fallback page stays cached until it revalidates).
-async function feedVersion(): Promise<number> {
-  try {
-    const r = await fetch(AMOS_FEED.replace(/\/content$/, "/version"), { cache: "no-store", signal: AbortSignal.timeout(3000) });
-    if (!r.ok) return 0;
-    const j = (await r.json()) as { v?: number };
-    return Number(j.v) || 0;
-  } catch { return 0; }
-}
-
 async function loadContent(): Promise<Content> {
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      // AMOS bumps this number on every change. Asking for /content?v=<number> skips the CDN's cached copy of the feed
-      // after a change, so edits (a new job, a hidden post) show up straight away instead of after a minute or more.
-      const v = await feedVersion();
-      const r = await fetch(v ? `${AMOS_FEED}?v=${v}` : AMOS_FEED, { next: { revalidate: 300, tags: ["amos"] }, signal: AbortSignal.timeout(15000) });
+      // Plain URL, no version or cache-busting parameter: AMOS's CDN keeps one copy of the feed and clears it when
+      // something is saved, so repeat requests are answered there and never reach AMOS's database. There is no
+      // timed refresh here: the copy is replaced only when AMOS calls /api/revalidate (tag "amos").
+      const r = await fetch(AMOS_FEED, { next: { revalidate: false, tags: ["amos"] }, signal: AbortSignal.timeout(15000) });
       if (!r.ok) throw new Error(`feed ${r.status}`);
       return fromFeed(await r.json());
     } catch (e) {
       console.warn(`AMOS feed attempt ${attempt} failed:`, e instanceof Error ? e.message : e);
     }
   }
+  // Pages are no longer rebuilt on a short timer, so a page rendered from the starter copy while AMOS was
+  // unreachable would stay that way until the next AMOS change. In production, at run time, fail instead:
+  // Next then keeps serving the last good copy of the page and tries again on the next request. Builds
+  // (and local development) still fall back to the bundled seed so they never break.
+  if (process.env.VERCEL_ENV === "production" && process.env.NEXT_PHASE !== "phase-production-build") throw new Error("AMOS feed unavailable");
   return seed();
 }
 
 // The feed is larger than Next's 2 MB data-cache limit once the blog library is in AMOS, so it would
 // be fetched again for every page. Keep the latest copy in memory briefly per server process (long
-// enough to cover a build's burst of pages, short enough that Studio edits still show quickly).
-const MEMO_MS = 15_000;
+// enough to cover a build's burst of pages; AMOS's revalidate call clears it straight away).
+const MEMO_MS = 60_000;
 let memo: { at: number; content: Promise<Content> } | null = null;
 
 export const getContent = cache(async (): Promise<Content> => {
   if (memo && Date.now() - memo.at < MEMO_MS) return memo.content;
   const content = loadContent();
   memo = { at: Date.now(), content };
-  const c = await content;
-  if (c.source !== "amos") memo = null; // don't hold on to a fallback
-  return c;
+  try {
+    const c = await content;
+    if (c.source !== "amos") memo = null; // don't hold on to a fallback
+    return c;
+  } catch (e) {
+    memo = null; // don't hold on to a failure
+    throw e;
+  }
 });
 
 /** Drop the in-memory copy, e.g. when AMOS says content changed. */
